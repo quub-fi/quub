@@ -12,6 +12,7 @@ pub use precompiles::precompiles_map_for_spec;
 #[cfg(test)]
 mod tests {
     use super::precompiles::{contains_quub_and_ecrecover, precompiles_map_for_spec};
+    use crate::factory::QuubEvmFactory;
     use crate::slots::{frozen_slot, paused_from_slot1, FROZEN_MAPPING_BASE};
     use alloy_primitives::{address, keccak256, B256, U256};
     use reth_ethereum::evm::revm::primitives::hardfork::SpecId;
@@ -26,6 +27,19 @@ mod tests {
             assert!(
                 contains_quub_and_ecrecover(&map),
                 "missing Quub precompiles on {spec:?}"
+            );
+        }
+    }
+
+    /// Sprint 2: factory still registers F201–F203 on `spec >= PRAGUE` (Mode A blocked elsewhere).
+    #[test]
+    fn mode_a_factory_builds() {
+        let _ = QuubEvmFactory;
+        for spec in [SpecId::PRAGUE, SpecId::OSAKA] {
+            let map = precompiles_map_for_spec(spec);
+            assert!(
+                contains_quub_and_ecrecover(&map),
+                "QuubEvmFactory precompile set missing on {spec:?}"
             );
         }
     }

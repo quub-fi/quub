@@ -3,6 +3,6 @@ name = "quub-consensus-op"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Mode A OP Stack consensus stub (Sprint 2). Placeholder only in Sprint 1."
+description = "Mode A OP Stack. Blocked on Reth v2.5.2 vs op-reth pin; see CONFLICT.md."
 
 [dependencies]
