@@ -1,0 +1,13 @@
+    Updating crates.io index
+    Updating git repository `https://github.com/op-rs/reth`
+    Updating git repository `https://github.com/sigp/discv5`
+     Locking 944 packages to latest compatible versions
+      Adding alloy-evm v0.37.1 (available: v0.39.0)
+      Adding alloy-primitives v0.8.26 (available: v1.7.3)
+      Adding alloy-sol-types v0.8.26 (available: v1.7.3)
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding proc-macro-error-attr3 v3.0.1 (available: v3.1.1)
+      Adding proc-macro-error3 v3.0.1 (available: v3.1.1)
+      Adding vergen v10.0.3 (requires Rust 1.96.0)
+      Adding vergen-git2 v10.0.3 (requires Rust 1.96.0)
+      Adding vergen-lib v10.0.3 (requires Rust 1.96.0)

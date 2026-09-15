@@ -11,7 +11,7 @@ Quub is the payments fabric: ledger (Rust node + EVM + Solidity facades) plus Qu
 | Reth | `op-rs/reth` rev **`aef8d3ef92117f91455e16969f0adf5bf7c6e9e1`** |
 | OP crates | `ethereum-optimism/optimism` tag **`op-reth/v2.4.4`** |
 | op-node | **v1.19.7** (minimum v1.19.1) |
-| Rust toolchain | **1.95.0** |
+| Rust toolchain | **1.96.0** |
 | L2 chain id | **8091** (`--dev` and Mode A) |
 
 One Reth remote only. See [`docs/adr/ADR-016-execution-pin.md`](docs/adr/ADR-016-execution-pin.md).

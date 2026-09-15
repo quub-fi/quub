@@ -1,0 +1,762 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling libc v0.2.189
+   Compiling serde_core v1.0.229
+    Checking cfg-if v1.0.4
+   Compiling serde v1.0.229
+   Compiling find-msvc-tools v0.1.12
+   Compiling shlex v2.0.1
+   Compiling portable-atomic v1.15.0
+    Checking critical-section v1.2.0
+   Compiling version_check v0.9.5
+   Compiling autocfg v1.5.1
+    Checking subtle v2.6.1
+    Checking typenum v1.20.1
+   Compiling libm v0.2.16
+   Compiling generic-array v0.14.7
+   Compiling num-traits v0.2.19
+   Compiling zerocopy v0.8.57
+    Checking itoa v1.0.18
+    Checking const-oid v0.9.6
+   Compiling getrandom v0.3.4
+   Compiling syn v2.0.119
+   Compiling syn v3.0.5
+   Compiling jobserver v0.1.35
+    Checking bitflags v2.13.2
+    Checking allocator-api2 v0.2.21
+   Compiling cc v1.4.6
+    Checking foldhash v0.2.0
+    Checking equivalent v1.0.2
+    Checking fnv v1.0.7
+    Checking hashbrown v0.17.1
+    Checking pin-project-lite v0.2.17
+    Checking rand_core v0.10.1
+    Checking getrandom v0.2.17
+    Checking errno v0.3.14
+    Checking rand_core v0.6.4
+    Checking cpufeatures v0.2.17
+   Compiling getrandom v0.4.3
+    Checking log v0.4.34
+    Checking once_cell v1.21.4
+   Compiling thiserror v2.0.20
+   Compiling paste v1.0.15
+    Checking regex-syntax v0.8.11
+    Checking memchr v2.8.3
+   Compiling rustix v1.1.4
+    Checking tracing-core v0.1.36
+    Checking base16ct v0.2.0
+   Compiling unicode-xid v0.2.6
+    Checking ff v0.13.1
+    Checking fastrand v2.5.0
+    Checking group v0.13.0
+    Checking wait-timeout v0.2.1
+   Compiling pkg-config v0.3.34
+   Compiling unicode-segmentation v1.13.3
+    Checking bit-vec v0.8.0
+    Checking quick-error v1.2.3
+    Checking bit-set v0.8.0
+    Checking unarray v0.1.4
+   Compiling zeroize_derive v1.5.0
+   Compiling derive_arbitrary v1.4.2
+   Compiling tracing-attributes v0.1.31
+   Compiling alloy-rlp-derive v0.3.16
+   Compiling convert_case v0.10.0
+   Compiling derive_more-impl v2.1.1
+    Checking const-hex v1.19.1
+    Checking zeroize v1.9.0
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.20
+    Checking arbitrary v1.4.2
+   Compiling ruint-macro v1.2.1
+    Checking hybrid-array v0.4.15
+   Compiling secp256k1-sys v0.11.0
+    Checking tracing v0.1.44
+    Checking block-buffer v0.12.1
+    Checking crypto-common v0.2.2
+    Checking cpufeatures v0.3.1
+    Checking keccak v0.2.2
+   Compiling proptest-derive v0.8.0
+    Checking digest v0.11.3
+    Checking sha3 v0.11.0
+    Checking der v0.7.10
+    Checking ppv-lite86 v0.2.21
+   Compiling dunce v1.0.5
+   Compiling zmij v1.0.23
+    Checking crypto-common v0.1.7
+    Checking block-buffer v0.10.4
+    Checking tempfile v3.27.0
+    Checking digest v0.10.7
+    Checking crypto-bigint v0.5.5
+    Checking rusty-fork v0.3.1
+    Checking hmac v0.12.1
+    Checking signature v2.2.0
+    Checking sha2 v0.10.9
+    Checking rfc6979 v0.4.0
+   Compiling serde_json v1.0.151
+    Checking spki v0.7.3
+    Checking rand_chacha v0.3.1
+    Checking pkcs8 v0.10.2
+    Checking indexmap v2.14.2
+   Compiling ident_case v1.0.1
+   Compiling strsim v0.11.1
+   Compiling parking_lot_core v0.9.12
+    Checking scopeguard v1.2.0
+   Compiling darling_core v0.24.1
+    Checking base64 v0.23.1
+   Compiling auto_impl v1.3.0
+   Compiling heck v0.5.0
+    Checking hex v0.4.3
+   Compiling cmake v0.1.58
+   Compiling fs_extra v1.3.0
+    Checking byteorder v1.5.0
+   Compiling tokio-macros v2.7.2
+    Checking signal-hook-registry v1.4.8
+   Compiling aws-lc-sys v0.45.0
+    Checking socket2 v0.6.5
+    Checking mio v1.2.3
+   Compiling aws-lc-rs v1.18.1
+    Checking futures-core v0.3.34
+   Compiling blst v0.3.17
+    Checking derive_more v2.1.1
+   Compiling secp256k1-sys v0.10.1
+    Checking bytes v1.12.1
+    Checking rand_core v0.9.5
+    Checking smallvec v1.16.1
+    Checking arrayvec v0.7.8
+    Checking serdect v0.2.0
+    Checking rand_chacha v0.9.0
+    Checking rand_xorshift v0.4.0
+    Checking sec1 v0.7.3
+    Checking rand v0.8.8
+    Checking alloy-rlp v0.3.16
+    Checking rand v0.9.5
+    Checking elliptic-curve v0.13.8
+    Checking lock_api v0.4.14
+    Checking either v1.18.0
+    Checking ecdsa v0.16.9
+    Checking parking_lot v0.12.5
+    Checking num_cpus v1.17.0
+    Checking crc-catalog v2.5.0
+    Checking untrusted v0.7.1
+    Checking proptest v1.11.0
+    Checking secp256k1 v0.31.1
+   Compiling darling_macro v0.24.1
+    Checking tokio v1.53.1
+    Checking k256 v0.13.4
+    Checking crc v3.4.0
+    Checking threadpool v1.8.1
+   Compiling darling v0.24.1
+   Compiling c-kzg v2.1.8
+   Compiling rustversion v1.0.23
+    Checking itertools v0.14.0
+    Checking slab v0.4.12
+    Checking futures-sink v0.3.34
+   Compiling zstd-sys v2.1.0+zstd.1.5.7
+    Checking futures-io v0.3.34
+   Compiling synstructure v0.13.2
+   Compiling darling_core v0.23.0
+   Compiling zerofrom-derive v0.1.7
+    Checking ruint v1.20.0
+   Compiling proptest-derive v0.7.0
+   Compiling serde_with_macros v3.23.0
+    Checking base64 v0.22.1
+    Checking zerofrom v0.1.8
+   Compiling yoke-derive v0.8.2
+   Compiling darling_macro v0.23.0
+    Checking serde_with v3.23.0
+   Compiling darling v0.23.0
+   Compiling syn-solidity v1.7.3
+   Compiling macro-string v0.2.0
+   Compiling proc-macro-error-attr3 v3.0.1
+    Checking secp256k1 v0.30.0
+    Checking stable_deref_trait v1.2.1
+   Compiling proc-macro-error3 v3.0.1
+    Checking percent-encoding v2.3.2
+    Checking futures-channel v0.3.34
+   Compiling zerovec-derive v0.11.6
+   Compiling displaydoc v0.2.7
+    Checking alloy-primitives v1.7.3
+    Checking nybbles v0.4.8
+    Checking yoke v0.8.3
+   Compiling futures-macro v0.3.34
+   Compiling crossbeam-utils v0.8.23
+    Checking futures-task v0.3.34
+    Checking writeable v0.6.4
+    Checking litemap v0.8.3
+   Compiling radium v0.7.0
+    Checking futures-util v0.3.34
+   Compiling ethereum_ssz_derive v0.10.4
+   Compiling alloy-tx-macros v2.4.2
+    Checking tokio-util v0.7.19
+    Checking num-integer v0.1.47
+   Compiling icu_properties_data v2.3.0
+   Compiling icu_normalizer_data v2.3.0
+    Checking utf8_iter v1.0.4
+    Checking tap v1.0.1
+    Checking zerovec v0.11.8
+    Checking zerotrie v0.2.5
+    Checking wyz v0.5.1
+   Compiling alloy-sol-macro-input v1.7.3
+   Compiling alloy-sol-macro-expander v1.7.3
+    Checking funty v2.0.0
+    Checking bitvec v1.1.1
+    Checking num-bigint v0.4.8
+    Checking form_urlencoded v1.2.2
+    Checking nonmax v0.5.5
+   Compiling crossbeam-epoch v0.9.21
+    Checking http v1.5.0
+    Checking alloy-eip7928 v0.4.10
+    Checking alloy-eip2930 v0.2.4
+    Checking alloy-eip7702 v0.6.3
+    Checking alloy-eip2124 v0.2.0
+    Checking ethereum_serde_utils v0.8.1
+    Checking alloy-serde v2.4.2
+    Checking alloy-trie v0.9.5
+   Compiling alloy-sol-macro v1.7.3
+    Checking ethereum_ssz v0.10.4
+    Checking revm-primitives v41.0.0
+    Checking static_assertions v1.1.0
+   Compiling zstd-safe v7.3.0
+    Checking revm-bytecode v41.0.0
+   Compiling ahash v0.8.12
+    Checking alloy-sol-types v1.7.3
+    Checking tinystr v0.8.4
+    Checking alloy-eips v2.4.2
+    Checking potential_utf v0.1.6
+    Checking icu_locale_core v2.3.0
+    Checking revm-state v41.0.0
+    Checking icu_collections v2.3.0
+    Checking konst_macro_rules v0.2.19
+   Compiling parity-scale-codec v3.7.5
+    Checking konst v0.2.20
+    Checking icu_provider v2.3.1
+   Compiling enum-ordinalize-derive v4.4.2
+   Compiling const_format_proc_macros v0.2.34
+    Checking icu_normalizer v2.3.0
+    Checking icu_properties v2.3.0
+   Compiling crossbeam-deque v0.8.8
+    Checking hashbrown v0.14.5
+    Checking const_format v0.2.36
+    Checking dashmap v6.2.1
+    Checking idna_adapter v1.2.2
+    Checking idna v1.1.0
+   Compiling enum-ordinalize v4.4.2
+    Checking url v2.5.8
+    Checking ark-std v0.5.0
+   Compiling modular-bitfield-impl v0.13.1
+   Compiling impl-trait-for-tuples v0.2.3
+   Compiling ark-serialize-derive v0.5.0
+   Compiling rayon-core v1.13.0
+    Checking byte-slice-cast v1.2.3
+   Compiling ark-ff-macros v0.5.0
+    Checking ark-serialize v0.5.0
+    Checking modular-bitfield v0.13.1
+    Checking quanta v0.12.6
+    Checking itertools v0.13.0
+   Compiling reth-codecs-derive v0.5.2
+   Compiling visibility v0.1.1
+   Compiling ark-ff-asm v0.5.0
+    Checking revm-database-interface v41.0.0
+    Checking ripemd v0.1.3
+    Checking hashbrown v0.15.5
+   Compiling crunchy v0.2.4
+   Compiling educe v0.6.0
+    Checking proptest-arbitrary-interop v0.1.0
+    Checking arrayref v0.3.9
+    Checking revm-context-interface v41.0.0
+    Checking futures-executor v0.3.34
+    Checking num-rational v0.4.2
+    Checking num-iter v0.1.46
+    Checking num-complex v0.4.6
+    Checking num v0.4.3
+    Checking primeorder v0.13.6
+    Checking p256 v0.13.2
+    Checking rayon v1.12.0
+    Checking aurora-engine-modexp v1.2.0
+   Compiling derive-where v1.6.1
+    Checking revm-interpreter v41.0.0
+    Checking alloy-consensus v2.4.2
+    Checking alloy-genesis v2.4.2
+    Checking ark-ff v0.5.0
+    Checking tokio-stream v0.1.19
+    Checking revm-database v41.0.0
+    Checking futures v0.3.34
+   Compiling semver v1.0.28
+    Checking revm-context v41.0.0
+    Checking siphasher v1.0.3
+   Compiling rustc_version v0.4.1
+    Checking phf_shared v0.14.0
+   Compiling num_enum_derive v0.7.6
+   Compiling ring v0.17.14
+    Checking ipnet v2.12.2
+   Compiling curve25519-dalek v4.1.3
+    Checking phf v0.14.0
+   Compiling strum_macros v0.27.2
+    Checking keccak v0.1.6
+    Checking rustc-hash v2.1.3
+   Compiling httparse v1.10.1
+    Checking sha3 v0.10.9
+    Checking num_enum v0.7.6
+    Checking strum v0.27.2
+    Checking alloy-consensus-any v2.4.2
+    Checking alloy-network-primitives v2.4.2
+   Compiling num-conv v0.2.2
+    Checking untrusted v0.9.0
+    Checking alloy-rpc-types-eth v2.4.2
+   Compiling time-core v0.1.9
+    Checking ed25519 v2.2.3
+   Compiling async-trait v0.1.92
+    Checking dyn-clone v1.0.20
+    Checking core-foundation-sys v0.8.7
+    Checking tower-service v0.3.3
+    Checking hash-db v0.15.2
+    Checking plain_hasher v0.2.3
+    Checking rustls-pki-types v1.15.1
+   Compiling pin-project-internal v1.1.13
+    Checking zstd v0.13.3
+    Checking reth-zstd-compressors v0.5.2
+    Checking http-body v1.1.0
+    Checking reth-codecs v0.5.2
+    Checking sync_wrapper v1.0.2
+    Checking hdrhistogram v7.6.0
+    Checking tower-layer v0.3.3
+   Compiling rustls v0.23.45
+    Checking tower v0.5.3
+   Compiling time-macros v0.2.32
+    Checking pin-project v1.1.13
+    Checking ed25519-dalek v2.2.0
+    Checking enr v0.13.0
+    Checking deranged v0.5.8
+    Checking powerfmt v0.2.0
+   Compiling fixed-map-derive v0.9.5
+    Checking http-body-util v0.1.5
+    Checking reth-network-peers v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking rapidhash v4.5.1
+    Checking try-lock v0.2.5
+    Checking alloy-chains v0.2.38
+    Checking httpdate v1.0.3
+    Checking atomic-waker v1.1.2
+    Checking metrics v0.24.6
+    Checking h2 v0.4.19
+    Checking want v0.3.1
+    Checking alloy-hardforks v0.4.8
+    Checking time v0.3.55
+    Checking core-foundation v0.10.1
+    Checking reth-ethereum-forks v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking security-framework-sys v2.17.0
+    Checking pem v3.0.6
+    Checking security-framework v3.7.0
+   Compiling anyhow v1.0.104
+   Compiling metrics-derive v0.1.2
+    Checking fixed-map v0.9.5
+   Compiling crc32fast v1.5.2
+    Checking alloc-no-stdlib v2.0.4
+    Checking bytemuck v1.25.2
+   Compiling zstd-safe v8.0.0
+    Checking alloc-stdlib v0.2.4
+    Checking simd-adler32 v0.3.10
+    Checking adler2 v2.0.1
+    Checking hyper v1.11.1
+    Checking miniz_oxide v0.9.1
+    Checking brotli-decompressor v5.0.3
+    Checking alloy-json-rpc v2.4.2
+    Checking uuid v1.26.1
+    Checking futures-utils-wasm v0.1.0
+    Checking hyper-util v0.1.20
+   Compiling unicase v2.9.0
+    Checking brotli v8.0.4
+   Compiling mime_guess v2.0.5
+   Compiling glob v0.3.4
+    Checking compression-core v0.4.33
+    Checking simple_asn1 v0.6.4
+   Compiling clang-sys v1.9.1
+    Checking roaring v0.11.5
+    Checking reth-tokio-util v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking bs58 v0.5.1
+    Checking mime v0.3.17
+    Checking zstd v0.14.0
+   Compiling minimal-lexical v0.2.1
+    Checking http-range-header v0.4.2
+   Compiling nom v7.1.3
+   Compiling libloading v0.8.9
+   Compiling bindgen v0.72.1
+    Checking ryu v1.0.23
+   Compiling thiserror v1.0.69
+    Checking serde_urlencoded v0.7.1
+   Compiling regex-automata v0.4.18
+    Checking flate2 v1.1.10
+    Checking compression-codecs v0.4.42
+    Checking async-compression v0.4.47
+    Checking reth-primitives-traits v0.5.2
+    Checking reth-prune-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking ark-poly v0.5.0
+   Compiling prost-derive v0.14.4
+    Checking tower-http v0.6.11
+   Compiling regex v1.13.1
+   Compiling cexpr v0.6.0
+    Checking reth-ethereum-primitives v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-metrics v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking ark-ec v0.5.0
+    Checking reth-db-models v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+   Compiling thiserror-impl v1.0.69
+   Compiling slotmap v1.1.1
+   Compiling shlex v1.3.0
+    Checking lazy_static v1.5.0
+   Compiling vcpkg v0.2.15
+    Checking alloy-rpc-types-any v2.4.2
+    Checking alloy-signer v2.4.2
+    Checking rustc-hex v2.1.0
+    Checking rlp v0.5.2
+    Checking base64 v0.21.7
+    Checking bech32 v0.9.1
+    Checking prost v0.14.4
+    Checking triehash v0.8.4
+    Checking tracing-futures v0.2.5
+    Checking thread-priority v3.1.1
+    Checking pbkdf2 v0.12.2
+    Checking sharded-slab v0.1.7
+    Checking reth-tasks v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking tracing-serde v0.2.0
+    Checking tracing-log v0.2.0
+    Checking alloy-network v2.4.2
+    Checking thread_local v1.1.10
+    Checking nu-ansi-term v0.50.3
+   Compiling eyre v0.6.14
+    Checking hyper-timeout v0.5.2
+    Checking ark-bls12-381 v0.5.0
+    Checking ark-bn254 v0.5.0
+    Checking opentelemetry v0.32.0
+    Checking reth-fs-util v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking indenter v0.3.4
+    Checking colorchoice v1.0.5
+    Checking anstyle v1.0.14
+    Checking tonic v0.14.6
+    Checking crossbeam-channel v0.5.17
+    Checking utf8parse v0.2.2
+    Checking coins-core v0.12.0
+    Checking data-encoding v2.11.1
+    Checking anstyle-parse v1.0.0
+    Checking is_terminal_polyfill v1.70.2
+    Checking anstyle-query v1.1.5
+    Checking opentelemetry_sdk v0.32.1
+    Checking prost-types v0.14.4
+    Checking anstream v1.0.0
+    Checking coins-bip32 v0.12.0
+   Compiling libz-sys v1.1.29
+    Checking matchers v0.2.0
+    Checking iana-time-zone v0.1.65
+    Checking tracing-subscriber v0.3.23
+   Compiling bzip2-sys v0.1.13+1.0.8
+    Checking coins-bip39 v0.12.0
+   Compiling lz4-sys v1.11.1+lz4-1.10.0
+    Checking alloy-signer-local v2.4.2
+    Checking clap_lex v1.1.1
+    Checking clap_builder v4.6.7
+    Checking tonic-prost v0.14.6
+    Checking chrono v0.4.45
+    Checking tonic-types v0.14.6
+   Compiling clap_derive v4.6.7
+    Checking memmap2 v0.9.11
+    Checking tracing-opentelemetry v0.33.0
+    Checking sha1 v0.10.7
+    Checking mach2 v0.5.0
+    Checking objc2-core-foundation v0.3.2
+    Checking opentelemetry-semantic-conventions v0.32.1
+    Checking symlink v0.1.0
+    Checking tracing-appender v0.2.5
+    Checking tracing-samply v0.1.5
+    Checking rolling-file v0.2.0
+    Checking tracing-journald v0.3.2
+    Checking tracing-chrome v0.7.2
+    Checking tracing-logfmt v0.3.7
+    Checking crossbeam-queue v0.3.14
+    Checking objc2-io-kit v0.3.2
+    Checking opentelemetry-proto v0.32.0
+    Checking bincode v1.3.3
+    Checking same-file v1.0.6
+    Checking lz4_flex v0.12.2
+    Checking fsevent-sys v4.1.0
+    Checking walkdir v2.5.0
+    Checking sysinfo v0.38.4
+    Checking page_size v0.6.0
+    Checking notify-types v2.1.0
+   Compiling proc-macro-error-attr2 v2.0.0
+    Checking reth-net-banlist v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-nippy-jar v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking humantime v2.4.0
+    Checking notify v8.2.0
+    Checking jsonrpsee-types v0.26.0
+    Checking humantime-serde v1.1.1
+   Compiling proc-macro-error2 v2.0.1
+    Checking reth-network-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking futures-timer v3.0.4
+    Checking clap v4.6.7
+    Checking rand_xoshiro v0.7.0
+    Checking inout v0.1.4
+    Checking jsonrpsee-core v0.26.0
+    Checking winnow v1.0.4
+    Checking cipher v0.4.4
+   Compiling include_dir_macros v0.7.4
+   Compiling prettyplease v0.3.0
+    Checking hashbrown v0.13.2
+   Compiling include_dir v0.7.4
+    Checking safe_arch v0.7.4
+    Checking schnellru v0.2.4
+   Compiling itertools v0.10.5
+    Checking alloy-rpc-types-debug v2.4.2
+    Checking hashbrown v0.16.1
+   Compiling typeid v1.0.3
+    Checking wide v0.7.33
+    Checking aes v0.8.4
+    Checking ctr v0.9.2
+    Checking alloy-transport v2.4.2
+    Checking universal-hash v0.5.1
+   Compiling data-encoding-macro-internal v0.1.19
+   Compiling match-lookup v0.1.3
+   Compiling aquamarine v0.6.0
+    Checking archery v1.2.3
+    Checking const-str v0.4.3
+    Checking imbl-sized-chunks v0.2.0
+    Checking unsigned-varint v0.8.0
+   Compiling snap v1.1.2
+    Checking opaque-debug v0.3.1
+    Checking multihash v0.19.5
+    Checking polyval v0.6.2
+    Checking data-encoding-macro v0.1.21
+   Compiling bon-macros v3.10.1
+    Checking base256emoji v1.0.2
+    Checking toml_parser v1.1.3+spec-1.1.0
+    Checking webpki-roots v1.0.9
+   Compiling reth-mdbx-sys v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+   Compiling librocksdb-sys v0.17.3+10.4.2
+    Checking imbl v7.0.2
+   Compiling vergen-lib v10.0.3
+    Checking hkdf v0.12.4
+   Compiling libgit2-sys v0.18.8+1.9.7
+    Checking chacha20 v0.10.2
+    Checking toml_datetime v0.7.5+spec-1.1.0
+    Checking serde_spanned v1.1.1
+    Checking toml_writer v1.1.2+spec-1.1.0
+    Checking base-x v0.2.11
+    Checking asn1_der v0.7.7
+    Checking base45 v3.2.0
+    Checking winnow v0.7.15
+   Compiling system-configuration-sys v0.6.0
+    Checking bimap v0.6.3
+   Compiling doctest-file v1.1.1
+    Checking libp2p-identity v0.2.14
+    Checking alloy-pubsub v2.4.2
+    Checking interprocess v2.4.4
+    Checking rand v0.10.2
+    Checking multibase v0.9.3
+    Checking webpki-roots v0.26.11
+    Checking fixed-cache v0.1.10
+    Checking ghash v0.5.1
+    Checking prefix-trie v0.8.4
+    Checking alloy-rpc-types-admin v2.4.2
+   Compiling vergen v10.0.3
+    Checking aead v0.5.2
+   Compiling num_threads v0.1.7
+    Checking toml v0.9.12+spec-1.1.0
+    Checking tinyvec v1.13.3
+    Checking aes-gcm v0.10.3
+    Checking hickory-proto v0.26.3
+    Checking multiaddr v0.18.2
+    Checking hashlink v0.11.1
+    Checking core-foundation v0.9.4
+    Checking uint v0.10.1
+    Checking delay_map v0.4.1
+   Compiling vergen-git2 v10.0.3
+    Checking more-asserts v0.3.1
+    Checking tagptr v0.2.0
+    Checking moka v0.12.16
+    Checking discv5 v0.10.4 (https://github.com/sigp/discv5?rev=7663c00#7663c00e)
+    Checking system-configuration v0.7.0
+    Checking alloy-transport-ipc v2.4.2
+   Compiling bon v3.10.1
+    Checking alloy-rpc-types-trace v2.4.2
+    Checking hickory-net v0.26.3
+    Checking concat-kdf v0.1.0
+    Checking if-addrs v0.14.0
+    Checking resolv-conf v0.7.6
+    Checking linked-hash-map v0.5.6
+    Checking linked_hash_set v0.1.6
+    Checking reth-ecies v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-traits v0.5.2
+    Checking hickory-resolver v0.26.3
+    Checking dirs-sys-next v0.1.2
+    Checking dirs-next v2.0.0
+    Checking reth-cli-util v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking ethereum_hashing v0.8.0
+   Compiling tree_hash_derive v0.12.1
+    Checking tree_hash v0.12.1
+    Checking soketto v0.8.1
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+    Checking route-recognizer v0.3.1
+    Checking alloy-sol-type-parser v1.7.3
+    Checking jsonrpsee-wasm-client v0.26.0
+   Compiling tiny-keccak v2.0.2
+    Checking jsonrpsee-server v0.26.0
+    Checking alloy-rpc-types-mev v2.4.2
+    Checking reth-dns-discovery v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-json-abi v1.7.3
+    Checking rmp v0.8.15
+    Checking reth-testing-utils v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-dyn-abi v1.7.3
+    Checking rmp-serde v1.3.1
+    Checking alloy-rpc-types-txpool v2.4.2
+    Checking alloy-rpc-types-anvil v2.4.2
+   Compiling libproc v0.14.11
+   Compiling async-stream-impl v0.3.6
+   Compiling rlimit v0.11.0
+   Compiling toml_edit v0.25.15+spec-1.1.0
+    Checking left-right v0.11.8
+   Compiling syn-solidity v0.8.26
+    Checking reth-libmdbx v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+   Compiling macro-string v0.1.4
+    Checking async-stream v0.3.6
+    Checking lru v0.18.4
+    Checking utf-8 v0.7.6
+   Compiling metrics-exporter-prometheus v0.18.3
+   Compiling proc-macro-crate v3.5.0
+    Checking hashbag v0.1.13
+    Checking sketches-ddsketch v0.3.1
+    Checking evmap v11.0.0
+    Checking metrics-util v0.20.4
+    Checking alloy-primitives v0.8.26
+   Compiling jsonrpsee-proc-macros v0.26.0
+    Checking rustls-native-certs v0.8.4
+    Checking yansi v1.0.1
+    Checking mach2 v0.6.0
+    Checking debug-helper v0.3.14
+    Checking diff v0.1.13
+    Checking pretty_assertions v1.4.1
+    Checking boyer-moore-magiclen v0.2.24
+    Checking ringbuffer v0.16.0
+    Checking quub-primitives v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-primitives)
+    Checking fdlimit v0.3.0
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+    Checking quub-policy v0.1.0 (/Users/nrahal/@code/quub/quub.network/services/quub-policy)
+   Compiling alloy-sol-macro-input v0.8.26
+   Compiling alloy-sol-macro-expander v0.8.26
+    Checking metrics-process v2.4.3
+   Compiling alloy-sol-macro v0.8.26
+    Checking alloy-sol-types v0.8.26
+    Checking quub-iso v0.1.0 (/Users/nrahal/@code/quub/quub.network/services/quub-iso)
+    Checking quub-precompiles v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-precompiles)
+    Checking revm-precompile v41.0.0
+    Checking revm-handler v41.0.0
+    Checking revm-inspector v41.0.0
+    Checking revm v41.0.0
+    Checking reth-trie-common v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-evm v0.37.1
+    Checking rustls-webpki v0.103.15
+    Checking reth-stages-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-static-file-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-storage-errors v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-chainspec v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking jsonwebtoken v10.4.0
+    Checking reth-execution-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-execution-errors v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-rpc-types-engine v2.4.2
+    Checking reth-consensus v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-db-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-errors v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-trie-sparse v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-eth-wire-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-config v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-storage-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking tokio-rustls v0.26.5
+    Checking rustls-platform-verifier v0.7.0
+    Checking hyper-rustls v0.27.9
+    Checking reth-payload-primitives v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reqwest v0.13.5
+    Checking reth-payload-builder-primitives v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-evm v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-trie v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking tungstenite v0.29.0
+    Checking reth-network-p2p v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-evm-ethereum v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking tokio-tungstenite v0.29.0
+    Checking opentelemetry-http v0.32.0
+    Checking alloy-rpc-types v2.4.2
+    Checking alloy-transport-ws v2.4.2
+    Checking alloy-transport-http v2.4.2
+    Checking reth-network-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking opentelemetry-otlp v0.32.0
+    Checking reth-net-nat v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-rpc-client v2.4.2
+    Checking reth-rpc-server-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-discv4 v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-convert v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-eth-wire v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-chain-state v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-trie-db v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-tracing-otlp v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-revm v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-tracing v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-db v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-discv5 v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking revm-inspectors v0.41.4
+    Checking rustls-platform-verifier v0.5.3
+    Checking alloy-rpc-types-beacon v2.4.2
+    Checking reth-engine-primitives v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-transaction-pool v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking jsonrpsee-client-transport v0.26.0
+    Checking reth-ethereum-engine-primitives v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking jsonrpsee-http-client v0.26.0
+    Checking reth-exex-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-etl v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking jsonrpsee-ws-client v0.26.0
+    Checking reth-consensus-common v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking alloy-provider v2.4.2
+    Checking jsonrpsee v0.26.0
+    Checking tungstenite v0.28.0
+    Checking reth-rpc-layer v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-metrics v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking tokio-tungstenite v0.28.0
+    Checking reth-payload-validator v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-ethereum-consensus v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-ipc v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-eth-types v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-network v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-ethstats v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-era v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-era-downloader v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+   Compiling git2 v0.21.0
+   Compiling reth-node-core v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking rocksdb v0.24.0
+    Checking reth-provider v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-execution-cache v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-trie-parallel v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-static-file v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-prune v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-era-utils v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-db-common v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-downloaders v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-payload-builder v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-stages-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-basic-payload-builder v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-engine-local v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-ethereum-payload-builder v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-eth-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-exex v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-consensus-debug-client v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-stages v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-engine-tree v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-events v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-engine-util v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-engine-api v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-invalid-block-hooks v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-rpc-builder v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-builder v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-node-ethereum v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking reth-ethereum v2.4.0 (https://github.com/op-rs/reth?rev=aef8d3ef92117f91455e16969f0adf5bf7c6e9e1#aef8d3ef)
+    Checking quub-evm v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-evm)
+    Checking quub-node v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-node)
+    Finished `dev` profile [unoptimized] target(s) in 2m 36s

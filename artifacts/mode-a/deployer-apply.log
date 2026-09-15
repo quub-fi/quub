@@ -1,0 +1,324 @@
+t=2026-09-15T16:03:28+0300 lvl=info msg="initializing pipeline" stage=init strategy=genesis
+t=2026-09-15T16:03:28+0300 lvl=info msg="deploying superchain" stage=deploy-superchain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0xe360ade4 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=DeploySuperchain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=DeploySuperchain err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0xe360ade4 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=DeploySuperchain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=DeploySuperchain err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0xe360ade4 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=DeploySuperchain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=DeploySuperchain err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=info msg="deploying implementations" stage=deploy-implementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the DelayedWETH implementation at 0xE440CC08A71694C8229323803F59024E3144630e" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the DisputeGameFactory implementation at 0x72B971717E088B59F26d4236BE222ADB6ACD393b" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the L1CrossDomainMessenger implementation at 0x59D497530b00062f40950ba8EaB88868bf7F86f0" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x59D497530b00062f40950ba8EaB88868bf7F86f0 label=L1CrossDomainMessengerImpl err="execution reverted" depth=2 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0x3e47158c addr=0x59D497530b00062f40950ba8EaB88868bf7F86f0 callsite="" label=L1CrossDomainMessengerImpl
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x59D497530b00062f40950ba8EaB88868bf7F86f0 label=L1CrossDomainMessengerImpl err="execution reverted" revertData=0x54e433cd depth=1
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the L1ERC721Bridge implementation at 0x9F164f1d02A81e06D639E55F65a87f0070E3Cb2e" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x9F164f1d02A81e06D639E55F65a87f0070E3Cb2e label=L1ERC721BridgeImpl err="execution reverted" depth=2 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x329aa281 addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 callsite="" label=DeployImplementations
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0x3e47158c addr=0x9F164f1d02A81e06D639E55F65a87f0070E3Cb2e callsite="" label=L1ERC721BridgeImpl
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x9F164f1d02A81e06D639E55F65a87f0070E3Cb2e label=L1ERC721BridgeImpl err="execution reverted" revertData=0x54e433cd depth=1
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the L1StandardBridge implementation at 0xB37a11AadF167B2F0b8dD85372De4bC66CD4A891" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the MIPS at 0xaCc005DCd857B401e4732E6F7837135A22825cfA" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the OptimismMintableERC20Factory implementation at 0xaAbEA75Da509fA518Fd8a91Eae4BE5813B829b12" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the OptimismPortal2 implementation at 0x1005217ad392DC64CEf501FA1777A27D42166748" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the ETHLockbox implementation at 0xb3A24DB07038b51962026329B62E7a965d56A6ad" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the SystemConfig impl at 0x670b850A235A6fA98cD7a195eB139D0277E471fA" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Creating interop dependency set..." stage=generate-interop-depset
+t=2026-09-15T16:03:28+0300 lvl=info msg="deploying OP chain using local allocs" stage=deploy-opchain id=0x0000000000000000000000000000000000000000000000000000000000001f9b
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0x0a49cb03
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x0a49cb03 addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" depth=4 op=253 byte4=0xb682c444
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0xb682c444 addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0xa7119869
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0xa7119869 addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0xc4e8ddfa
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0xc4e8ddfa addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0x078f29cf
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x078f29cf addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0x9b7d7f0a
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x9b7d7f0a addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0xf2b4e617
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0xf2b4e617 addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" depth=4 op=253 byte4=0x5c0cba33
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x5c0cba33 addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0x215b7a1c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x5e498f1d addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x215b7a1c addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xe991d1A48616a1F28d26476F53F103731fEFC990 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xD6F606fd91e07925538e36DEee1324Cf659D17ae label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x55680f92126c3377e93C60216149b82919D3ef84 label="" err="execution reverted" depth=4 op=253 byte4=0x33d7e2bd
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x64b8dd33 addr=0xaE651eEF9B74a54cC30f22D08ACa6c9929e03Dc6 callsite="" label=OPContractsManagerUtilsImpl
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x33d7e2bd addr=0x55680f92126c3377e93C60216149b82919D3ef84 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x55680f92126c3377e93C60216149b82919D3ef84 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x55680f92126c3377e93C60216149b82919D3ef84 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0x55680f92126c3377e93C60216149b82919D3ef84 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x55680f92126c3377e93C60216149b82919D3ef84 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xdFE4fF9a3A4E303f1eb80b7dc26f08c730A44921 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xdFE4fF9a3A4E303f1eb80b7dc26f08c730A44921 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xdFE4fF9a3A4E303f1eb80b7dc26f08c730A44921 label="" err="execution reverted" revertMsg="ResolvedDelegateProxy: target address must be initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x76911a6f0C9B686cD227560BfFAEd801402Ca86a label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0x76911a6f0C9B686cD227560BfFAEd801402Ca86a callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x76911a6f0C9B686cD227560BfFAEd801402Ca86a label="" err="execution reverted" revertMsg="L1ChugSplashProxy: implementation is not set yet" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xdCAf21457BF788120fb5501DB990546c59A7cBc4 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xdCAf21457BF788120fb5501DB990546c59A7cBc4 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xdCAf21457BF788120fb5501DB990546c59A7cBc4 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xfcefe5c2813c99b42e8eE5A3b63F0a73915A315F label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0xfcefe5c2813c99b42e8eE5A3b63F0a73915A315F callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xfcefe5c2813c99b42e8eE5A3b63F0a73915A315F label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 label="" err="execution reverted" depth=4 op=253 byte4=0x33d7e2bd
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x64b8dd33 addr=0xaE651eEF9B74a54cC30f22D08ACa6c9929e03Dc6 callsite="" label=OPContractsManagerUtilsImpl
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x33d7e2bd addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x2730B398B2b91c1B8d8Ddb93508a62358caeEB29 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 label="" err="execution reverted" depth=4 op=253 byte4=0x33d7e2bd
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x64b8dd33 addr=0xaE651eEF9B74a54cC30f22D08ACa6c9929e03Dc6 callsite="" label=OPContractsManagerUtilsImpl
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x33d7e2bd addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 label="" err="execution reverted" depth=4 op=253 byte4=0x3e47158c
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0xd576c5a0 addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x9d3f3edb addr=0xA8F85B66986D476d9f9A5138a63deB9444F6FeE3 callsite="" label=OPContractsManagerV2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=4 byte4=0x3e47158c addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0x59597F1E5616458e31c65a63deA21c7aaad24eF6 label="" err="execution reverted" revertMsg="Proxy: implementation not initialized" depth=3
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the DisputeGameFactory proxy at 0xfcefe5c2813c99b42e8eE5A3b63F0a73915A315F" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the L1CrossDomainMessenger proxy at 0xdFE4fF9a3A4E303f1eb80b7dc26f08c730A44921" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the OptimismPortal2 proxy at 0xD6F606fd91e07925538e36DEee1324Cf659D17ae" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=info msg="Running chain assertions on the SystemConfig proxy at 0xe991d1A48616a1F28d26476F53F103731fEFC990" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" depth=3 op=253 byte4=0x38d38c97
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0x38d38c97 addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=3 byte4=0x38d38c97 addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" revertData=0x depth=2
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Fault addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" depth=2 op=253 byte4=0x38d38c97
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0x9196ab28 addr=0x551618101B3999B61c266b9B3f8489195d32a328 callsite="" label=DeployOPChain
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=2 byte4=0x38d38c97 addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 callsite="" label=""
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xE50321c7D8364457F7D8744fd5F5f64D8f97bC85 label="" err="execution reverted" revertData=0x depth=1
+t=2026-09-15T16:03:28+0300 lvl=info msg="alt-da deployment not needed" stage=deploy-alt-da
+t=2026-09-15T16:03:28+0300 lvl=info msg="additional dispute games deployment not needed" stage=deploy-additional-dispute-games
+t=2026-09-15T16:03:28+0300 lvl=info msg="generating L2 genesis" stage=generate-l2-genesis id=0x0000000000000000000000000000000000000000000000000000000000001f9b
+t=2026-09-15T16:03:28+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:28+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=warn msg=callframe depth=1 byte4=0xbc437570 addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 callsite="" label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg=Revert addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis err="execution reverted" revertMsg="unrecognized 4 byte signature: 64af255d" depth=1
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiCall3 preinstall code at: 0xcA11bde05977b3631167028862bE2a173976CA11" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Create2Deployer preinstall code at: 0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Safe_v130 preinstall code at: 0x69f4D1788e39c87893C980c06EdF4b7f686e2938" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SafeL2_v130 preinstall code at: 0xfb1bffC9d739B8D520DaF37dF666da4C687191EA" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiSendCallOnly_v130 preinstall code at: 0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SafeSingletonFactory preinstall code at: 0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting DeterministicDeploymentProxy preinstall code at: 0x4e59b44847b379578588920cA78FbF26c0B4956C" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiSend_v130 preinstall code at: 0x998739BFdAAdde7C933B942a68053933098f9EDa" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Permit2 preinstall code at: 0x000000000022D473030F116dDEE9F6B43aC78BA3" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SenderCreator_v060 preinstall code at: 0x7fc98430eAEdbb6070B35B39D798725049088348" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting EntryPoint_v060 preinstall code at: 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SenderCreator_v070 preinstall code at: 0xEFC2c1444eBCC4Db75e7613d20C6a62fF67A167C" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting EntryPoint_v070 preinstall code at: 0x0000000071727De22E5E9d8BAf0edAc6f37da032" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting BeaconBlockRoots preinstall code at: 0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting HistoryStorage preinstall code at: 0x0000F90827F1C53a10cb7A02335B175320002935" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting CreateX preinstall code at: 0xba5Ed099633D3B313e4D5F7bdc1305d3c28ba5Ed" sender=0xaE0bDc4eEAC5E950B67C6819B118761CaAF61946
+t=2026-09-15T16:03:29+0300 lvl=info msg="Trie dumping started" root=0x1ebf0a0604b237f5a73bff282fc906923797351ea543e8938a4cc3ddcb722e16
+t=2026-09-15T16:03:29+0300 lvl=info msg="Trie dumping complete" accounts=2373 elapsed=6.575ms
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=L2Genesis
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=""
+t=2026-09-15T16:03:29+0300 lvl=info msg="Prefunding accounts in L2 dev genesis" stage=prefund-l2-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg="No L2 dev params, will not prefund any accounts" stage=prefund-l2-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=info msg="Prefunding accounts in L1 dev genesis" stage=prefund-l1-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg="No L1 dev params, will not prefund any accounts" stage=prefund-l1-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=info msg="Adding preinstalls to L1 dev genesis" stage=preinstall-l1-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiCall3 preinstall code at: 0xcA11bde05977b3631167028862bE2a173976CA11" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Create2Deployer preinstall code at: 0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Safe_v130 preinstall code at: 0x69f4D1788e39c87893C980c06EdF4b7f686e2938" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SafeL2_v130 preinstall code at: 0xfb1bffC9d739B8D520DaF37dF666da4C687191EA" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiSendCallOnly_v130 preinstall code at: 0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SafeSingletonFactory preinstall code at: 0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting DeterministicDeploymentProxy preinstall code at: 0x4e59b44847b379578588920cA78FbF26c0B4956C" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting MultiSend_v130 preinstall code at: 0x998739BFdAAdde7C933B942a68053933098f9EDa" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting Permit2 preinstall code at: 0x000000000022D473030F116dDEE9F6B43aC78BA3" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SenderCreator_v060 preinstall code at: 0x7fc98430eAEdbb6070B35B39D798725049088348" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting EntryPoint_v060 preinstall code at: 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting SenderCreator_v070 preinstall code at: 0xEFC2c1444eBCC4Db75e7613d20C6a62fF67A167C" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting EntryPoint_v070 preinstall code at: 0x0000000071727De22E5E9d8BAf0edAc6f37da032" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting BeaconBlockRoots preinstall code at: 0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting HistoryStorage preinstall code at: 0x0000F90827F1C53a10cb7A02335B175320002935" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Setting CreateX preinstall code at: 0xba5Ed099633D3B313e4D5F7bdc1305d3c28ba5Ed" sender=0x0100000000000000000000000000000000000000
+t=2026-09-15T16:03:29+0300 lvl=info msg="Sealing L1 dev genesis" stage=seal-l1-dev-genesis
+t=2026-09-15T16:03:29+0300 lvl=warn msg="Using dev L1 genesis without any customization"
+t=2026-09-15T16:03:29+0300 lvl=info msg="Trie dumping started" root=0x98187678f525d4bf6fd90539ff1068846989419aeb759e1bd13554995b4de0d4
+t=2026-09-15T16:03:29+0300 lvl=info msg="Trie dumping complete" accounts=64 elapsed=208µs
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0xfdAf657f7146c1AB9db4d70cEd5FDEa7dC4906c0 label=DeploySuperchain
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0x8f0818c1e0a4cA9Bc005f61428f7f8a371464D38 label=DeployImplementations
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0x551618101B3999B61c266b9B3f8489195d32a328 label=DeployOPChain
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0x3dbCf1D6840A85cfaa89395c0626D7a4FB2D1D47 label=ReadImplementationAddresses
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0xd18d9635A78708D370080e898a27a0751575a0dc label=SetPreinstalls
+t=2026-09-15T16:03:29+0300 lvl=info msg="removing script from state-dump" addr=0xefEE2d8b61086113ec5fe6aBd3C854D89450B4b4 label=""
+t=2026-09-15T16:03:29+0300 lvl=warn msg="Dynamically determined dev L1 genesis timestamp" timestamp=1789477409
+t=2026-09-15T16:03:29+0300 lvl=info msg="Sealed L1 dev genesis" stage=seal-l1-dev-genesis blockHash=0x889dfb215cae775760f718eef8a502ca0c7acf34f0113d9617c24379327388aa stateRoot=0xfc50ca617f45b18bce8752ed15d5787cdfe76a564083b601bfaa2d1e33ca5cc7
+t=2026-09-15T16:03:29+0300 lvl=info msg="setting start block" stage=set-start-block strategy=genesis id=0x0000000000000000000000000000000000000000000000000000000000001f9b
+t=2026-09-15T16:03:29+0300 lvl=warn msg="L2OutputOracleStartingBlockNumber is 0, should only be 0 for fresh chains" !BADKEY=&{} config=OutputOracleDeployConfig
