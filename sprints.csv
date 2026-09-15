@@ -1,0 +1,9 @@
+Sprint,What,Status
+0,Contracts + primitives + tests,Done
+1,"--dev node, F201–F203, F210–F213",Done
+1.5,"Stateful policy, origin-in-hash, freeze on the live node",Done
+2,"Mode A (op-node + geth L1), ADR-016 pin",Done
+3,Payment lane 70/30,Now
+4,"Gateway / operator API — banks talk HTTP, node stays eth_*",Not started
+5,Paymaster live (F203 take-fee) + dual-control stub on F211,Not started
+6,"First public rail — CCTP and/or Base adapter, Quub as policy + settlement",Not started
