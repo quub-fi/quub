@@ -3,6 +3,20 @@ name = "quub-consensus-op"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Mode A OP Stack. Blocked on Reth v2.5.2 vs op-reth pin; see CONFLICT.md."
+description = "Mode A OP Stack: Engine API + OptimismNode (ADR-016)."
 
 [dependencies]
+alloy-genesis = { version = "2.4.2", default-features = false }
+alloy-evm = { version = "0.37.0", default-features = false }
+alloy-op-evm = { path = "/tmp/optimism-op-node/rust/alloy-op-evm", default-features = false }
+alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
+eyre = "0.6"
+quub-evm = { workspace = true }
+reth-ethereum = { workspace = true, features = ["node", "evm", "std", "test-utils"] }
+reth-optimism-chainspec = { workspace = true }
+reth-optimism-evm = { workspace = true }
+reth-optimism-forks = { workspace = true }
+reth-optimism-node = { workspace = true }
+reth-optimism-primitives = { workspace = true }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

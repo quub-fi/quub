@@ -1,0 +1,13 @@
+    Checking reth-optimism-evm v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/evm)
+    Checking reth-optimism-txpool v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/txpool)
+    Checking reth-optimism-post-exec-replay v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/post-exec-replay)
+    Checking reth-optimism-payload-builder v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/payload)
+    Checking reth-optimism-flashblocks v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/flashblocks)
+    Checking reth-optimism-rpc v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/rpc)
+    Checking reth-optimism-node v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/node)
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+crates/quub-consensus-op/src/quub_op_node.rs:56:19: error[E0277]: the trait bound `OpEvmConfig<..., ..., ..., ...>: ConfigureEngineEvm<...>` is not satisfied: the trait `ConfigureEngineEvm<OpExecData>` is not implemented for `OpEvmConfig<<... as NodeTypes>::ChainSpec, ..., ..., ...>`
+crates/quub-consensus-op/src/launch.rs:84:10: error[E0277]: the trait bound `OpEvmConfig<OpChainSpec, ..., ..., ...>: ConfigureEngineEvm<...>` is not satisfied: the trait `ConfigureEngineEvm<OpExecData>` is not implemented for `OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, ...>`
+crates/quub-consensus-op/src/launch.rs:85:10: error[E0599]: the method `launch` exists for struct `WithLaunchContext<NodeBuilderWithComponents<..., ..., ...>>`, but its trait bounds were not satisfied: method cannot be called due to unsatisfied trait bounds
+crates/quub-consensus-op/src/quub_op_node.rs:69:9: error[E0308]: mismatched types: expected `OpAddOns<NodeAdapter<N, ...>, ..., ...>`, found `OpAddOns<NodeAdapter<_, ...>, ..., ...>`
+error: could not compile `quub-consensus-op` (lib) due to 4 previous errors

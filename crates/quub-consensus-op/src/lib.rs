@@ -1,30 +1,23 @@
-//! Mode A (OP Stack / Engine API).
+//! Mode A (OP Stack / Engine API) — ADR-016.
 //!
-//! Sprint 2: **blocked** on the locked Reth pin. See [`CONFLICT.md`](../CONFLICT.md).
-//! Do not start op-node from this crate until the conflict is resolved.
+//! History of the prior pin conflict: see [`CONFLICT.md`](../CONFLICT.md).
 
-/// Compile-time placeholder so `mode-a` feature links.
-pub fn placeholder() {}
+mod launch;
+mod op_factory;
+mod quub_op_executor;
+mod quub_op_node;
 
-/// Human-readable block reason for CLI / scripts.
-pub const MODE_A_BLOCKED: &str = concat!(
-    "Mode A blocked: paradigmxyz/reth v2.5.2 has no reth-optimism-* crates; ",
-    "op-reth (ethereum-optimism/optimism, latest checked op-reth/v2.4.4) pins op-rs/reth, ",
-    "not paradigmxyz/reth@v2.5.2. Do not bump Reth. See crates/quub-consensus-op/CONFLICT.md"
-);
-
-/// Returns the conflict message. Never starts Engine API.
-pub fn engine_unavailable_reason() -> &'static str {
-    MODE_A_BLOCKED
-}
+pub use launch::{EngineArgs, launch_engine};
+pub use op_factory::QuubOpEvmFactory;
+pub use quub_op_executor::QuubOpExecutorBuilder;
+pub use quub_op_node::QuubOpNode;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
-    fn conflict_message_mentions_reth_pin() {
-        assert!(MODE_A_BLOCKED.contains("v2.5.2"));
-        assert!(MODE_A_BLOCKED.contains("op-reth"));
+    fn conflict_doc_mentions_adr016() {
+        let doc = include_str!("../CONFLICT.md");
+        assert!(doc.contains("ADR-016"));
+        assert!(doc.contains("aef8d3ef"));
     }
 }

@@ -1,0 +1,9 @@
+    Checking reth-optimism-evm v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/evm)
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:72:5: error[E0252]: the name `OpTxEnv` is defined multiple times: `OpTxEnv` reimported here
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:79:5: error[E0252]: the name `PrecompilesMap` is defined multiple times: `PrecompilesMap` reimported here
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:80:5: error[E0252]: the name `OpSpecId` is defined multiple times: `OpSpecId` reimported here
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:72:5: warning: unused import: `block::OpTxEnv`
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:79:5: warning: unused import: `reth_evm::precompiles::PrecompilesMap`
+/tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:80:5: warning: unused import: `op_revm::OpSpecId`
+warning: `reth-optimism-evm` (lib) generated 3 warnings
+error: could not compile `reth-optimism-evm` (lib) due to 3 previous errors; 3 warnings emitted

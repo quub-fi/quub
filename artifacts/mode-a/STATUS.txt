@@ -1,0 +1,14 @@
+rustc: 1.96.0
+cargo check -p quub-evm -p quub-node: OK (after Quub Mode A wiring)
+
+C (--dev): green earlier (devnet-adr016.log); F213 codesize 1274 on --engine genesis too.
+
+D (--engine) partial:
+- quub-node --engine listens 9545/9551, chain 8091, F210–F213 present
+- scripts/mode-a.sh rewritten
+- op-node starts then fails: anvil --init L1 genesis yields EMPTY state root
+  (SystemConfig 0xe991… missing). Need geth/op-geth init of l1-genesis-full.json
+  or a working L1 alloc load — not a Reth rev bump.
+- op-node binary built from local optimism tree reports v0.0.0-dev (not yet v1.19.7 tag binary)
+- optimism crates path-dep /tmp/optimism-op-node + ConfigureEngineEvm patches
+  (see patches/op-reth-v2.4.4/)

@@ -1,0 +1,6 @@
+    Checking reth-optimism-payload-builder v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/payload)
+    Checking reth-optimism-flashblocks v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/flashblocks)
+    Checking reth-optimism-rpc v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/rpc)
+    Checking reth-optimism-node v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/node)
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+    Finished `dev` profile [unoptimized] target(s) in 8.20s

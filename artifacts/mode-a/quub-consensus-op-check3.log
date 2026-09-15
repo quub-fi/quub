@@ -1,0 +1,4 @@
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+crates/quub-consensus-op/src/block_factory.rs:13:67: error[E0432]: unresolved imports `alloy_op_evm::OpTxEnv`, `alloy_op_evm::OpTxResult`: no `OpTxEnv` in the root, no `OpTxResult` in the root
+crates/quub-consensus-op/src/block_factory.rs:16:5: error[E0432]: unresolved import `alloy_op_hardforks`: use of unresolved module or unlinked crate `alloy_op_hardforks`
+error: could not compile `quub-consensus-op` (lib) due to 2 previous errors

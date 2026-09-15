@@ -1,0 +1,11 @@
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+crates/quub-consensus-op/src/quub_op_node.rs:5:5: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/op_factory.rs:14:43: error[E0432]: unresolved import `reth_optimism_evm::PostExecEvmFactoryHooks`: no `PostExecEvmFactoryHooks` in the root
+crates/quub-consensus-op/src/quub_op_node.rs:5:5: error[E0432]: unresolved import `reth_node_builder`: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_node.rs:34:6: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_node.rs:35:34: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_node.rs:36:33: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_node.rs:37:31: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_node.rs:38:31: error[E0433]: cannot find module or crate `reth_node_builder` in this scope: use of unresolved module or unlinked crate `reth_node_builder`
+crates/quub-consensus-op/src/quub_op_executor.rs:25:16: error[E0277]: the trait bound `QuubOpEvmFactory: alloy_op_evm::post_exec::PostExecEvmFactoryHooks` is not satisfied: unsatisfied trait bound
+error: could not compile `quub-consensus-op` (lib) due to 9 previous errors

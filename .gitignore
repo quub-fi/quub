@@ -13,3 +13,4 @@ contracts/broadcast/
 *.pem
 *.key
 secrets/
+.cargo/

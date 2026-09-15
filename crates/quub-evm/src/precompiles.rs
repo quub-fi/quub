@@ -39,6 +39,11 @@ fn inject_quub(map: &mut PrecompilesMap) {
     });
 }
 
+/// Inject F201–F203 into an existing precompile map (Eth or OP).
+pub fn inject_quub_precompiles(map: &mut PrecompilesMap) {
+    inject_quub(map);
+}
+
 /// Builtins for `spec`, plus Quub precompiles when `spec >= PRAGUE`.
 pub fn precompiles_map_for_spec(spec: SpecId) -> PrecompilesMap {
     let mut map = PrecompilesMap::from_static(EthPrecompiles::new(spec).precompiles);

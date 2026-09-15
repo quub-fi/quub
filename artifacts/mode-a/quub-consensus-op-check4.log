@@ -1,0 +1,13 @@
+    Checking quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+crates/quub-consensus-op/src/block_factory.rs:22:1: error[E0117]: only traits defined in the current crate can be implemented for types defined outside of the crate
+crates/quub-consensus-op/src/quub_op_node.rs:78:30: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: the trait `NodeComponentsBuilder<N>` is not implemented for `ComponentsBuilder<N, OpPoolBuilder, ..., ..., ..., ...>`
+crates/quub-consensus-op/src/quub_op_node.rs:87:19: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: the trait `NodeComponentsBuilder<N>` is not implemented for `ComponentsBuilder<N, OpPoolBuilder, ..., ..., ..., ...>`
+crates/quub-consensus-op/src/quub_op_node.rs:99:5: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: the trait `NodeComponentsBuilder<N>` is not implemented for `ComponentsBuilder<N, OpPoolBuilder, ..., ..., ..., ...>`
+crates/quub-consensus-op/src/quub_op_node.rs:88:24: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: the trait `NodeComponentsBuilder<N>` is not implemented for `ComponentsBuilder<N, OpPoolBuilder, ..., ..., ..., ...>`
+crates/quub-consensus-op/src/quub_op_node.rs:99:26: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: the trait `NodeComponentsBuilder<N>` is not implemented for `ComponentsBuilder<N, OpPoolBuilder, ..., ..., ..., ...>`
+crates/quub-consensus-op/src/launch.rs:85:10: error[E0277]: the trait bound `ComponentsBuilder<..., ..., ..., ..., ..., ...>: NodeComponentsBuilder<...>` is not satisfied: unsatisfied trait bound
+crates/quub-consensus-op/src/launch.rs:86:10: error[E0599]: the method `launch` exists for struct `WithLaunchContext<NodeBuilderWithComponents<..., ..., ...>>`, but its trait bounds were not satisfied: method cannot be called due to unsatisfied trait bounds
+crates/quub-consensus-op/src/block_factory.rs:53:15: error[E0616]: field `evm_factory` of struct `OpBlockExecutorFactory` is private: private field
+crates/quub-consensus-op/src/block_factory.rs:65:46: error[E0616]: field `spec` of struct `OpBlockExecutorFactory` is private: private field
+crates/quub-consensus-op/src/block_factory.rs:65:58: error[E0616]: field `receipt_builder` of struct `OpBlockExecutorFactory` is private: private field
+error: could not compile `quub-consensus-op` (lib) due to 11 previous errors

@@ -7,7 +7,7 @@ mod slots;
 mod wrap;
 
 pub use factory::{QuubEvmFactory, QuubExecutorBuilder};
-pub use precompiles::precompiles_map_for_spec;
+pub use precompiles::{inject_quub_precompiles, precompiles_map_for_spec};
 
 #[cfg(test)]
 mod tests {

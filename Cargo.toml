@@ -34,6 +34,13 @@ quub-consensus-simplex = { path = "crates/quub-consensus-simplex" }
 thiserror = "2"
 # ADR-016: one Reth remote. Do not override revm past this rev. No [patch] second Reth.
 reth-ethereum = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
+# ADR-016 pin: op-reth/v2.4.4. Path = local checkout of that tag (commit 7e167ae / aef8d3ef Reth).
+# Swap to `git = "…", tag = "op-reth/v2.4.4"` when the monorepo fetch is reliable.
+reth-optimism-node = { path = "/tmp/optimism-op-node/rust/op-reth/crates/node" }
+reth-optimism-evm = { path = "/tmp/optimism-op-node/rust/op-reth/crates/evm", default-features = false, features = ["std"] }
+reth-optimism-chainspec = { path = "/tmp/optimism-op-node/rust/op-reth/crates/chainspec", default-features = false, features = ["std"] }
+reth-optimism-primitives = { path = "/tmp/optimism-op-node/rust/op-reth/crates/primitives", default-features = false, features = ["std"] }
+reth-optimism-forks = { path = "/tmp/optimism-op-node/rust/op-reth/crates/hardforks", default-features = false }
 
 [profile.dev]
 debug = 0
