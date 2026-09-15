@@ -1,0 +1,10 @@
+[package]
+name = "xzero-orchestrator"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Multi-rail router stubs (Base + Solana); no network I/O in unit tests"
+
+[dependencies]
+alloy-primitives = { workspace = true }
+thiserror = { workspace = true }

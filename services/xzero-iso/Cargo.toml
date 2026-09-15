@@ -1,0 +1,12 @@
+[package]
+name = "xzero-iso"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Off-chain F202 ISO memo validateAndCommit"
+
+[dependencies]
+alloy-primitives = { workspace = true }
+alloy-sol-types = { workspace = true }
+quub-primitives = { workspace = true }
+thiserror = { workspace = true }

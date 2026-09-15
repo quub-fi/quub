@@ -1,0 +1,3 @@
+# Forge scripts — Sprint 1
+
+Deploy system contracts to `quub-node --dev` after Sprint 0 is green.

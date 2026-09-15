@@ -1,0 +1,9 @@
+[package]
+name = "quub-primitives"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Frozen addresses, reason codes, memo types for Quub"
+
+[dependencies]
+alloy-primitives = { workspace = true }

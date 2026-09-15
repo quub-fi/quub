@@ -1,0 +1,10 @@
+[package]
+name = "xzero-evidence"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Off-chain evidence plane (hash anchors only; no PII)"
+
+[dependencies]
+alloy-primitives = { workspace = true }
+thiserror = { workspace = true }

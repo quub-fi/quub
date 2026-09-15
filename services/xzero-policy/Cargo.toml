@@ -1,0 +1,11 @@
+[package]
+name = "xzero-policy"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Off-chain F201 policy check (same ABI as Quub precompile)"
+
+[dependencies]
+alloy-primitives = { workspace = true }
+quub-primitives = { workspace = true }
+thiserror = { workspace = true }

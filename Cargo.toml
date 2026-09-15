@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/quub-primitives",
+    "services/xzero-policy",
+    "services/xzero-iso",
+    "services/xzero-evidence",
+    "services/xzero-orchestrator",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
+authors = ["fazeZERO"]
+repository = "https://github.com/fazezero/quub"
+
+[workspace.dependencies]
+alloy-primitives = { version = "0.8", default-features = false, features = ["std"] }
+alloy-sol-types = { version = "0.8", default-features = false, features = ["std"] }
+quub-primitives = { path = "crates/quub-primitives" }
+thiserror = "2"

@@ -1,0 +1,29 @@
+# Quub project rules for Cursor
+# Copy to the repo root as `.cursorrules` and keep AGENTS.md as the long form.
+
+You are building Quub, a regulated payments fabric. Not a memecoin L1.
+
+Split:
+- Quub = ledger (crates/quub-*)
+- xZERO = off-chain orchestration (services/xzero-*)
+- fazeZERO = company (not in repo)
+
+Locked:
+- Rust node, EVM execution, Solidity contracts (Foundry)
+- Reth 2.5.x as a library. Do not fork Reth. Do not override revm.
+- Mode A (OP Stack) default. Mode B (Simplex) feature-flagged. Never both in one binary.
+- NO Substrate, FRAME, ink!, Cosmos, SVM, Move, custom VM, JAM
+- NO native token. NO tickers QUB / QUBE / QUBC / QUBIC. Never write "Qubic"
+- NO new EIP-2718 type, Fee AMM, Stylus, SP1 in sprint 0/1
+- JSON-RPC is eth_*. quub_ namespace off by default
+- No PII on-chain. ISO XML stays in xZERO evidence plane
+
+Frozen addresses:
+- F201 policy, F202 ISO memo, F203 paymaster
+- F210 PaymentToken, F211 PolicyAdmin, F212 EvidenceAnchor, F213 PaymasterEntry
+
+Sprint 0 first: workspace + xZERO libs + Foundry tests. No Reth node until Sprint 1.
+xZERO must run against public Base/Solana stubs with no Quub node.
+
+If a request conflicts with a locked decision, refuse and quote the decision.
+Read AGENTS.md before writing code.

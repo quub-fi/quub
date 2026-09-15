@@ -1,0 +1,15 @@
+/target/
+**/*.rs.bk
+.DS_Store
+
+# Foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+secrets/
