@@ -36,7 +36,7 @@ It does:
 | **ADR-1** | One product: Quub | Two brands confused the team and the client | xZERO as a sister product |
 | **ADR-2** | No native / gas token | Banks will not buy a thin float to move a dollar. Base and Tempo already proved payments can price blockspace in stables | QUUB / QUB / QUBE / QUBIC ticker, token-weighted validators |
 | **ADR-3** | Rust node, EVM execution, Solidity money contracts | Circle, Fireblocks, Visa, bank counsel, Foundry, Alloy live here. Tempo/Arc/Base all chose this | Substrate/FRAME, Cosmos SDK, SVM, Move, custom VM, JAM, PolkaVM |
-| **ADR-4** | Reth as a **library**, pin `v2.5.2` (or latest `v2.5.*` recorded in README) | Do not maintain a fork. Same pattern as Base | Forking Reth, floating `main`, overriding `revm` |
+| **ADR-4** | Reth as a **library** (see ADR-016 for the live pin) | Do not maintain a Quub fork of Reth | Forking Reth, floating `main`, overriding `revm` |
 | **ADR-5** | Default consensus = **Mode A** OP Stack rollup | Ethereum security + blob DA. Sequencer is a licensed operator | Public token-weighted L1, Tendermint, BABE/GRANDPA, Solana consensus |
 | **ADR-6** | Optional consensus = **Mode B** Commonware Simplex | Only if named FIs fund 2f+1 validators. Same `quub-evm` crate | Shipping both modes in one binary |
 | **ADR-7** | Year-1 local node = `quub-node --dev` + `EthereumNode` + custom executor | Shortest path to a block. `op-node` is Sprint 2 | Starting Simplex or `op-node` in Sprint 1 / 1.5 |
@@ -48,6 +48,9 @@ It does:
 | **ADR-13** | USDC hops = **CCTP V2**. Other tokens / messages = **CCIP**. FX quotes = Data Streams | Do not rebuild Chainlink or Circle | CCIP-wrapping USDC when CCTP exists; calling oracles from F201/F203 |
 | **ADR-14** | Quub is a settlement *option*, not the only venue | Counterparties already live on Base / Solana / Tempo | Forcing every creditor onto Quub |
 | **ADR-15** | Spell Q-U-U-B. Never Qubic | Live L1 collision | Tickers QUB, QUBE, QUBC, QUBIC |
+| **ADR-16** | Execution pin: `op-rs/reth` @ `aef8d3ef…` + optimism `op-reth/v2.4.4` + op-node **v1.19.7**; one Reth remote | Matches what op-reth/v2.4.4 ships; unlocks Mode A | `paradigmxyz/reth` v2.5.2 (no optimism crates); two Reth remotes; inventing portal / hand-rolled rollup.json |
+
+Full text: [`docs/adr/ADR-016-execution-pin.md`](docs/adr/ADR-016-execution-pin.md).
 
 ---
 
@@ -164,7 +167,7 @@ PoW, Ethereum L1 as *our* validator set, Tendermint, Substrate consensus, Solana
 
 ## 6. Execution and precompiles
 
-- Pin Reth **v2.5.2**. Alloy 1.6.1 on Reth crates. Workspace Alloy 0.8 stays on services until a dedicated bump. Convert addresses only in `quub-evm` wrap.
+- Pin Reth per **ADR-016** (`op-rs/reth` @ `aef8d3ef92117f91455e16969f0adf5bf7c6e9e1`). Alloy on Reth crates follows that pin (~1.6 / alloy-evm ~0.37). Workspace Alloy 0.8 stays on services until a dedicated bump. Convert addresses only in `quub-evm` wrap.
 - Inject F201–F203 when `spec >= PRAGUE` (not `==`).
 - F201 and F202: `DynPrecompile::new_stateful` (F201 reads F211 storage; F202 hash includes `tx.origin`, which is not in calldata). F203 `quote` may stay cacheable until `takeFee` writes state.
 - `quub-precompiles` has **no** `reth-*` dependency. `quub-evm` is the only crate that `sload`s.

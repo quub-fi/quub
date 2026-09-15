@@ -4,14 +4,30 @@ Quub is a payments fabric. There is no native token.
 
 Quub is the payments fabric: ledger (Rust node + EVM + Solidity facades) plus Quub Policy, Quub Memo / Quub ISO, Quub Evidence, and Quub Gateway. **fazeZERO** is the company and is not in this repository.
 
-## Pins
+## Pins (ADR-016)
 
 | Component | Pin |
 |-----------|-----|
-| Reth | `paradigmxyz/reth` git tag **`v2.5.2`** |
+| Reth | `op-rs/reth` rev **`aef8d3ef92117f91455e16969f0adf5bf7c6e9e1`** |
+| OP crates | `ethereum-optimism/optimism` tag **`op-reth/v2.4.4`** |
+| op-node | **v1.19.7** (minimum v1.19.1) |
 | Rust toolchain | **1.95.0** |
-| L2 chain id | **8091** (same for `--dev` and Mode A when Mode A is unblocked) |
-| op-node / op-reth | **blocked** — see [Mode A version conflict](#mode-a-version-conflict-sprint-2) |
+| L2 chain id | **8091** (`--dev` and Mode A) |
+
+One Reth remote only. See [`docs/adr/ADR-016-execution-pin.md`](docs/adr/ADR-016-execution-pin.md).
+
+### Install op-node (Mode A)
+
+```bash
+# Example: Go install from the optimism monorepo at the op-node tag
+git clone https://github.com/ethereum-optimism/optimism.git
+cd optimism && git checkout op-node/v1.19.7
+cd op-node && just op-node  # or: go build -o op-node ./cmd/node
+export PATH="$(pwd):$PATH"
+op-node --version   # expect v1.19.7
+```
+
+Also require **op-deployer** (or the official local-dev path for that op-node tag) before `scripts/mode-a.sh`. Do not hand-write `rollup.json` or invent a portal address.
 
 ## PATH for `quub-node`
 
@@ -23,9 +39,9 @@ quub-node   # --dev HTTP on 8545
 
 Or use `cargo run -p quub-node` / `bash scripts/devnet.sh` without installing.
 
-## Sprint 1.5 / `--dev`
+## `--dev` (Sprint 1.5+)
 
-- `quub-node` launches an `EthereumNode` with `QuubExecutorBuilder` (no `op-node`, no Simplex).
+- `quub-node` launches an `EthereumNode` with `QuubExecutorBuilder` (no Simplex).
 - HTTP JSON-RPC: `http://127.0.0.1:8545`, chain id **8091**.
 - Precompiles F201–F203 registered for `spec >= Prague` (`new_stateful` for F201/F202).
 - System contracts etched at genesis: **F210–F213** (see `crates/quub-node/alloc/`).
@@ -98,22 +114,16 @@ cast send 0x000000000000000000000000000000000000F210 \
 
 Send to **F210**, not F201. Raw `cast call` F201 from a non-F210 caller empty-reverts. Use a full `bytes32` zero (`0x0000…0000`), not `0x0`.
 
-## Mode A version conflict (Sprint 2)
+## Mode A (`--engine`)
 
-**Stopped without bumping Reth.** Facts:
-
-1. Quub pins **`paradigmxyz/reth` `v2.5.2`** (`Cargo.toml` workspace dep). That tree has **no** `crates/optimism` / `reth-optimism-*` packages (op-reth was removed from the Reth monorepo).
-2. Current op-reth lives in **`ethereum-optimism/optimism`** (`rust/op-reth/`) and pins **`op-rs/reth`**, not `paradigmxyz/reth` `v2.5.2`. Latest published tag observed: **`op-reth/v2.4.4`**.
-3. Wiring `quub-consensus-op` to OP Engine API + deposit types therefore cannot compile against the locked Quub Reth pin without either bumping / switching the Reth source (forbidden this sprint) or vendoring a second Reth (forbidden: do not fork Reth).
-
-See `crates/quub-consensus-op/CONFLICT.md`. `scripts/mode-a.sh` exits with this conflict. `quub-node --engine` prints the same and exits non-zero. **`--dev` on 8545 remains the working path.**
-
-When unblocked: L2 HTTP **9545**, authrpc **9551**, JWT file, same F210–F213 alloc, chain id **8091**. Not Sepolia.
+- L2 HTTP **9545**, authrpc **9551**, JWT file, chain id **8091**. Not Sepolia.
+- Uses Optimism node types + the same Quub precompiles. No `--dev` miner on this process.
+- Genesis / `rollup.json` / L1 portal from **op-deployer** (or official local-dev for op-node/v1.19.7), then overlay F210–F213. Never invent a portal address.
 
 ```bash
-bash scripts/mode-a.sh   # currently exits: Mode A blocked
+bash scripts/mode-a.sh
 ```
 
 ## Locked stack
 
-Rust + Solidity + Foundry. Mode A (OP Stack) is the default **crate feature** (`mode-a`); launch does not start `op-node` until the Reth pin conflict is resolved by a human decision. Mode B (Simplex) is feature-flagged and never enabled in the same binary. Not Substrate. Not a custom VM.
+Rust + Solidity + Foundry. Mode A (OP Stack) is the default crate feature (`mode-a`). Mode B (Simplex) is feature-flagged and never enabled in the same binary. Not Substrate. Not a custom VM.

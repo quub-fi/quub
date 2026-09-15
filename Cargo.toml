@@ -32,8 +32,8 @@ quub-pool = { path = "crates/quub-pool" }
 quub-consensus-op = { path = "crates/quub-consensus-op" }
 quub-consensus-simplex = { path = "crates/quub-consensus-simplex" }
 thiserror = "2"
-# Do not override revm past this tag. No [patch].
-reth-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v2.5.2", default-features = false }
+# ADR-016: one Reth remote. Do not override revm past this rev. No [patch] second Reth.
+reth-ethereum = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
 
 [profile.dev]
 debug = 0

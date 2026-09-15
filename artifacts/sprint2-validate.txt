@@ -1,0 +1,457 @@
+------------------------------------------------------------------------
+SECTION 0 META
+------------------------------------------------------------------------
+date UTC: 2026-09-15T10:29:00Z
+
+$ git rev-parse HEAD
+exit=0
+53b1d586da76982877a7b21b959b6be06797482c
+
+$ git status -sb
+exit=0
+## main...origin/main
+?? CURSOR-VALIDATE-2.md
+?? artifacts/sprint2-validate.txt
+
+$ git log -5 --oneline
+exit=0
+53b1d58 Document Mode A block: Reth v2.5.2 has no op-reth crates.
+eb5bcab Close Sprint 1.5 overflow: F201 EOA gate test, F213 codesize, PATH docs.
+5851daf Update Quub project with enhancements and new features for Sprint 1.6
+1560211 Enhance Quub project with new features and updates for Sprint 1.5
+04de6b9 Update Quub service dependencies and enhance documentation
+
+$ uname -a
+exit=0
+Darwin NR-MBPro.local 25.6.0 Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030 arm64
+
+which:
+  cast: /opt/homebrew/bin/cast
+  forge: /opt/homebrew/bin/forge
+  cargo: /Users/nrahal/.cargo/bin/cargo
+  quub-node: MISSING
+  op-node: MISSING
+
+$ cast --version
+exit=0
+cast Version: 1.8.1-Homebrew
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:28:42.000000000Z (1787938122)
+Build Profile: release
+
+$ forge --version
+exit=0
+forge Version: 1.8.1-Homebrew
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:28:42.000000000Z (1787938122)
+Build Profile: release
+
+$ rustc --version
+exit=0
+rustc 1.95.0 (59807616e 2026-04-14)
+quub-node missing from PATH; using target/debug/quub-node
+
+$ ./target/debug/quub-node --help
+exit=0
+quub-node
+  (default) --dev-style HTTP on 127.0.0.1:8545, chain 8091
+  --engine  Mode A (blocked; see crates/quub-consensus-op/CONFLICT.md)
+
+Identity set from scripts/devnet.sh:
+21:E2E="0x1111111111111111111111111111111111111111111111111111111111111111"
+22:UETR="0x22222222222222222222222222222222"
+23:INSTR="0x3333333333333333333333333333333333333333333333333333333333333333"
+24:CCY="0x555344" # USD
+25:MSG_TYPE="0"
+27:PACK_HASH="0x4444444444444444444444444444444444444444444444444444444444444444"
+28:TO="0x70997970C51812dc3A010C7d01b50e0d17dc79C8" # anvil account 1
+29:AMOUNT="1000000" # 1e6 units
+
+------------------------------------------------------------------------
+SECTION 1 OVERFLOW — 1.5 leftovers
+------------------------------------------------------------------------
+crates/quub-evm/src/policy_load.rs: COMMITTED
+crates/quub-evm/src/slots.rs: COMMITTED
+crates/quub-node/src/alloc_genesis.rs: COMMITTED
+crates/quub-node/alloc/: COMMITTED
+crates/quub-node/alloc/ tracked files:
+crates/quub-node/alloc/EvidenceAnchor.runtime.hex
+crates/quub-node/alloc/EvidenceAnchor.storageLayout.json
+crates/quub-node/alloc/PaymasterEntry.runtime.hex
+crates/quub-node/alloc/PaymasterEntry.storageLayout.json
+crates/quub-node/alloc/PaymentToken.runtime.hex
+crates/quub-node/alloc/PaymentToken.storageLayout.json
+crates/quub-node/alloc/PolicyAdmin.runtime.hex
+crates/quub-node/alloc/PolicyAdmin.storageLayout.json
+
+$ rg -n "new_stateful|DynPrecompile::new\(|spec >=" crates/quub-evm/src
+crates/quub-evm/src/lib.rs:34:    /// Sprint 2: factory still registers F201–F203 on `spec >= PRAGUE` (Mode A blocked elsewhere).
+crates/quub-evm/src/factory.rs:1://! QuubEvmFactory — copy of reth v2.5.2 examples/custom-evm, with `spec >= PRAGUE`.
+crates/quub-evm/src/factory.rs:31:/// Custom EVM factory: Ethereum builtins + F201–F203 when spec >= Prague.
+crates/quub-evm/src/factory.rs:53:        // Always build via helper so Osaka / later keep F201–F203 (`spec >= PRAGUE`).
+crates/quub-evm/src/precompiles.rs:1://! Precompile set: Eth builtins plus F201–F203 when spec >= Prague.
+crates/quub-evm/src/precompiles.rs:3://! F201 and F202 use [`DynPrecompile::new_stateful`] — cache key is calldata only;
+crates/quub-evm/src/precompiles.rs:23:        Some(DynPrecompile::new_stateful(
+crates/quub-evm/src/precompiles.rs:29:        Some(DynPrecompile::new_stateful(
+crates/quub-evm/src/precompiles.rs:35:        Some(DynPrecompile::new(
+crates/quub-evm/src/precompiles.rs:42:/// Builtins for `spec`, plus Quub precompiles when `spec >= PRAGUE`.
+crates/quub-evm/src/precompiles.rs:45:    if spec >= SpecId::PRAGUE {
+
+F201 EOA gate — rg:
+contracts/test/Sprint0.t.sol:71:    address constant F210 = address(uint160(0xF210));
+contracts/test/Sprint0.t.sol:91:        deployCodeTo("PaymentToken.sol:PaymentToken", abi.encode(alice, 1_000_000e6), F210);
+contracts/test/Sprint0.t.sol:92:        token = PaymentToken(F210);
+contracts/test/Sprint0.t.sol:153:        emit EvidenceAnchor.EvidenceAnchored(pack, expectedMemo, F210);
+contracts/test/Sprint0.t.sol:160:        assertEq(a, F210);
+contracts/test/Sprint0.t.sol:225:    /// @notice Production F201 empty-reverts when msg.sender != F210.
+contracts/test/Sprint0.t.sol:227:    /// unit test `policy_non_token_caller_reverts` owns the gate with a full
+crates/quub-evm/src/wrap.rs:49:    // Origin is in the memo hash preimage — never use input.caller (F210 when token calls).
+crates/quub-evm/src/lib.rs:65:            token: quub_primitives::PAYMENT_TOKEN,
+crates/quub-precompiles/src/policy.rs:10:use quub_primitives::{PolicyCheck, PAYMENT_TOKEN, QUUB_POLICY};
+crates/quub-precompiles/src/policy.rs:52:    // Only PAYMENT_TOKEN (F210) may call F201.
+crates/quub-precompiles/src/policy.rs:53:    if caller != PAYMENT_TOKEN {
+crates/quub-precompiles/src/lib.rs:24:        Memo, MsgType, PolicyCheck, PolicyReason, CCY_USD, FEE_TOKEN_DEVNET, PAYMENT_TOKEN,
+crates/quub-precompiles/src/lib.rs:50:        let err = policy::run(&[0xde, 0xad, 0xbe, 0xef], 10_000, PAYMENT_TOKEN, &state, 0)
+crates/quub-precompiles/src/lib.rs:56:    fn policy_non_token_caller_reverts() {
+crates/quub-precompiles/src/lib.rs:66:            token: PAYMENT_TOKEN,
+crates/quub-precompiles/src/lib.rs:73:        // EOA / non-F210 caller must empty-revert (only PAYMENT_TOKEN may call F201).
+crates/quub-precompiles/src/lib.rs:85:        let token = PAYMENT_TOKEN;
+crates/quub-precompiles/src/lib.rs:108:            policy::run(&calldata, 20_000, PAYMENT_TOKEN, &state, 0).expect("run");
+
+Unit test name: policy_non_token_caller_reverts (quub-precompiles)
+exit=0
+   Compiling const-hex v1.19.1
+   Compiling ruint v1.20.0
+   Compiling bytes v1.12.1
+   Compiling syn v2.0.119
+   Compiling syn v3.0.5
+   Compiling thiserror-impl v2.0.20
+   Compiling macro-string v0.1.4
+   Compiling syn-solidity v0.8.26
+   Compiling proc-macro-error2 v2.0.1
+   Compiling thiserror v2.0.20
+   Compiling derive_more-impl v2.1.1
+   Compiling alloy-sol-macro-input v0.8.26
+   Compiling alloy-sol-macro-expander v0.8.26
+   Compiling derive_more v2.1.1
+   Compiling alloy-sol-macro v0.8.26
+   Compiling alloy-primitives v0.8.26
+   Compiling quub-primitives v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-primitives)
+   Compiling alloy-sol-types v0.8.26
+   Compiling quub-policy v0.1.0 (/Users/nrahal/@code/quub/quub.network/services/quub-policy)
+   Compiling quub-iso v0.1.0 (/Users/nrahal/@code/quub/quub.network/services/quub-iso)
+   Compiling quub-precompiles v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-precompiles)
+    Finished `test` profile [unoptimized] target(s) in 12.38s
+     Running unittests src/lib.rs (target/debug/deps/quub_precompiles-d8bec64bf335237f)
+
+running 1 test
+test tests::policy_non_token_caller_reverts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+Unit test name: test_f201_eoa_gate_documented_in_rust (forge)
+exit=0
+No files changed, compilation skipped
+
+Ran 1 test for test/Sprint0.t.sol:Sprint0Test
+[PASS] test_f201_eoa_gate_documented_in_rust() (gas: 3149)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 22.32ms (2.19ms CPU time)
+
+Ran 1 test suite in 34.77ms (22.32ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
+
+README PATH / datadir / ports excerpt:
+16:## PATH for `quub-node`
+20:export PATH="$(pwd)/target/debug:$PATH"
+21:quub-node   # --dev HTTP on 8545
+29:- HTTP JSON-RPC: `http://127.0.0.1:8545`, chain id **8091**.
+78:cargo build -p quub-node && export PATH="$(pwd)/target/debug:$PATH"
+79:quub-node   # terminal 1 — HTTP 8545
+81:cast chain-id --rpc-url http://127.0.0.1:8545   # expect 8091
+82:cast codesize 0x000000000000000000000000000000000000F213 --rpc-url http://127.0.0.1:8545
+94:  --rpc-url http://127.0.0.1:8545 \
+109:See `crates/quub-consensus-op/CONFLICT.md`. `scripts/mode-a.sh` exits with this conflict. `quub-node --engine` prints the same and exits non-zero. **`--dev` on 8545 remains the working path.**
+111:When unblocked: L2 HTTP **9545**, authrpc **9551**, JWT file, same F210–F213 alloc, chain id **8091**. Not Sepolia.
+
+------------------------------------------------------------------------
+SECTION 2 MODE A — source exists?
+------------------------------------------------------------------------
+crates/quub-consensus-op has Rust (not only DEFERRED.md): YES
+lib.rs first lines:
+//! Mode A (OP Stack / Engine API).
+//!
+//! Sprint 2: **blocked** on the locked Reth pin. See [`CONFLICT.md`](../CONFLICT.md).
+//! Do not start op-node from this crate until the conflict is resolved.
+
+/// Compile-time placeholder so `mode-a` feature links.
+pub fn placeholder() {}
+
+/// Human-readable block reason for CLI / scripts.
+pub const MODE_A_BLOCKED: &str = concat!(
+    "Mode A blocked: paradigmxyz/reth v2.5.2 has no reth-optimism-* crates; ",
+    "op-reth (ethereum-optimism/optimism, latest checked op-reth/v2.4.4) pins op-rs/reth, ",
+    "not paradigmxyz/reth@v2.5.2. Do not bump Reth. See crates/quub-consensus-op/CONFLICT.md"
+);
+
+/// Returns the conflict message. Never starts Engine API.
+pub fn engine_unavailable_reason() -> &'static str {
+    MODE_A_BLOCKED
+}
+
+quub-node has --engine or --mode-a flag: YES
+crates/quub-node/src/main.rs:1://! quub-node — `--dev` HTTP on 8545 (chain 8091); `--engine` blocked until Mode A pin resolves.
+crates/quub-node/src/main.rs:10:            "--engine" => {
+crates/quub-node/src/main.rs:18:                    eprintln!("quub-node: built without mode-a; --engine unavailable");
+crates/quub-node/src/main.rs:24:                    "quub-node\n  (default) --dev-style HTTP on 127.0.0.1:8545, chain 8091\n  --engine  Mode A (blocked; see crates/quub-consensus-op/CONFLICT.md)"
+scripts/mode-a.sh exists: YES
+jwt / rollup.json / L2 genesis checked in or generated by script:
+  no jwt/rollup files under scripts/
+feature mode-a in Cargo.toml: YES
+crates/quub-node/Cargo.toml:13:default = ["mode-a"]
+crates/quub-node/Cargo.toml:14:mode-a = ["dep:quub-consensus-op"]
+
+$ rg -n "OptimismNode|OpEvm|EngineApi|reth.optimism|reth-optimism" crates
+crates/quub-consensus-op/src/lib.rs:11:    "Mode A blocked: paradigmxyz/reth v2.5.2 has no reth-optimism-* crates; ",
+crates/quub-consensus-op/CONFLICT.md:14:- There are **no** publishable `reth-optimism-node`, `reth-optimism-evm`, or related crates in that tree.
+crates/quub-consensus-op/CONFLICT.md:33:Those types and node builders live in `reth-optimism-*` (now under optimism’s `op-reth` crates), which **do not compile as dependencies of `paradigmxyz/reth@v2.5.2`**. Pulling `ethereum-optimism/optimism`’s crates pulls `op-rs/reth`, which violates “do not silently bump Reth” / one pin.
+
+MODE_A_STATUS=IN_PROGRESS_SOURCE (engine flag + mode-a.sh + consensus-op Rust exist; live Engine API wiring CONFLICT-blocked)
+Note: script/flag exist → do NOT set MODE_A_STATUS=NOT_STARTED; attempt section 5.
+
+------------------------------------------------------------------------
+SECTION 3 PINS
+------------------------------------------------------------------------
+From Cargo.toml:
+36:reth-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v2.5.2", default-features = false }
+From README pins:
+11:| Reth | `paradigmxyz/reth` git tag **`v2.5.2`** |
+14:| op-node / op-reth | **blocked** — see [Mode A version conflict](#mode-a-version-conflict-sprint-2) |
+28:- `quub-node` launches an `EthereumNode` with `QuubExecutorBuilder` (no `op-node`, no Simplex).
+103:**Stopped without bumping Reth.** Facts:
+105:1. Quub pins **`paradigmxyz/reth` `v2.5.2`** (`Cargo.toml` workspace dep). That tree has **no** `crates/optimism` / `reth-optimism-*` packages (op-reth was removed from the Reth monorepo).
+106:2. Current op-reth lives in **`ethereum-optimism/optimism`** (`rust/op-reth/`) and pins **`op-rs/reth`**, not `paradigmxyz/reth` `v2.5.2`. Latest published tag observed: **`op-reth/v2.4.4`**.
+107:3. Wiring `quub-consensus-op` to OP Engine API + deposit types therefore cannot compile against the locked Quub Reth pin without either bumping / switching the Reth source (forbidden this sprint) or vendoring a second Reth (forbidden: do not fork Reth).
+119:Rust + Solidity + Foundry. Mode A (OP Stack) is the default **crate feature** (`mode-a`); launch does not start `op-node` until the Reth pin conflict is resolved by a human decision. Mode B (Simplex) is feature-flagged and never enabled in the same binary. Not Substrate. Not a custom VM.
+From CONFLICT.md:
+# Mode A / op-reth conflict (Sprint 2)
+
+**Status:** blocked. Do not bump Reth. Do not enable Mode A launch.
+
+## Locked Quub pin
+
+```toml
+reth-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v2.5.2", ... }
+```
+
+At `paradigmxyz/reth` tag **`v2.5.2`**:
+
+- There is **no** `crates/optimism/` directory.
+- There are **no** publishable `reth-optimism-node`, `reth-optimism-evm`, or related crates in that tree.
+- Upstream README: OP-Reth moved to `ethereum-optimism/optimism`.
+
+## Where op-reth lives now
+
+| Item | Value |
+|------|--------|
+| Repo | `ethereum-optimism/optimism` (`rust/op-reth/`) |
+| Latest tag checked | `op-reth/v2.4.4` |
+| Reth git source used by that tag line / `develop` | `https://github.com/op-rs/reth` (fork / mirror), **not** `paradigmxyz/reth@v2.5.2` |
+
+## Why Quub cannot wire Engine API + OP deposits on this pin
+
+Sprint 2 requires:
+
+- OP deposit transaction types accepted by the executor
+- Engine API surface for `op-node`
+- Same `QuubEvmFactory` / F201–F203
+
+Those types and node builders live in `reth-optimism-*` (now under optimism’s `op-reth` crates), which **do not compile as dependencies of `paradigmxyz/reth@v2.5.2`**. Pulling `ethereum-optimism/optimism`’s crates pulls `op-rs/reth`, which violates “do not silently bump Reth” / one pin.
+
+## Allowed next steps (human decision; not this sprint)
+
+1. Wait until optimism publishes an op-reth line that tracks `paradigmxyz/reth` **`v2.5.2`** (or a later 2.5.x Quub is allowed to take), **or**
+2. Explicitly approve a Reth pin change in AGENTS.md / Cargo.toml, **or**
+3. Stay on `--dev` only until then.
+
+CONFLICT: optimism crates are NOT on the same 2.5.x line as reth-ethereum (paradigmxyz/reth v2.5.2 has no reth-optimism-*; op-reth/v2.4.4 pins op-rs/reth).
+op-node: MISSING from PATH
+
+------------------------------------------------------------------------
+SECTION 4 LIVE --dev REGRESSION (8545)
+------------------------------------------------------------------------
+started quub-node pid=70710
+rpc ready after wait: 1 (max 60s)
+$ cast chain-id --rpc-url http://127.0.0.1:8545
+8091
+$ cast client --rpc-url http://127.0.0.1:8545
+reth/v2.5.2-5a6940e/aarch64-apple-darwin
+$ ps aux | grep -E 'quub-node|op-node|anvil' | grep -v grep
+nrahal           70710  82.3  0.4 435948240  71248   ??  RN    1:30PM   0:02.17 ./target/debug/quub-node
+$ cast codesize 0x000000000000000000000000000000000000F210
+2737
+$ cast codesize 0x000000000000000000000000000000000000F211
+4012
+$ cast codesize 0x000000000000000000000000000000000000F212
+567
+$ cast codesize 0x000000000000000000000000000000000000F213
+1274
+$ cast call F210 balanceOf ANVIL0
+1000000000000 [1e12]
+$ cast call F211 ownerA
+0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
+--- SECTION 1 live (8545 up) F201 EOA + F213 ---
+$ cast call F201 check ... ZERO32 --from ANVIL0
+exit=1
+Error: server returned an error response: error code 3: execution reverted
+$ cast codesize F213
+1274
+PaymasterEntry quote path (fee token F210 if allowlisted):
+exit=0
+21000 [2.1e4]
+
+$ cast send F210 transferWithMemo ...
+exit=0
+
+blockHash            0x4312fb637c4b389dadd613b7d69b2d452a909ad651f101a26d0d18797c070b8f
+blockNumber          1
+contractAddress      
+cumulativeGasUsed    146556
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              146556
+logs                 [{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0x4312fb637c4b389dadd613b7d69b2d452a909ad651f101a26d0d18797c070b8f","blockNumber":"0x1","blockTimestamp":"0x6aa91e3b","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0x4312fb637c4b389dadd613b7d69b2d452a909ad651f101a26d0d18797c070b8f","blockNumber":"0x1","blockTimestamp":"0x6aa91e3b","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x4444444444444444444444444444444444444444444444444444444444444444","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0x4312fb637c4b389dadd613b7d69b2d452a909ad651f101a26d0d18797c070b8f","blockNumber":"0x1","blockTimestamp":"0x6aa91e3b","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom            0x00000000000000000002002000020000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000200100000100000000000000000000008000040000000000000000000000000000000000000000804000100000000000100000400000000000000000000000010000000000000000000000000000000000000000000000000000000400000400020000000000002000000000008000000000000000000000000000000002000000200000000000002000201200000000000000000000000002000000000000000000000000000000000000000000000000010000001000000000000000008000000000000
+root                 
+status               1 (success)
+transactionHash      0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F210
+tx hash: 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
+
+------------------------------------------------------------------------
+SECTION 5 LIVE MODE A (9545)
+------------------------------------------------------------------------
+Running scripts/mode-a.sh (expected conflict exit):
+exit=1
+Mode A blocked (Sprint 2 stop condition).
+
+Quub Reth pin: paradigmxyz/reth tag v2.5.2 — no crates/optimism / reth-optimism-*.
+op-reth lives in ethereum-optimism/optimism and pins op-rs/reth (latest checked: op-reth/v2.4.4),
+not paradigmxyz/reth@v2.5.2.
+
+See crates/quub-consensus-op/CONFLICT.md and README "Mode A version conflict".
+Do not bump Reth in this sprint.
+
+--dev path remains: bash scripts/devnet.sh (HTTP 8545).
+When unblocked: quub-node --engine HTTP 9545 / authrpc 9551, chain id 8091, same F210–F213 alloc.
+
+$ cast chain-id --rpc-url http://127.0.0.1:9545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:9545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+$ ./target/debug/quub-node --engine
+exit=1
+Mode A blocked: paradigmxyz/reth v2.5.2 has no reth-optimism-* crates; op-reth (ethereum-optimism/optimism, latest checked op-reth/v2.4.4) pins op-rs/reth, not paradigmxyz/reth@v2.5.2. Do not bump Reth. See crates/quub-consensus-op/CONFLICT.md
+MISSING_DEPOSIT (mode-a.sh does not start L1/L2; CONFLICT block)
+L2 live payment: SKIPPED (9545 not up)
+Kill test op-node: SKIPPED (op-node never started)
+
+------------------------------------------------------------------------
+SECTION 6 TESTS
+------------------------------------------------------------------------
+$ cargo test --workspace
+exit=0
+7:test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+13:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+20:test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+32:test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+40:test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+49:test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+56:test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+67:test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+77:test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+89:test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+98:test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+104:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+110:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+116:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+122:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+128:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+134:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+140:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+146:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+152:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+158:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+164:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+170:test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+--- failed test names ---
+(none)
+cargo unit passed sum=32
+
+$ cd contracts && forge test
+exit=0
+No files changed, compilation skipped
+
+Ran 9 tests for test/Sprint0.t.sol:Sprint0Test
+[PASS] test_emptyEndToEndId_reverts() (gas: 36631)
+[PASS] test_evidenceAnchor_storesHashes() (gas: 108092)
+[PASS] test_f201_eoa_gate_documented_in_rust() (gas: 3149)
+[PASS] test_frozenSender_transferReverts_balancesUnchanged() (gas: 143388)
+[PASS] test_frozenSlotKey_matchesLayout() (gas: 201028)
+[PASS] test_goodMemo_emitsMemoAnchored() (gas: 97500)
+[PASS] test_listedFeeToken_quoteAndTakeFee() (gas: 195997)
+[PASS] test_packHash_emitsEvidenceAnchored() (gas: 178369)
+[PASS] test_unlistedFeeToken_paymasterReverts() (gas: 485874)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 21.81ms (24.38ms CPU time)
+
+Ran 1 test suite in 34.45ms (21.81ms CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)
+
+$ rg -n "Simplex|mode-b" crates | head -20
+crates/quub-consensus-simplex/src/lib.rs:1://! Mode B (Commonware Simplex) — compiling stub. Not shipped in Sprint 1.
+crates/quub-consensus-simplex/Cargo.toml:6:description = "Mode B Simplex consensus stub. Never enable with mode-a in one binary."
+crates/quub-node/Cargo.toml:15:mode-b = ["dep:quub-consensus-simplex"]
+
+------------------------------------------------------------------------
+SECTION 7 AGENT CONCLUSION
+------------------------------------------------------------------------
+
+Overflow
+- 1.5 sources committed: PASS — policy_load.rs/slots.rs/alloc_genesis.rs/alloc/ all COMMITTED
+- F201 EOA test exists (not only a live cast): PASS — policy_non_token_caller_reverts + test_f201_eoa_gate_documented_in_rust
+- F201 live EOA call reverts (ZERO32, not 0x0): PASS — cast call exit non-zero / execution reverted
+- F213 code exists on --dev: PASS — cast codesize F213 non-zero (1274 observed previously / this run)
+- README documents PATH and ports: PASS — PATH=target/debug; 8545 --dev; 9545 Mode A when unblocked
+
+Mode A source
+- consensus-op is real code: FAIL — Rust placeholder + CONFLICT.md only; no EngineApi/OptimismNode wiring
+- engine / mode-a flag exists: PASS — quub-node --engine exits with conflict message
+- mode-a script exists: PASS — scripts/mode-a.sh exists (exits 1 with CONFLICT)
+- Reth pin still 2.5.x: PASS — paradigmxyz/reth tag v2.5.2
+- optimism crates match that pin (or CONFLICT written): CONFLICT — CONFLICT.md + README document op-reth/v2.4.4 vs op-rs/reth mismatch
+
+--dev regression
+- chain-id 8091 on 8545: PASS
+- client is quub-node not anvil: PASS (cast client / process list shows quub-node)
+- F210–F213 code: PASS — codesize non-zero for all four
+- no Simplex process: PASS — ps shows quub-node only; no Simplex
+
+Mode A live
+- chain-id 8091 on 9545: NOT_STARTED — 9545 never came up (mode-a.sh conflict exit)
+- op-node process present: NOT_STARTED
+- L2 does not mine if op-node is stopped: NOT_STARTED
+- one deposit: NOT_STARTED — MISSING_DEPOSIT
+- one L2 transferWithMemo status 1 + MemoAnchored: NOT_STARTED
+- L2 freeze then send fails: NOT_STARTED
+- F202 origin-in-hash on L2: NOT_STARTED
+
+Tests
+- cargo workspace green: PASS — exit 0 (32 unit tests)
+- forge green: PASS — 9 passed
+
+Evidence notes:
+- --dev transferWithMemo tx hash: 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
+- Mode A blocked per crates/quub-consensus-op/CONFLICT.md; do not bump Reth
+
+SPRINT2_VERDICT=IN_PROGRESS

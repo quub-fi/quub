@@ -37,7 +37,7 @@ Prose: Quub. Code: `quub`. Never write Qubic, QUB, QUBE, QUBC, or QUBIC. There i
 These are not suggestions.
 
 1. **Rust node. EVM execution. Solidity money contracts.** Foundry for contracts. Alloy for Rust Ethereum types.
-2. **Reth is a library.** Pin `paradigmxyz/reth` at a 2.5.x git rev compatible with `op-reth` 2.4.x. Do not fork Reth. Do not override `revm` past that rev.
+2. **Reth is a library.** Pin per **ADR-016**: `op-rs/reth` rev `aef8d3ef92117f91455e16969f0adf5bf7c6e9e1` (what `op-reth/v2.4.4` uses) and `reth-optimism-*` from `ethereum-optimism/optimism` tag `op-reth/v2.4.4`. Pair Mode A with **op-node v1.19.7**. One Reth remote only. Do not fork Reth. Do not override `revm` past that rev.
 3. **Default consensus is Mode A:** OP Stack rollup shape (`op-reth` + `op-node` via Engine API). Ethereum blobs later. Year-1 local: `quub-node --dev` is enough.
 4. **Mode B is Commonware Simplex**, feature-flagged, same `quub-evm`. Never enable `mode-a` and `mode-b` in one binary.
 5. **Not Substrate. Not FRAME. Not ink!. Not Cosmos SDK. Not CosmWasm. Not SVM. Not Move. Not a custom VM. Not JAM. Not PolkaVM.**
@@ -259,7 +259,7 @@ Stop. Print the tree. Do not start Reth.
 
 Goal: `quub-node --dev` produces a local block in which `transferWithMemo` hits F201/F202.
 
-1. Pin Reth 2.5.x + matching Alloy. Add `quub-evm` using `PrecompilesMap` + `DynPrecompile`. Bodies call the same functions as `quub-policy` / `quub-iso`.
+1. Pin Reth per ADR-016 (`op-rs/reth` @ `aef8d3ef…` + optimism `op-reth/v2.4.4`) + matching Alloy. Add `quub-evm` using `PrecompilesMap` + `DynPrecompile`. Bodies call the same functions as `quub-policy` / `quub-iso`.
 2. `quub-node` binary, feature `mode-a`, `--dev`.
 3. `quub-pool` classifier unit tests (selector + length; junk calldata with transfer prefix is **not** a payment).
 4. Script: deploy system contracts to the dev node, run one `transferWithMemo`, assert receipt logs.
