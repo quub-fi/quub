@@ -54,17 +54,27 @@ mod tests {
 
     #[test]
     fn policy_non_token_caller_reverts() {
+        // Real bytes32 zero (32 zero bytes). Not a truncated `0x0` hex literal.
+        let tr_hash = B256::from([0u8; 32]);
+        assert_eq!(
+            format!("{tr_hash}"),
+            "0x0000000000000000000000000000000000000000000000000000000000000000"
+        );
         let state = PolicyState::new();
+        let eoa = address!("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
         let calldata = abi::CheckCall {
             token: PAYMENT_TOKEN,
-            from: address!("0x0000000000000000000000000000000000000001"),
-            to: address!("0x0000000000000000000000000000000000000002"),
-            amount: U256::from(100u64),
-            trHash: B256::ZERO,
+            from: eoa,
+            to: address!("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"),
+            amount: U256::from(1u64),
+            trHash: tr_hash,
         }
         .abi_encode();
-        let err = policy::run(&calldata, 10_000, Address::ZERO, &state, 0).unwrap_err();
+        // EOA / non-F210 caller must empty-revert (only PAYMENT_TOKEN may call F201).
+        let err = policy::run(&calldata, 10_000, eoa, &state, 0).unwrap_err();
         assert_eq!(err, PrecompileError::empty_revert());
+        let err_zero = policy::run(&calldata, 10_000, Address::ZERO, &state, 0).unwrap_err();
+        assert_eq!(err_zero, PrecompileError::empty_revert());
     }
 
     #[test]

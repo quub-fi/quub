@@ -51,8 +51,13 @@ pub async fn launch() -> eyre::Result<()> {
     node_config.rpc.ws_port = 0;
 
     eprintln!(
-        "quub-node: http={}:{}",
+        "quub-node: http={}:{} chain=8091 mode=--dev",
         node_config.rpc.http_addr, node_config.rpc.http_port
+    );
+    // `NodeConfig::test()` uses an ephemeral datadir; receipts do not survive restart.
+    eprintln!(
+        "quub-node: datadir={} (ephemeral --dev; wiped on exit)",
+        node_config.datadir().data_dir().display()
     );
 
     let NodeHandle {

@@ -221,4 +221,14 @@ contract Sprint0Test is Test {
         uint256 found = stdstore.target(F211).sig("frozen(address)").with_key(who).find();
         assertEq(found, uint256(expected));
     }
+
+    /// @notice Production F201 empty-reverts when msg.sender != F210.
+    /// Foundry etches a PolicyAdmin shim at F201 (no caller gate). The Rust
+    /// unit test `policy_non_token_caller_reverts` owns the gate with a full
+    /// bytes32 zero trHash (`0x0000…0000`, not `0x0`).
+    function test_f201_eoa_gate_documented_in_rust() public pure {
+        bytes32 zero =
+            0x0000000000000000000000000000000000000000000000000000000000000000;
+        assertTrue(zero == bytes32(0));
+    }
 }

@@ -66,6 +66,9 @@ if [[ "$CHAIN_ID" != "8091" ]]; then
   exit 1
 fi
 
+echo "=== datadir ==="
+echo "ephemeral NodeConfig::test() datadir (see quub-node stderr); receipts do not survive restart"
+
 echo "=== contract addresses ==="
 echo "F201 (policy precompile):  $F201"
 echo "F202 (iso memo precompile): $F202"
@@ -81,8 +84,16 @@ for addr in "$F210" "$F211" "$F212" "$F213"; do
     echo "expected non-empty code at $addr" >&2
     exit 1
   fi
-  echo "cast code $addr: ${#code} hex chars"
+  codesize="$(cast codesize "$addr" --rpc-url "$RPC" 2>/dev/null || echo "?")"
+  echo "cast code $addr: ${#code} hex chars; codesize=$codesize"
 done
+
+F213_SIZE="$(cast codesize "$F213" --rpc-url "$RPC")"
+if [[ "$F213_SIZE" == "0" || -z "$F213_SIZE" ]]; then
+  echo "F213 expected non-zero codesize (genesis etch PaymasterEntry)" >&2
+  exit 1
+fi
+echo "F213 codesize: $F213_SIZE"
 
 BAL="$(cast call "$F210" "balanceOf(address)(uint256)" "$DEV_ADDR" --rpc-url "$RPC")"
 echo "dev balanceOf: $BAL"
