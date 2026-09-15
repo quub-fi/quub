@@ -3,8 +3,11 @@ name = "quub-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Quub Gateway — multi-rail router stubs (Base + Solana); no network I/O in unit tests"
+description = "Quub Gateway — multi-rail router; CCTP V2 → Base Sepolia (ADR-020)"
 
 [dependencies]
-alloy-primitives = { workspace = true }
+alloy-primitives = { workspace = true, features = ["serde"] }
+hex = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 thiserror = { workspace = true }

@@ -115,6 +115,25 @@ cast send 0x000000000000000000000000000000000000F210 \
 
 Send to **F210**, not F201. Raw `cast call` F201 from a non-F210 caller empty-reverts. Use a full `bytes32` zero (`0x0000…0000`), not `0x0`.
 
+## CCTP → Base (Sprint 6 / ADR-020)
+
+Quub records the memo on **8091**. Circle moves USDC (Sepolia burn → Base Sepolia mint). Mock is valid when live env is unset.
+
+| Var | Role |
+|-----|------|
+| `SEPOLIA_RPC` | Ethereum Sepolia RPC (live burn) |
+| `BASE_SEPOLIA_RPC` | Base Sepolia RPC (live mint) |
+| `CIRCLE_API` | Circle attestation API base (e.g. iris sandbox) |
+| `CCTP_BURNER_KEY` | Funded Sepolia burner; ≤1 USDC |
+
+```bash
+bash scripts/rail-base.sh
+# prints: mode=live|mock, quub_tx, memoHash, burn_id, mint_id
+# fails if burn_id == quub_tx
+```
+
+Pins: [`specs/rail-cctp.md`](specs/rail-cctp.md). ADR: [`docs/adr/ADR-020-cctp-base-rail.md`](docs/adr/ADR-020-cctp-base-rail.md).
+
 ## Mode A (`--engine`)
 
 - L2 HTTP **9545**, authrpc **9551**, JWT file, chain id **8091**. Not Sepolia.

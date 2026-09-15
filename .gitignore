@@ -23,3 +23,6 @@ artifacts/mode-a/l1-geth-test/
 artifacts/mode-a/l2-reth/
 artifacts/mode-a/bin/
 artifacts/mode-a/jwt.txt
+
+# Sprint 6 rail mock/live records
+artifacts/rail-base/
