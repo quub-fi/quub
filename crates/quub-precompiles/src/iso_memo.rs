@@ -1,11 +1,11 @@
-//! F202 ISO memo — `validateAndCommit`. Calls `xzero_iso::validate_and_commit`.
+//! F202 ISO memo — `validateAndCommit`. Calls `quub_iso::validate_and_commit`.
 
 use crate::abi::ValidateAndCommitCall;
 use crate::error::PrecompileError;
 use alloy_primitives::{Address, Bytes};
 use alloy_sol_types::{SolCall, SolValue};
+use quub_iso::validate_and_commit;
 use quub_primitives::{Memo, MsgType, QUUB_ISO_MEMO};
-use xzero_iso::validate_and_commit;
 
 pub const ADDRESS: Address = QUUB_ISO_MEMO;
 pub const GAS: u64 = 2_500;

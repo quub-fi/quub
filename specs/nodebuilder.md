@@ -1,12 +1,13 @@
 # Quub NodeBuilder Sketch
 **Network name:** quub (working)  
-**Company / orchestration:** fazeZERO / xZERO — do not rename  
+**Company:** fazeZERO (legal entity only)  
+**Product:** Quub (ledger + Policy / Memo / Evidence / Gateway)  
 **Status:** implementation pack, not a whitepaper  
 **Date:** 15 September 2026  
 **Pin window:** Reth 2.5.x / op-reth 2.4.x / Commonware consensus current  
 **Rule:** one execution crate. Consensus is a feature flag. Do not fork Reth.
 
-Quub is the ledger. xZERO stays the off-chain orchestration, ISO mapper, and evidence plane. Architecture is unchanged from the prior sketch; only names move.
+Quub is the only product. Quub Policy, Quub Memo / Quub ISO, Quub Evidence, and Quub Gateway are components of that product — not a sister brand.
 
 ### Naming rules
 | Surface | Value |
@@ -277,7 +278,7 @@ Reason codes (frozen, never reuse):
 
 ## 7. Precompile 2 — ISO 20022 memo (`0x…F202`)
 
-**Job:** validate the *identity set* of a payment and return a commitment. Full `pacs.008` / `pain.001` XML stays in the xZERO evidence plane. Nothing that looks like a name, IBAN, or address goes on-chain.
+**Job:** validate the *identity set* of a payment and return a commitment. Full `pacs.008` / `pain.001` XML stays in Quub Evidence. Nothing that looks like a name, IBAN, or address goes on-chain.
 
 ```solidity
 function validateAndCommit(

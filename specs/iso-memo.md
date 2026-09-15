@@ -1,6 +1,6 @@
 # ISO memo canonicalization (F202)
 
-Quub / xZERO ISO memos are an **identity set + hash**. No names, IBANs, XML, or PII go on-chain. Full ISO 20022 documents stay in the xZERO evidence plane.
+Quub Memo / Quub ISO memos are an **identity set + hash**. No names, IBANs, XML, or PII go on-chain. Full ISO 20022 documents stay in Quub Evidence.
 
 ## Off-chain EndToEndId
 
@@ -31,9 +31,9 @@ memoHash = keccak256(abi.encode(endToEndId, uetr, instrId, ccy, msgType, tx.orig
 ```
 
 - **No `block.timestamp` in the hash.** Same inputs always produce the same hash.
-- `tx.origin` (or the off-chain submitting party address in xZERO) is part of the preimage so the memo is bound to the initiator.
+- `tx.origin` (or the off-chain submitting party address in Quub Gateway / Quub ISO) is part of the preimage so the memo is bound to the initiator.
 - Gas target for the precompile path: 2_500.
 
 ## Evidence
 
-Anchor `(packHash, memoHash)` via xZERO evidence / F212. The pack is off-chain; the chain only stores hashes.
+Anchor `(packHash, memoHash)` via Quub Evidence / F212. The pack is off-chain; the chain only stores hashes.

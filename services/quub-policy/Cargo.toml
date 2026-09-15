@@ -1,10 +1,11 @@
 [package]
-name = "xzero-evidence"
+name = "quub-policy"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Off-chain evidence plane (hash anchors only; no PII)"
+description = "Quub Policy Engine — off-chain F201 check (same ABI as Quub precompile)"
 
 [dependencies]
 alloy-primitives = { workspace = true }
+quub-primitives = { workspace = true }
 thiserror = { workspace = true }

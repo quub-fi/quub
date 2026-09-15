@@ -1,9 +1,9 @@
 [package]
-name = "xzero-orchestrator"
+name = "quub-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Multi-rail router stubs (Base + Solana); no network I/O in unit tests"
+description = "Quub Gateway — multi-rail router stubs (Base + Solana); no network I/O in unit tests"
 
 [dependencies]
 alloy-primitives = { workspace = true }

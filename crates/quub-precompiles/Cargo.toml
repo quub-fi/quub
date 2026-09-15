@@ -3,12 +3,12 @@ name = "quub-precompiles"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "F201/F202/F203 bodies. Calls xzero-policy / xzero-iso. No reth dependency."
+description = "F201/F202/F203 bodies. Calls quub-policy / quub-iso. No reth dependency."
 
 [dependencies]
 alloy-primitives = { workspace = true }
 alloy-sol-types = { workspace = true }
 quub-primitives = { workspace = true }
 thiserror = { workspace = true }
-xzero-iso = { path = "../../services/xzero-iso" }
-xzero-policy = { path = "../../services/xzero-policy" }
+quub-iso = { path = "../../services/quub-iso" }
+quub-policy = { path = "../../services/quub-policy" }

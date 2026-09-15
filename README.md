@@ -2,7 +2,7 @@
 
 Quub is a payments fabric. There is no native token.
 
-Quub is the ledger (Rust node + EVM + Solidity facades). **xZERO** is the off-chain orchestration plane (policy, ISO 20022 memos, evidence, multi-rail routing). **fazeZERO** is the company and is not in this repository.
+Quub is the payments fabric: ledger (Rust node + EVM + Solidity facades) plus Quub Policy, Quub Memo / Quub ISO, Quub Evidence, and Quub Gateway. **fazeZERO** is the company and is not in this repository.
 
 ## Sprint 1
 

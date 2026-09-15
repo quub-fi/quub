@@ -10,17 +10,25 @@ Read this entire file before writing code. If a request from a human conflicts w
 
 ---
 
-## 0. Product split (never collapse these)
+## 0. Product (one name)
 
-| Name         | What it is                                                                                 | Lives in                      |
-| ------------ | ------------------------------------------------------------------------------------------ | ----------------------------- |
-| **fazeZERO** | The company                                                                                | not in this repo              |
-| **xZERO**    | Off-chain orchestration: multi-rail router, ISO 20022 mapper, dual-control, evidence plane | `services/xzero-*`            |
-| **Quub**     | The ledger. Rust node + EVM + three precompiles + Solidity facades                         | `crates/quub-*`, `contracts/` |
+| Name         | What it is                                                                                         | Lives in                                      |
+| ------------ | -------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| **fazeZERO** | The company (legal entity only)                                                                    | not in this repo                              |
+| **Quub**     | The payments fabric: ledger + Policy / Memo / Evidence / Gateway                                   | `crates/quub-*`, `services/quub-*`, `contracts/` |
 
-Quub does not run without a reason. xZERO must run **today** against public Solana / Base / Tempo / Arc RPCs with no Quub node required. The same Rust functions that power xZERO policy + ISO later become Quub precompiles.
+Quub components (not sister brands):
 
-Prose: Quub. Code: `quub`. Never write Qubic, QUB, QUBE, QUBC, or QUBIC. There is no native token.
+| Component            | Role                                                         | Lives in                 |
+| -------------------- | ------------------------------------------------------------ | ------------------------ |
+| **Quub Policy**      | allow / deny / freeze / Travel Rule / dual-control           | `services/quub-policy`   |
+| **Quub Memo / ISO**  | ISO 20022 identity set + hash                                | `services/quub-iso`      |
+| **Quub Evidence**    | off-block evidence plane (pack + memo hashes; no PII)        | `services/quub-evidence` |
+| **Quub Gateway**     | multi-rail router (Base / Solana stubs today)                | `services/quub-gateway`  |
+
+Quub Gateway + Policy + ISO must run **today** against public Solana / Base / Tempo / Arc RPCs with no Quub node required. The same Rust functions that power Quub Policy + Quub ISO become Quub precompiles on-chain.
+
+Prose: Quub. Code: `quub`. Never write Qubic, QUB, QUBE, QUBC, or QUBIC. There is no native token. Never reintroduce a second product name for the off-chain plane.
 
 ---
 
@@ -37,7 +45,7 @@ These are not suggestions.
 7. **No new EIP-2718 transaction type in sprint 0 or 1.** No Tempo `0x76` clone yet. No Fee AMM. No Stylus. No SP1 guest until a later sprint.
 8. **JSON-RPC is standard `eth_*`.** Optional `quub_` namespace exists and is **off by default**.
 9. **Precompile addresses are frozen.** Do not change them.
-10. **No PII on-chain.** ISO documents stay in the xZERO evidence plane. On-chain = identity set + hash.
+10. **No PII on-chain.** ISO documents stay in Quub Evidence (off-block). On-chain = identity set + hash.
 11. **Keys, vendor secrets, bank names, Travel Rule credentials, HSM config, production chain ids do not belong in this repo.**
 12. Chain id placeholders: mainnet `8090`, testnet `8091`. Confirm unused on chainid.network before anyone treats them as real. Do not invent others.
 
@@ -86,10 +94,10 @@ quub/
     quub-consensus-simplex/
     quub-rpc/
   services/
-    xzero-policy/              # same ABI as F201, runs off-chain first
-    xzero-iso/                 # same ABI as F202
-    xzero-evidence/
-    xzero-orchestrator/        # multi-rail router stub
+    quub-policy/               # Quub Policy Engine — same ABI as F201, off-chain first
+    quub-iso/                  # Quub Memo / Quub ISO — same ABI as F202
+    quub-evidence/             # Quub Evidence
+    quub-gateway/              # Quub Gateway — multi-rail router stub
   contracts/                   # Foundry
     foundry.toml
     src/PaymentToken.sol
@@ -219,17 +227,17 @@ Copy from Reth `examples/custom-evm`, `examples/custom-node-components`, `exampl
 
 ## 8. Sprint 0 — do this first, stop when green
 
-Goal: monorepo compiles. xZERO policy + ISO libs have tests. Foundry contracts exercise `transferWithMemo` through PolicyAdmin. **No consensus. No Reth node required yet.**
+Goal: monorepo compiles. Quub Policy + Quub ISO libs have tests. Foundry contracts exercise `transferWithMemo` through PolicyAdmin. **No consensus. No Reth node required yet.**
 
 Tasks, in order:
 
 1. Create the tree above. `README.md` first sentence: `Quub is a payments fabric. There is no native token.`
 2. Copy `STRATEGY.md` from the first assessment.
 3. `quub-primitives`: addresses, reason codes, msg types, chain-id placeholders, `Memo` struct.
-4. `services/xzero-policy`: `check(...)` with unit tests for reasons 0, 1, 2, 5, 8.
-5. `services/xzero-iso`: `validateAndCommit(...)` with tests: empty EndToEndId reverts; pacs.008 without UETR reverts; USD pacs.008 returns a stable hash (same inputs → same hash).
-6. `services/xzero-evidence`: `anchor(bytes32 packHash, bytes32 memoHash)` in-memory store + test.
-7. `services/xzero-orchestrator`: trait `Rail { fn send(...) }`, two stub adapters `BaseAdapter` and `SolanaAdapter` that do not hit the network in unit tests.
+4. `services/quub-policy`: `check(...)` with unit tests for reasons 0, 1, 2, 5, 8.
+5. `services/quub-iso`: `validateAndCommit(...)` with tests: empty EndToEndId reverts; pacs.008 without UETR reverts; USD pacs.008 returns a stable hash (same inputs → same hash).
+6. `services/quub-evidence`: `anchor(bytes32 packHash, bytes32 memoHash)` in-memory store + test.
+7. `services/quub-gateway`: trait `Rail { fn send(...) }`, two stub adapters `BaseAdapter` and `SolanaAdapter` that do not hit the network in unit tests.
 8. Foundry:
    - `PolicyAdmin.sol` — freeze, unfreeze, pause, setThreshold, setFeeToken, dual-control stub (`propose` + `execute` with two owners).
    - `PaymentToken.sol` — ERC-20 + `transferWithMemo(...)` that calls PolicyAdmin then emits `MemoAnchored(bytes32,uint8)`.
@@ -251,7 +259,7 @@ Stop. Print the tree. Do not start Reth.
 
 Goal: `quub-node --dev` produces a local block in which `transferWithMemo` hits F201/F202.
 
-1. Pin Reth 2.5.x + matching Alloy. Add `quub-evm` using `PrecompilesMap` + `DynPrecompile`. Bodies call the same functions as `xzero-policy` / `xzero-iso`.
+1. Pin Reth 2.5.x + matching Alloy. Add `quub-evm` using `PrecompilesMap` + `DynPrecompile`. Bodies call the same functions as `quub-policy` / `quub-iso`.
 2. `quub-node` binary, feature `mode-a`, `--dev`.
 3. `quub-pool` classifier unit tests (selector + length; junk calldata with transfer prefix is **not** a payment).
 4. Script: deploy system contracts to the dev node, run one `transferWithMemo`, assert receipt logs.
@@ -292,7 +300,7 @@ Read AGENTS.md and STRATEGY.md all the way through.
 
 Execute Sprint 0 only. Do not start Reth. Do not add consensus. Do not create a token, ticker, bridge, or custom tx type.
 
-Locked stack: Rust + Solidity + Foundry. Quub is the ledger. xZERO is off-chain. No Substrate.
+Locked stack: Rust + Solidity + Foundry. Quub is the only product (ledger + Policy / Memo / Evidence / Gateway). No Substrate.
 
 When cargo test --workspace and forge test pass, stop and print:
 1. the repo tree

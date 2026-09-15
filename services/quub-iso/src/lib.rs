@@ -1,4 +1,4 @@
-//! Off-chain ISO memo engine matching F202 `validateAndCommit` ABI.
+//! Quub Memo / Quub ISO — off-chain matching F202 `validateAndCommit` ABI.
 //!
 //! `memoHash = keccak256(abi.encode(endToEndId, uetr, instrId, ccy, msgType, origin))`
 //! No `block.timestamp`. No names, IBANs, or XML.

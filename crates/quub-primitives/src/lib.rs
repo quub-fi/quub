@@ -1,4 +1,4 @@
-//! Shared primitives for Quub ledger and xZERO off-chain libs.
+//! Shared primitives for Quub ledger and Quub off-chain services.
 //!
 //! Addresses are frozen (AGENTS.md §2). Do not change them.
 

@@ -1,4 +1,4 @@
-//! Off-chain policy engine matching F201 `check` ABI.
+//! Quub Policy Engine — off-chain matching F201 `check` ABI.
 //!
 //! Year-1 behaviour mirrors PolicyAdmin: fail closed on freeze / pause /
 //! missing Travel Rule when required. Only the payment-token path should call

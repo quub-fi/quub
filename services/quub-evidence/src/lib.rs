@@ -1,4 +1,4 @@
-//! In-memory evidence store. On-chain counterpart is EvidenceAnchor (F212).
+//! Quub Evidence — in-memory store. On-chain counterpart is EvidenceAnchor (F212).
 //!
 //! Stores `(packHash, memoHash)` only — never ISO XML or PII.
 
@@ -22,7 +22,7 @@ pub struct AnchorRecord {
     pub memo_hash: B256,
 }
 
-/// In-memory evidence plane for Sprint 0.
+/// In-memory Quub Evidence plane for Sprint 0.
 #[derive(Default, Debug)]
 pub struct EvidenceStore {
     by_pack: HashMap<B256, AnchorRecord>,

@@ -1,9 +1,9 @@
-//! Multi-rail orchestrator stubs.
+//! Quub Gateway — multi-rail router stubs.
 //!
 //! Unit tests must not hit the network. Adapters record intent only.
 //!
-//! Locked: xZERO runs against public Base/Solana stubs with no Quub node
-//! (AGENTS.md §0 / Sprint 0).
+//! Locked: Quub Gateway runs against public Base/Solana stubs with no Quub
+//! node required for off-chain rails (AGENTS.md §0 / Sprint 0).
 
 use alloy_primitives::{Address, B256, U256};
 use thiserror::Error;

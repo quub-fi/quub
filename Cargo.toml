@@ -9,10 +9,10 @@ members = [
     "crates/quub-consensus-op",
     "crates/quub-consensus-simplex",
     "crates/quub-rpc",
-    "services/xzero-policy",
-    "services/xzero-iso",
-    "services/xzero-evidence",
-    "services/xzero-orchestrator",
+    "services/quub-policy",
+    "services/quub-iso",
+    "services/quub-evidence",
+    "services/quub-gateway",
 ]
 
 [workspace.package]

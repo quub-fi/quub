@@ -1,12 +1,12 @@
-//! F201 Policy — `check`. Calls `xzero_policy::check`.
+//! F201 Policy — `check`. Calls `quub_policy::check`.
 
 use crate::abi::CheckCall;
 use crate::error::PrecompileError;
 use alloy_primitives::{Address, Bytes, B256};
 use alloy_sol_types::{SolCall, SolValue};
+use quub_policy::{check as policy_check, PolicyState};
 use quub_primitives::{PolicyCheck, QUUB_POLICY};
 use std::sync::{Mutex, OnceLock};
-use xzero_policy::{check as xzero_check, PolicyState};
 
 pub const ADDRESS: Address = QUUB_POLICY;
 pub const BASE_GAS: u64 = 3_000;
@@ -48,7 +48,7 @@ pub fn run(input: &[u8], gas: u64, _caller: Address) -> Result<(Bytes, u64), Pre
         tr_hash: decoded.trHash,
     };
     let guard = state().lock().expect("policy state");
-    let (allowed, reason) = xzero_check(&guard, &req);
+    let (allowed, reason) = policy_check(&guard, &req);
     let out = (allowed, reason.as_u16()).abi_encode();
     Ok((Bytes::from(out), needed))
 }

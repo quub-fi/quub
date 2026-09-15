@@ -5932,6 +5932,14 @@ name = "quub-consensus-simplex"
 version = "0.1.0"
 
 [[package]]
+name = "quub-evidence"
+version = "0.1.0"
+dependencies = [
+ "alloy-primitives 0.8.26",
+ "thiserror 2.0.20",
+]
+
+[[package]]
 name = "quub-evm"
 version = "0.1.0"
 dependencies = [
@@ -5940,6 +5948,24 @@ dependencies = [
  "eyre",
  "quub-precompiles",
  "reth-ethereum",
+]
+
+[[package]]
+name = "quub-gateway"
+version = "0.1.0"
+dependencies = [
+ "alloy-primitives 0.8.26",
+ "thiserror 2.0.20",
+]
+
+[[package]]
+name = "quub-iso"
+version = "0.1.0"
+dependencies = [
+ "alloy-primitives 0.8.26",
+ "alloy-sol-types 0.8.26",
+ "quub-primitives",
+ "thiserror 2.0.20",
 ]
 
 [[package]]
@@ -5956,6 +5982,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "quub-policy"
+version = "0.1.0"
+dependencies = [
+ "alloy-primitives 0.8.26",
+ "quub-primitives",
+ "thiserror 2.0.20",
+]
+
+[[package]]
 name = "quub-pool"
 version = "0.1.0"
 dependencies = [
@@ -5969,10 +6004,10 @@ version = "0.1.0"
 dependencies = [
  "alloy-primitives 0.8.26",
  "alloy-sol-types 0.8.26",
+ "quub-iso",
+ "quub-policy",
  "quub-primitives",
  "thiserror 2.0.20",
- "xzero-iso",
- "xzero-policy",
 ]
 
 [[package]]
@@ -11473,41 +11508,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "05f360fc0b24296329c78fda852a1e9ae82de9cf7b27dae4b7f62f118f77b9ed"
 dependencies = [
  "tap",
-]
-
-[[package]]
-name = "xzero-evidence"
-version = "0.1.0"
-dependencies = [
- "alloy-primitives 0.8.26",
- "thiserror 2.0.20",
-]
-
-[[package]]
-name = "xzero-iso"
-version = "0.1.0"
-dependencies = [
- "alloy-primitives 0.8.26",
- "alloy-sol-types 0.8.26",
- "quub-primitives",
- "thiserror 2.0.20",
-]
-
-[[package]]
-name = "xzero-orchestrator"
-version = "0.1.0"
-dependencies = [
- "alloy-primitives 0.8.26",
- "thiserror 2.0.20",
-]
-
-[[package]]
-name = "xzero-policy"
-version = "0.1.0"
-dependencies = [
- "alloy-primitives 0.8.26",
- "quub-primitives",
- "thiserror 2.0.20",
 ]
 
 [[package]]

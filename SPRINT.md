@@ -8,13 +8,13 @@
 
 | Sprint | Outcome | Consensus | Stop when |
 |---|---|---|---|
-| **0** | xZERO libs + Foundry facades | none | `cargo test --workspace` + `forge test` |
+| **0** | Quub Policy / ISO / Evidence / Gateway libs + Foundry facades | none | `cargo test --workspace` + `forge test` |
 | **1** | `quub-node --dev` with F201–F203 live | none (Reth `--dev` / EthereumNode) | one `transferWithMemo` mined on the local node |
 | **1.5** | Genesis alloc of F210–F213 + Foundry script against that node | none | `forge script` on `http://127.0.0.1:8545` green |
 | **2** | Mode A: OP types + Engine API + `op-node` local | OP Stack | deposit tx + L2 block |
 | **3** | Payment-lane pool + payload fill 70/30 | still Mode A | junk calldata cannot steal payment gas |
 | **4** | Mode B stub compiles, not shipped | Simplex behind flag | `cargo test -p quub-evm --features mode-b` same precompile set |
-| **5** | Operator API + xZERO against `quub-node` and public Base | — | one licensed-client happy path |
+| **5** | Operator API + Quub Gateway against `quub-node` and public Base | — | one licensed-client happy path |
 
 Sprint 1 does **not** include: `op-node`, Commonware, a bridge, a token, proxies, timelocks, `apps/operator-api`, production chain ids.
 
@@ -26,7 +26,7 @@ Reason: Reth’s own `examples/custom-evm` launches an `EthereumNode` with a swa
 
 1. Pin **`reth-ethereum`** from `paradigmxyz/reth` **2.5.x** (docs current: 2.5.2) via git tag, features `["node", "evm", "cli"]`. Do not add `reth` meta + ten crates by hand if `reth-ethereum` already re-exports them.
 2. Copy the pattern in `reth/examples/custom-evm`: `EvmFactory` + `ExecutorBuilder` + `EthereumNode::components().executor(...)`.
-3. Precompile **bodies** live in `quub-precompiles` and **call** `xzero-policy` / `xzero-iso`. Do not duplicate logic. Solidity `PolicyAdmin` remains source of truth for freezes; F201 year-1 may evaluate the same rules in-process (see §3).
+3. Precompile **bodies** live in `quub-precompiles` and **call** `quub-policy` / `quub-iso`. Do not duplicate logic. Solidity `PolicyAdmin` remains source of truth for freezes; F201 year-1 may evaluate the same rules in-process (see §3).
 4. Feature flags stay as declared. Sprint 1 binary is `mode-a` default. `quub-consensus-op` can stay a compiling stub (`pub fn placeholder() {}`).
 5. Chain id in `--dev`: `8091` (testnet placeholder). HTTP RPC `127.0.0.1:8545`.
 6. No new tx type. No `quub_` RPC namespace.
@@ -49,7 +49,7 @@ crates/quub-precompiles/
   src/abi.rs
 ```
 
-`Cargo.toml` depends on: `quub-primitives`, `xzero-policy`, `xzero-iso`, `alloy-primitives`, `alloy-sol-types`.  
+`Cargo.toml` depends on: `quub-primitives`, `quub-policy`, `quub-iso`, `alloy-primitives`, `alloy-sol-types`.  
 **No `reth-*` dependency.** That is what keeps Mode A and Mode B sharing this crate.
 
 Each module exports:
@@ -61,15 +61,15 @@ pub fn run(input: &[u8], gas: u64, caller: Address) -> Result<(Bytes, u64), Prec
 ```
 
 Dispatch on the 4-byte selector from `abi.rs` (generate once with `sol!` in `abi.rs`).  
-`policy::run` decodes `check(...)` and calls `xzero_policy::check`.  
-`iso_memo::run` decodes `validateAndCommit(...)` and calls `xzero_iso::validate_and_commit`.  
+`policy::run` decodes `check(...)` and calls `quub_policy::check`.  
+`iso_memo::run` decodes `validateAndCommit(...)` and calls `quub_iso::validate_and_commit`.  
 `paymaster::run` implements `quote` as a pure function of `(token, gasLimit, gasPrice, posted_rate)` with the genesis USDC allowlist from `quub-primitives`. `takeFee` in Sprint 1 returns `Err` unless `caller` is the test system address; stateful debit waits until F213 is deployed on the node (Sprint 1.5).
 
 Tests (add to the 13, do not break them):
 
 - `policy_unknown_selector_reverts`
-- `policy_reason_codes_match_xzero`
-- `iso_hash_matches_xzero_iso`
+- `policy_reason_codes_match_quub`
+- `iso_hash_matches_quub_iso`
 - `paymaster_unlisted_token_errors`
 - `addresses_are_f201_f202_f203`
 
@@ -161,12 +161,12 @@ Two layers already exist. Do not merge them.
 | Layer | Where | State |
 |---|---|---|
 | Solidity `PolicyAdmin` F211 | Foundry, deployed in 1.5 | freezes, thresholds, fee tokens |
-| Rust `xzero-policy` | service crate | same rules, in-memory / test fixture |
-| Precompile F201 | `quub-precompiles` | **calls `xzero-policy` in Sprint 1** |
+| Rust `quub-policy` | service crate | same rules, in-memory / test fixture |
+| Precompile F201 | `quub-precompiles` | **calls `quub-policy` in Sprint 1** |
 
 Sprint 1 acceptance does **not** require F201 to staticcall F211 inside REVM. That is the year-1 production shape and it needs the contract deployed at a known address in the same state DB. Sequence:
 
-- Sprint 1: F201 is a rust-native check (xzero-policy). Foundry tests still hit Solidity on anvil/local forge.
+- Sprint 1: F201 is a rust-native check (quub-policy). Foundry tests still hit Solidity on anvil/local forge.
 - Sprint 1.5: deploy F210–F213 onto `quub-node --dev`. Add one integration test: `PaymentToken.transferWithMemo` → Solidity `_beforeTransfer` can call F201 *or* F211. Pick **F211 for the token hook** (already works) and keep F201 callable for later protocol-native tokens.
 - Later: token hook moves to F201 when you want protocol-cost checks.
 
@@ -179,8 +179,8 @@ Do not spend Sprint 1 on stateful precompiles + Solidity staticcall. That is how
 Rust:
 
 ```
-quub_precompiles::policy_reason_codes_match_xzero
-quub_precompiles::iso_hash_matches_xzero_iso
+quub_precompiles::policy_reason_codes_match_quub
+quub_precompiles::iso_hash_matches_quub_iso
 quub_precompiles::paymaster_unlisted_token_errors
 quub_evm::map_contains_f201_f202_f203_and_ecrecover
 quub_pool::transfer_exact_len_is_payment
@@ -225,7 +225,7 @@ Only after that do you add a custom genesis alloc that **forces** F210–F213. T
 
 **Sprint 4 — Mode B compile.** `quub-consensus-simplex` implements a thin Automaton that commits payload hashes. No public testnet. Gate: same precompile bytecode as Mode A.
 
-**Sprint 5 — product.** `apps/operator-api` talks to xZERO orchestrator, which talks to `quub-node` **and** public Base. This is the first thing a licensed client sees. The chain is still an implementation detail.
+**Sprint 5 — product.** `apps/operator-api` talks to Quub Gateway, which talks to `quub-node` **and** public Base. This is the first thing a licensed client sees. The chain is still an implementation detail.
 
 ---
 
@@ -260,13 +260,13 @@ Only after that do you add a custom genesis alloc that **forces** F210–F213. T
 ## 8. First message to Cursor (paste this)
 
 ```
-Sprint 0 is green. Do not touch passing xzero-* or Foundry tests except to depend on them.
+Sprint 0 is green. Do not touch passing quub-* service crates or Foundry tests except to depend on them.
 
 Read AGENTS.md, STRATEGY.md, specs/nodebuilder.md, and SPRINT.md.
 
 Execute Sprint 1 only:
 1. Pin reth-ethereum to paradigmxyz/reth v2.5.x (write the exact tag in README).
-2. Implement quub-precompiles by calling xzero-policy and xzero-iso. No reth dep in that crate.
+2. Implement quub-precompiles by calling quub-policy and quub-iso. No reth dep in that crate.
 3. Implement quub-evm QuubEvmFactory + QuubExecutorBuilder from reth/examples/custom-evm. Register F201 F202 F203. Keep 0x01–0x11.
 4. Implement quub-pool::is_payment (selector + exact ABI length).
 5. Implement quub-node --dev --http on 8545, chain id 8091, EthereumNode + our executor. No op-node. No Simplex.

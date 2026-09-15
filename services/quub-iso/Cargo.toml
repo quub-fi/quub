@@ -1,9 +1,9 @@
 [package]
-name = "xzero-iso"
+name = "quub-iso"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Off-chain F202 ISO memo validateAndCommit"
+description = "Quub Memo / Quub ISO — off-chain F202 validateAndCommit"
 
 [dependencies]
 alloy-primitives = { workspace = true }

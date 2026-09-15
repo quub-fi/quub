@@ -22,8 +22,8 @@ mod tests {
         Memo, MsgType, PolicyCheck, PolicyReason, CCY_USD, FEE_TOKEN_DEVNET, QUUB_ISO_MEMO,
         QUUB_PAYMASTER, QUUB_POLICY,
     };
-    use xzero_iso::validate_and_commit;
-    use xzero_policy::{check as xzero_check, PolicyState};
+    use quub_iso::validate_and_commit;
+    use quub_policy::{check as policy_check, PolicyState};
 
     #[test]
     fn addresses_are_f201_f202_f203() {
@@ -51,7 +51,7 @@ mod tests {
     }
 
     #[test]
-    fn policy_reason_codes_match_xzero() {
+    fn policy_reason_codes_match_quub() {
         let mut state = PolicyState::new();
         let from = address!("0x0000000000000000000000000000000000000001");
         let to = address!("0x0000000000000000000000000000000000000002");
@@ -66,7 +66,7 @@ mod tests {
             amount: U256::from(100u64),
             tr_hash: B256::ZERO,
         };
-        let (allowed, reason) = xzero_check(&state, &req);
+        let (allowed, reason) = policy_check(&state, &req);
         assert!(!allowed);
         assert_eq!(reason, PolicyReason::FrozenFrom);
 
@@ -88,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn iso_hash_matches_xzero_iso() {
+    fn iso_hash_matches_quub_iso() {
         let origin = address!("0x00000000000000000000000000000000000000AA");
         let memo = Memo::new(
             alloy_primitives::fixed_bytes!(

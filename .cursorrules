@@ -7,7 +7,7 @@ You are building **Quub**, a payments blockchain. One product. One name.
 ## Brand — locked
 
 - The network, the node, the services, and the client API are all **Quub**.
-- Never write: xZERO, XZERO, X Zero, X0, xzero, x-zero, x_zero.
+- Never write the retired sister-brand name (any casing, space, hyphen, or underscore spelling). One product only.
 - Never write: Qubic, QUB, QUBE, QUBC, QUBIC (different chain / tickers).
 - fazeZERO is the legal entity only. Do not put it in architecture diagrams or crate names.
 - There is no second product. Gateway, ISO, Evidence, Policy Engine are Quub components, not a sister brand.
@@ -32,7 +32,7 @@ You are building **Quub**, a payments blockchain. One product. One name.
 
 - Crates: quub-node, quub-evm, quub-precompiles, quub-pool, quub-primitives
 - Services: quub-policy, quub-iso, quub-evidence, quub-gateway
-- If you still see services/xzero-\* on disk, rename them. Do not add new xzero files.
+- Do not add service crates or paths under any non-Quub product prefix. Do not invent a compatibility alias crate.
 
 ## Domains
 
