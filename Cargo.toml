@@ -2,6 +2,13 @@
 resolver = "2"
 members = [
     "crates/quub-primitives",
+    "crates/quub-precompiles",
+    "crates/quub-evm",
+    "crates/quub-pool",
+    "crates/quub-node",
+    "crates/quub-consensus-op",
+    "crates/quub-consensus-simplex",
+    "crates/quub-rpc",
     "services/xzero-policy",
     "services/xzero-iso",
     "services/xzero-evidence",
@@ -13,10 +20,17 @@ version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0 OR MIT"
 authors = ["fazeZERO"]
-repository = "https://github.com/fazezero/quub"
+repository = "https://github.com/quub-fi/quub"
 
 [workspace.dependencies]
 alloy-primitives = { version = "0.8", default-features = false, features = ["std"] }
 alloy-sol-types = { version = "0.8", default-features = false, features = ["std"] }
 quub-primitives = { path = "crates/quub-primitives" }
+quub-precompiles = { path = "crates/quub-precompiles" }
+quub-evm = { path = "crates/quub-evm" }
+quub-pool = { path = "crates/quub-pool" }
+quub-consensus-op = { path = "crates/quub-consensus-op" }
+quub-consensus-simplex = { path = "crates/quub-consensus-simplex" }
 thiserror = "2"
+# Do not override revm past this tag. No [patch].
+reth-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v2.5.2", default-features = false }

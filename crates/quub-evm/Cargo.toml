@@ -1,0 +1,12 @@
+[package]
+name = "quub-evm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "QuubEvmFactory + QuubExecutorBuilder. Only crate that talks to Reth EVM types."
+
+[dependencies]
+alloy-evm = { version = "0.38.0", default-features = false }
+eyre = "0.6"
+quub-precompiles = { workspace = true }
+reth-ethereum = { workspace = true, features = ["evm", "node", "std"] }

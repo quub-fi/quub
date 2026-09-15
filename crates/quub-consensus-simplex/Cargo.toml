@@ -1,0 +1,8 @@
+[package]
+name = "quub-consensus-simplex"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Mode B Simplex consensus stub. Never enable with mode-a in one binary."
+
+[dependencies]

@@ -1,0 +1,8 @@
+[package]
+name = "quub-rpc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Optional quub_ RPC namespace (off by default). Stub in Sprint 1."
+
+[dependencies]

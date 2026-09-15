@@ -1,0 +1,23 @@
+[package]
+name = "quub-node"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "quub-node binary. Sprint 1: EthereumNode + QuubExecutorBuilder. No op-node."
+
+[[bin]]
+name = "quub-node"
+path = "src/main.rs"
+
+[features]
+default = ["mode-a"]
+mode-a = ["dep:quub-consensus-op"]
+mode-b = ["dep:quub-consensus-simplex"]
+
+[dependencies]
+eyre = "0.6"
+quub-consensus-op = { workspace = true, optional = true }
+quub-consensus-simplex = { workspace = true, optional = true }
+quub-evm = { workspace = true }
+reth-ethereum = { workspace = true, features = ["node", "evm", "std"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
