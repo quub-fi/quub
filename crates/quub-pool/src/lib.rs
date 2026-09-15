@@ -63,4 +63,17 @@ mod tests {
         let other = address!("0x00000000000000000000000000000000000000aa");
         assert!(!is_payment(other, &input, &registered()));
     }
+
+    #[test]
+    fn transfer_with_memo_len_matches_solidity() {
+        let sig = b"transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)";
+        let h = alloy_primitives::keccak256(sig);
+        assert_eq!(&TRANSFER_WITH_MEMO_SELECTOR, &h[..4]);
+        // selector + 9 ABI words
+        assert_eq!(TRANSFER_WITH_MEMO_CALLDATA_LEN, 4 + 32 * 9);
+        let input = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN - 4);
+        assert!(is_payment(PAYMENT_TOKEN, &input, &registered()));
+        let junk = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN - 4 + 1);
+        assert!(!is_payment(PAYMENT_TOKEN, &junk, &registered()));
+    }
 }

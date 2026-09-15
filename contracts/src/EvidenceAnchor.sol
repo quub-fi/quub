@@ -12,7 +12,7 @@ contract EvidenceAnchor {
 
     mapping(bytes32 => Record) public records;
 
-    event Anchored(bytes32 indexed packHash, bytes32 indexed memoHash, address indexed anchorer);
+    event EvidenceAnchored(bytes32 indexed packHash, bytes32 indexed memoHash, address indexed anchorer);
 
     error ZeroHash();
     error AlreadyAnchored();
@@ -22,6 +22,6 @@ contract EvidenceAnchor {
         if (records[packHash].exists) revert AlreadyAnchored();
         records[packHash] =
             Record({packHash: packHash, memoHash: memoHash, anchorer: msg.sender, exists: true});
-        emit Anchored(packHash, memoHash, msg.sender);
+        emit EvidenceAnchored(packHash, memoHash, msg.sender);
     }
 }

@@ -1,0 +1,75 @@
+{
+  "storage": [
+    {
+      "astId": 16,
+      "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+      "label": "records",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_mapping(t_bytes32,t_struct(Record)11_storage)"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_mapping(t_bytes32,t_struct(Record)11_storage)": {
+      "encoding": "mapping",
+      "key": "t_bytes32",
+      "label": "mapping(bytes32 => struct EvidenceAnchor.Record)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Record)11_storage"
+    },
+    "t_struct(Record)11_storage": {
+      "encoding": "inplace",
+      "label": "struct EvidenceAnchor.Record",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 4,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "packHash",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_bytes32"
+        },
+        {
+          "astId": 6,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "memoHash",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_bytes32"
+        },
+        {
+          "astId": 8,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "anchorer",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_address"
+        },
+        {
+          "astId": 10,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "exists",
+          "offset": 20,
+          "slot": "2",
+          "type": "t_bool"
+        }
+      ]
+    }
+  }
+}

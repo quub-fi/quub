@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 pragma solidity ^0.8.24;
 
-import {PolicyAdmin} from "./PolicyAdmin.sol";
-
 /// @title PaymentToken — F210 ERC-20 with transferWithMemo
-/// @notice Calls PolicyAdmin.check before moving balances; emits MemoAnchored.
-/// @dev This is an allowlisted payment stable facade, not a native / gas token.
+/// @notice Calls F201 then F202 (and F212 if packHash != 0). No native / gas token.
+/// @dev Runtime has no immutables so genesis etch at 0x…F210 is legal.
 contract PaymentToken {
+    address constant QUUB_POLICY = address(uint160(0xF201));
+    address constant QUUB_ISO_MEMO = address(uint160(0xF202));
+    address constant EVIDENCE_ANCHOR = address(uint160(0xF212));
+
     string public constant name = "Quub Payment Token";
     string public constant symbol = "QPT";
     uint8 public constant decimals = 6;
 
-    PolicyAdmin public immutable policyAdmin;
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
@@ -26,9 +27,10 @@ contract PaymentToken {
     error EmptyEndToEndId();
     error MissingUetr();
     error BadCurrency();
+    error PolicyCallFailed();
+    error MemoCallFailed();
 
-    constructor(PolicyAdmin policyAdmin_, address mintTo, uint256 supply) {
-        policyAdmin = policyAdmin_;
+    constructor(address mintTo, uint256 supply) {
         balanceOf[mintTo] = supply;
         totalSupply = supply;
         emit Transfer(address(0), mintTo, supply);
@@ -58,6 +60,7 @@ contract PaymentToken {
     }
 
     /// @notice Transfer with ISO memo identity set (no PII / no timestamp in hash).
+    /// @param packHash If non-zero, anchors (packHash, memoHash) at F212.
     function transferWithMemo(
         address to,
         uint256 amount,
@@ -66,17 +69,35 @@ contract PaymentToken {
         bytes32 instrId,
         bytes3 ccy,
         uint8 msgType,
-        bytes32 trHash
+        bytes32 trHash,
+        bytes32 packHash
     ) external returns (bytes32 memoHash) {
-        memoHash = _validateMemo(endToEndId, uetr, instrId, ccy, msgType);
+        _requireMemoFields(endToEndId, uetr, ccy, msgType);
         _policy(msg.sender, to, amount, trHash);
         _move(msg.sender, to, amount);
+        memoHash = _commitMemo(endToEndId, uetr, instrId, ccy, msgType);
         emit MemoAnchored(memoHash, msgType);
+        if (packHash != bytes32(0)) {
+            (bool ok,) = EVIDENCE_ANCHOR.call(
+                abi.encodeWithSignature("anchor(bytes32,bytes32)", packHash, memoHash)
+            );
+            require(ok, "anchor failed");
+        }
     }
 
     function _policy(address from, address to, uint256 amount, bytes32 trHash) internal view {
-        (bool allowed, uint16 reason) =
-            policyAdmin.check(address(this), from, to, amount, trHash);
+        (bool ok, bytes memory ret) = QUUB_POLICY.staticcall(
+            abi.encodeWithSignature(
+                "check(address,address,address,uint256,bytes32)",
+                address(this),
+                from,
+                to,
+                amount,
+                trHash
+            )
+        );
+        if (!ok || ret.length < 64) revert PolicyCallFailed();
+        (bool allowed, uint16 reason) = abi.decode(ret, (bool, uint16));
         if (!allowed) revert PolicyRejected(reason);
     }
 
@@ -90,19 +111,35 @@ contract PaymentToken {
         emit Transfer(from, to, amount);
     }
 
-    function _validateMemo(
+    function _requireMemoFields(bytes32 endToEndId, bytes16 uetr, bytes3 ccy, uint8 msgType)
+        internal
+        pure
+    {
+        if (endToEndId == bytes32(0)) revert EmptyEndToEndId();
+        if ((msgType == 0 || msgType == 2) && uetr == bytes16(0)) revert MissingUetr();
+        if (!_allowedCcy(ccy)) revert BadCurrency();
+    }
+
+    /// @dev Hash comes only from F202 — no local keccak that can drift.
+    function _commitMemo(
         bytes32 endToEndId,
         bytes16 uetr,
         bytes32 instrId,
         bytes3 ccy,
         uint8 msgType
     ) internal view returns (bytes32 memoHash) {
-        if (endToEndId == bytes32(0)) revert EmptyEndToEndId();
-        // pacs.008 (0) and pacs.009 (2) require UETR
-        if ((msgType == 0 || msgType == 2) && uetr == bytes16(0)) revert MissingUetr();
-        if (!_allowedCcy(ccy)) revert BadCurrency();
-        // No block.timestamp in the hash (AGENTS.md §4 F202).
-        memoHash = keccak256(abi.encode(endToEndId, uetr, instrId, ccy, msgType, tx.origin));
+        (bool ok, bytes memory ret) = QUUB_ISO_MEMO.staticcall(
+            abi.encodeWithSignature(
+                "validateAndCommit(bytes32,bytes16,bytes32,bytes3,uint8)",
+                endToEndId,
+                uetr,
+                instrId,
+                ccy,
+                msgType
+            )
+        );
+        if (!ok || ret.length < 32) revert MemoCallFailed();
+        memoHash = abi.decode(ret, (bytes32));
     }
 
     function _allowedCcy(bytes3 ccy) internal pure returns (bool) {

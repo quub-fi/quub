@@ -1,8 +1,7 @@
 //! Precompile set: Eth builtins plus F201–F203 when spec >= Prague.
 //!
-//! Uses [`PrecompilesMap::apply_precompile`] + [`DynPrecompile`] so F202 receives
-//! `caller` (needed for memo hash). Static `PrecompileFn` is `(input, gas, reservoir)`
-//! only — no caller — so DynPrecompile is required for Quub.
+//! F201 and F202 use [`DynPrecompile::new_stateful`] — cache key is calldata only;
+//! F201 reads F211 storage and F202 includes tx.origin in the hash.
 
 use crate::wrap;
 use alloy_evm::precompiles::{DynPrecompile, PrecompilesMap};
@@ -21,13 +20,22 @@ const ECRECOVER: Address = address!("0x0000000000000000000000000000000000000001"
 
 fn inject_quub(map: &mut PrecompilesMap) {
     map.apply_precompile(&F201, |_| {
-        Some(DynPrecompile::new(PrecompileId::custom("quub-policy"), wrap::policy))
+        Some(DynPrecompile::new_stateful(
+            PrecompileId::custom("quub-policy"),
+            wrap::policy,
+        ))
     });
     map.apply_precompile(&F202, |_| {
-        Some(DynPrecompile::new(PrecompileId::custom("quub-iso-memo"), wrap::iso_memo))
+        Some(DynPrecompile::new_stateful(
+            PrecompileId::custom("quub-iso-memo"),
+            wrap::iso_memo,
+        ))
     });
     map.apply_precompile(&F203, |_| {
-        Some(DynPrecompile::new(PrecompileId::custom("quub-paymaster"), wrap::paymaster))
+        Some(DynPrecompile::new(
+            PrecompileId::custom("quub-paymaster"),
+            wrap::paymaster,
+        ))
     });
 }
 

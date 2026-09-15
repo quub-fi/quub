@@ -2,10 +2,39 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
+import {stdStorage, StdStorage} from "forge-std/StdStorage.sol";
 import {PolicyAdmin} from "../src/PolicyAdmin.sol";
 import {PaymentToken} from "../src/PaymentToken.sol";
 import {EvidenceAnchor} from "../src/EvidenceAnchor.sol";
 import {PaymasterEntry} from "../src/PaymasterEntry.sol";
+
+/// @dev Foundry-only F201 shim: staticcall F211.check. Production F201 uses sload.
+contract PolicyPrecompileShim {
+    address constant POLICY_ADMIN = address(uint160(0xF211));
+
+    fallback(bytes calldata data) external returns (bytes memory) {
+        (bool ok, bytes memory ret) = POLICY_ADMIN.staticcall(data);
+        require(ok, "f211");
+        return ret;
+    }
+}
+
+/// @dev Foundry-only F202 shim: same origin-in-hash as quub-iso.
+contract IsoMemoPrecompileShim {
+    fallback(bytes calldata data) external returns (bytes memory) {
+        require(data.length >= 4 + 32 * 5, "len");
+        (bytes32 endToEndId, bytes16 uetr, bytes32 instrId, bytes3 ccy, uint8 msgType) =
+            abi.decode(data[4:], (bytes32, bytes16, bytes32, bytes3, uint8));
+        require(endToEndId != bytes32(0), "e2e");
+        if ((msgType == 0 || msgType == 2) && uetr == bytes16(0)) revert("uetr");
+        require(
+            ccy == bytes3("USD") || ccy == bytes3("CAD") || ccy == bytes3("AED") || ccy == bytes3("SAR"),
+            "ccy"
+        );
+        bytes32 memoHash = keccak256(abi.encode(endToEndId, uetr, instrId, ccy, msgType, tx.origin));
+        return abi.encode(memoHash);
+    }
+}
 
 contract MockFeeToken {
     string public constant name = "Mock Fee";
@@ -35,6 +64,14 @@ contract MockFeeToken {
 }
 
 contract Sprint0Test is Test {
+    using stdStorage for StdStorage;
+
+    address constant F201 = address(uint160(0xF201));
+    address constant F202 = address(uint160(0xF202));
+    address constant F210 = address(uint160(0xF210));
+    address constant F211 = address(uint160(0xF211));
+    address constant F212 = address(uint160(0xF212));
+
     address ownerA = address(0xA11CE);
     address ownerB = address(0xB0B);
     address alice = address(0xA71CE);
@@ -48,9 +85,21 @@ contract Sprint0Test is Test {
     MockFeeToken feeToken;
 
     function setUp() public {
-        policy = new PolicyAdmin(ownerA, ownerB);
-        token = new PaymentToken(policy, alice, 1_000_000e6);
-        evidence = new EvidenceAnchor();
+        deployCodeTo("PolicyAdmin.sol:PolicyAdmin", abi.encode(ownerA, ownerB), F211);
+        policy = PolicyAdmin(F211);
+
+        deployCodeTo("PaymentToken.sol:PaymentToken", abi.encode(alice, 1_000_000e6), F210);
+        token = PaymentToken(F210);
+
+        deployCodeTo("EvidenceAnchor.sol:EvidenceAnchor", F212);
+        evidence = EvidenceAnchor(F212);
+
+        // Etch F201/F202 shims (runtime of empty constructors).
+        PolicyPrecompileShim pshim = new PolicyPrecompileShim();
+        IsoMemoPrecompileShim ishim = new IsoMemoPrecompileShim();
+        vm.etch(F201, address(pshim).code);
+        vm.etch(F202, address(ishim).code);
+
         paymaster = new PaymasterEntry(ownerA, treasury);
         feeToken = new MockFeeToken();
 
@@ -80,16 +129,35 @@ contract Sprint0Test is Test {
         bytes3 ccy = bytes3("USD");
         uint8 msgType = 0; // pacs.008
 
-        // Two-arg prank sets msg.sender and tx.origin (hash binds tx.origin).
-        bytes32 expected =
-            keccak256(abi.encode(e2e, uetr, instr, ccy, msgType, alice));
+        bytes32 expected = keccak256(abi.encode(e2e, uetr, instr, ccy, msgType, alice));
 
         vm.prank(alice, alice);
         vm.expectEmit(true, false, false, true);
         emit PaymentToken.MemoAnchored(expected, msgType);
-        token.transferWithMemo(bob, 100e6, e2e, uetr, instr, ccy, msgType, bytes32(0));
+        token.transferWithMemo(bob, 100e6, e2e, uetr, instr, ccy, msgType, bytes32(0), bytes32(0));
 
         assertEq(token.balanceOf(bob), 100e6);
+    }
+
+    function test_packHash_emitsEvidenceAnchored() public {
+        bytes32 e2e = keccak256("E2E-002");
+        bytes16 uetr = bytes16(keccak256("UETR-002"));
+        bytes32 instr = keccak256("INSTR-002");
+        bytes3 ccy = bytes3("USD");
+        uint8 msgType = 0;
+        bytes32 pack = keccak256("pack-001");
+        bytes32 expectedMemo = keccak256(abi.encode(e2e, uetr, instr, ccy, msgType, alice));
+
+        vm.prank(alice, alice);
+        vm.expectEmit(true, true, true, true);
+        emit EvidenceAnchor.EvidenceAnchored(pack, expectedMemo, F210);
+        token.transferWithMemo(bob, 50e6, e2e, uetr, instr, ccy, msgType, bytes32(0), pack);
+
+        (bytes32 p, bytes32 m, address a, bool exists) = evidence.records(pack);
+        assertTrue(exists);
+        assertEq(p, pack);
+        assertEq(m, expectedMemo);
+        assertEq(a, F210);
     }
 
     function test_emptyEndToEndId_reverts() public {
@@ -103,6 +171,7 @@ contract Sprint0Test is Test {
             keccak256("INSTR"),
             bytes3("USD"),
             0,
+            bytes32(0),
             bytes32(0)
         );
     }
@@ -140,9 +209,16 @@ contract Sprint0Test is Test {
         assertEq(quoted, 21_000);
 
         vm.prank(alice);
-        // takeFee pulls from payer; call as alice after approve
-        // anyone can call takeFee in year-1 wrapper (precompile restricts later)
         paymaster.takeFee(alice, address(feeToken), quoted);
         assertEq(feeToken.balanceOf(treasury), quoted);
+    }
+
+    /// @notice Frozen mapping base slot is 4 (compiler layout). Cross-check Rust key formula.
+    function test_frozenSlotKey_matchesLayout() public {
+        address who = alice;
+        bytes32 expected = keccak256(abi.encode(who, uint256(4)));
+        // stdstore finds the same slot via the public getter
+        uint256 found = stdstore.target(F211).sig("frozen(address)").with_key(who).find();
+        assertEq(found, uint256(expected));
     }
 }

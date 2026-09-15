@@ -3,7 +3,7 @@
 //! Pattern: reth `examples/custom-evm` + `examples/custom-dev-node`
 //! (`launch_with_debug_capabilities` for `--dev` mining).
 
-use alloy_genesis::Genesis;
+use crate::alloc_genesis::quub_genesis;
 use quub_evm::QuubExecutorBuilder;
 use reth_ethereum::{
     chainspec::{Chain, ChainSpec},
@@ -21,7 +21,7 @@ use std::sync::Arc;
 pub fn chain_spec() -> Arc<ChainSpec> {
     let spec = ChainSpec::builder()
         .chain(Chain::from_id(8091))
-        .genesis(Genesis::default())
+        .genesis(quub_genesis())
         .london_activated()
         .paris_activated()
         .shanghai_activated()
@@ -34,7 +34,6 @@ pub fn chain_spec() -> Arc<ChainSpec> {
 pub async fn launch() -> eyre::Result<()> {
     let runtime = Runtime::test();
 
-    // HTTP fixed at 8545; auth/ws ports OS-assigned so leftover processes do not block.
     let mut rpc = RpcServerArgs::default().with_http();
     rpc.http_addr = Ipv4Addr::LOCALHOST.into();
     rpc.http_port = 8545;
@@ -45,7 +44,6 @@ pub async fn launch() -> eyre::Result<()> {
         .with_chain(chain_spec())
         .dev()
         .with_rpc(rpc);
-    // Re-assert after NodeConfig::test()'s with_unused_ports / with_rpc.
     node_config.rpc.http = true;
     node_config.rpc.http_addr = Ipv4Addr::LOCALHOST.into();
     node_config.rpc.http_port = 8545;
@@ -57,8 +55,10 @@ pub async fn launch() -> eyre::Result<()> {
         node_config.rpc.http_addr, node_config.rpc.http_port
     );
 
-    // Keep `node` alive: RpcServerHandle stops HTTP when dropped.
-    let NodeHandle { node, node_exit_future } = NodeBuilder::new(node_config)
+    let NodeHandle {
+        node,
+        node_exit_future,
+    } = NodeBuilder::new(node_config)
         .testing_node(runtime)
         .with_types::<EthereumNode>()
         .with_components(EthereumNode::components().executor(QuubExecutorBuilder::default()))

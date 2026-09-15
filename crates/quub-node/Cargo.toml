@@ -3,7 +3,7 @@ name = "quub-node"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "quub-node binary. Sprint 1: EthereumNode + QuubExecutorBuilder. No op-node."
+description = "quub-node binary. Sprint 1.5: EthereumNode + QuubExecutorBuilder + F210–F213 genesis. No op-node."
 
 [[bin]]
 name = "quub-node"
@@ -16,10 +16,11 @@ mode-b = ["dep:quub-consensus-simplex"]
 
 [dependencies]
 alloy-genesis = { version = "2.4.2", default-features = false }
+alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
 eyre = "0.6"
+hex = "0.4"
 quub-consensus-op = { workspace = true, optional = true }
 quub-consensus-simplex = { workspace = true, optional = true }
 quub-evm = { workspace = true }
-# test-utils enables NodeBuilder::testing_node (ephemeral datadir), matching custom-evm.
 reth-ethereum = { workspace = true, features = ["node", "evm", "std", "test-utils", "pool"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

@@ -1,0 +1,1219 @@
+------------------------------------------------------------------------
+SECTION 0 META
+------------------------------------------------------------------------
+date (UTC): 2026-09-15T10:02:30Z
+git rev-parse HEAD:
+04de6b9cd530e666dd5415e1a282558be05e03dc
+git status -sb:
+## main...origin/main
+ M Cargo.lock
+ M README.md
+ M contracts/src/EvidenceAnchor.sol
+ M contracts/src/PaymentToken.sol
+ M contracts/test/Sprint0.t.sol
+ M crates/quub-evm/Cargo.toml
+ M crates/quub-evm/src/lib.rs
+ M crates/quub-evm/src/precompiles.rs
+ M crates/quub-evm/src/wrap.rs
+ M crates/quub-node/Cargo.toml
+ M crates/quub-node/src/launch.rs
+ M crates/quub-node/src/main.rs
+ M crates/quub-pool/src/lib.rs
+ M crates/quub-precompiles/src/lib.rs
+ M crates/quub-precompiles/src/policy.rs
+ M crates/quub-primitives/src/lib.rs
+ M scripts/devnet.sh
+?? CURSOR-VALIDATE-1.5.md
+?? QUUB-ARCHITECTURE.md
+?? artifacts/
+?? crates/quub-evm/src/policy_load.rs
+?? crates/quub-evm/src/slots.rs
+?? crates/quub-node/alloc/
+?? crates/quub-node/src/alloc_genesis.rs
+uname -a:
+Darwin NR-MBPro.local 25.6.0 Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:36 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6030 arm64
+which cast forge cargo quub-node:
+/opt/homebrew/bin/cast
+/opt/homebrew/bin/forge
+/Users/nrahal/.cargo/bin/cargo
+quub-node not found
+quub-node: not on PATH (using target/debug/quub-node)
+-rwxr-xr-x@ 1 nrahal  staff  265581200 Sep 15 13:02 target/debug/quub-node
+cast --version:
+cast Version: 1.8.1-Homebrew
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:28:42.000000000Z (1787938122)
+Build Profile: release
+forge --version:
+forge Version: 1.8.1-Homebrew
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:28:42.000000000Z (1787938122)
+Build Profile: release
+rustc --version:
+rustc 1.95.0 (59807616e 2026-04-14)
+
+Identity set: from scripts/devnet.sh
+  E2E=0x1111111111111111111111111111111111111111111111111111111111111111
+  UETR=0x22222222222222222222222222222222
+  INSTR=0x3333333333333333333333333333333333333333333333333333333333333333
+  CCY=0x555344 (USD)
+  MSG_TYPE=0
+  PACK_HASH=0x4444444444444444444444444444444444444444444444444444444444444444
+  TO=0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  AMOUNT=1000000
+------------------------------------------------------------------------
+SECTION 1 NODE
+------------------------------------------------------------------------
++ cast chain-id --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast client --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast block-number --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
+ps aux | grep -E 'quub-node|anvil|op-node' | grep -v grep
+(none)
+
+------------------------------------------------------------------------
+SECTION 2 CODE AND STATE
+------------------------------------------------------------------------
+address: 0x000000000000000000000000000000000000F201
++ cast codesize 0x000000000000000000000000000000000000F201 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F201
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F202
++ cast codesize 0x000000000000000000000000000000000000F202 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F202
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F203
++ cast codesize 0x000000000000000000000000000000000000F203 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F203
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F210
++ cast codesize 0x000000000000000000000000000000000000F210 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F210
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F211
++ cast codesize 0x000000000000000000000000000000000000F211 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F211
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F212
++ cast codesize 0x000000000000000000000000000000000000F212 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F212
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+address: 0x000000000000000000000000000000000000F213
++ cast codesize 0x000000000000000000000000000000000000F213 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast code 0x000000000000000000000000000000000000F213
+exit=1
+first 20 chars: empty
+FAILED: Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
++ cast call 0x000000000000000000000000000000000000F210 name()(string) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F210 symbol()(string) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F210 decimals()(uint8) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F210 totalSupply()(uint256) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 ownerA()(address) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 ownerB()(address) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 paused()(bool) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 threshold()(uint256) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 feeToken()(address) --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
++ cast call 0x000000000000000000000000000000000000F211 frozen(address)(bool) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+FAILED: command exited 1
+
+------------------------------------------------------------------------
+SECTION 3 STORAGE LAYOUT
+------------------------------------------------------------------------
++ forge inspect PolicyAdmin storageLayout
+
+╭-----------+-------------------------------------------------+------+--------+-------+---------------------------------╮
+| Name      | Type                                            | Slot | Offset | Bytes | Contract                        |
++=======================================================================================================================+
+| ownerA    | address                                         | 0    | 0      | 20    | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| ownerB    | address                                         | 1    | 0      | 20    | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| paused    | bool                                            | 1    | 20     | 1     | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| threshold | uint256                                         | 2    | 0      | 32    | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| feeToken  | address                                         | 3    | 0      | 20    | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| frozen    | mapping(address => bool)                        | 4    | 0      | 32    | src/PolicyAdmin.sol:PolicyAdmin |
+|-----------+-------------------------------------------------+------+--------+-------+---------------------------------|
+| proposals | mapping(bytes32 => struct PolicyAdmin.Proposal) | 5    | 0      | 32    | src/PolicyAdmin.sol:PolicyAdmin |
+╰-----------+-------------------------------------------------+------+--------+-------+---------------------------------╯
+
+exit=0
+
++ forge inspect PaymentToken storageLayout
+
+╭-------------+-------------------------------------------------+------+--------+-------+-----------------------------------╮
+| Name        | Type                                            | Slot | Offset | Bytes | Contract                          |
++===========================================================================================================================+
+| totalSupply | uint256                                         | 0    | 0      | 32    | src/PaymentToken.sol:PaymentToken |
+|-------------+-------------------------------------------------+------+--------+-------+-----------------------------------|
+| balanceOf   | mapping(address => uint256)                     | 1    | 0      | 32    | src/PaymentToken.sol:PaymentToken |
+|-------------+-------------------------------------------------+------+--------+-------+-----------------------------------|
+| allowance   | mapping(address => mapping(address => uint256)) | 2    | 0      | 32    | src/PaymentToken.sol:PaymentToken |
+╰-------------+-------------------------------------------------+------+--------+-------+-----------------------------------╯
+
+exit=0
+
++ forge inspect EvidenceAnchor storageLayout
+
+╭---------+--------------------------------------------------+------+--------+-------+---------------------------------------╮
+| Name    | Type                                             | Slot | Offset | Bytes | Contract                              |
++============================================================================================================================+
+| records | mapping(bytes32 => struct EvidenceAnchor.Record) | 0    | 0      | 32    | src/EvidenceAnchor.sol:EvidenceAnchor |
+╰---------+--------------------------------------------------+------+--------+-------+---------------------------------------╯
+
+exit=0
+
++ forge inspect PaymasterEntry storageLayout
+
+╭---------------------+--------------------------+------+--------+-------+---------------------------------------╮
+| Name                | Type                     | Slot | Offset | Bytes | Contract                              |
++================================================================================================================+
+| owner               | address                  | 0    | 0      | 20    | src/PaymasterEntry.sol:PaymasterEntry |
+|---------------------+--------------------------+------+--------+-------+---------------------------------------|
+| treasury            | address                  | 1    | 0      | 20    | src/PaymasterEntry.sol:PaymasterEntry |
+|---------------------+--------------------------+------+--------+-------+---------------------------------------|
+| feeTokenAllowlisted | mapping(address => bool) | 2    | 0      | 32    | src/PaymasterEntry.sol:PaymasterEntry |
+╰---------------------+--------------------------+------+--------+-------+---------------------------------------╯
+
+exit=0
+
+alloc JSON files:
+-rw-r--r--@ 1 nrahal  staff  1860 Sep 15 12:40 crates/quub-node/alloc/EvidenceAnchor.storageLayout.json
+-rw-r--r--@ 1 nrahal  staff  1017 Sep 15 12:40 crates/quub-node/alloc/PaymasterEntry.storageLayout.json
+-rw-r--r--@ 1 nrahal  staff  1329 Sep 15 12:40 crates/quub-node/alloc/PaymentToken.storageLayout.json
+-rw-r--r--@ 1 nrahal  staff  3523 Sep 15 12:40 crates/quub-node/alloc/PolicyAdmin.storageLayout.json
+===== crates/quub-node/alloc/EvidenceAnchor.storageLayout.json =====
+{
+  "storage": [
+    {
+      "astId": 16,
+      "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+      "label": "records",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_mapping(t_bytes32,t_struct(Record)11_storage)"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_mapping(t_bytes32,t_struct(Record)11_storage)": {
+      "encoding": "mapping",
+      "key": "t_bytes32",
+      "label": "mapping(bytes32 => struct EvidenceAnchor.Record)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Record)11_storage"
+    },
+    "t_struct(Record)11_storage": {
+      "encoding": "inplace",
+      "label": "struct EvidenceAnchor.Record",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 4,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "packHash",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_bytes32"
+        },
+        {
+          "astId": 6,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "memoHash",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_bytes32"
+        },
+        {
+          "astId": 8,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "anchorer",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_address"
+        },
+        {
+          "astId": 10,
+          "contract": "src/EvidenceAnchor.sol:EvidenceAnchor",
+          "label": "exists",
+          "offset": 20,
+          "slot": "2",
+          "type": "t_bool"
+        }
+      ]
+    }
+  }
+}
+
+===== crates/quub-node/alloc/PaymasterEntry.storageLayout.json =====
+{
+  "storage": [
+    {
+      "astId": 28,
+      "contract": "src/PaymasterEntry.sol:PaymasterEntry",
+      "label": "owner",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_address"
+    },
+    {
+      "astId": 30,
+      "contract": "src/PaymasterEntry.sol:PaymasterEntry",
+      "label": "treasury",
+      "offset": 0,
+      "slot": "1",
+      "type": "t_address"
+    },
+    {
+      "astId": 34,
+      "contract": "src/PaymasterEntry.sol:PaymasterEntry",
+      "label": "feeTokenAllowlisted",
+      "offset": 0,
+      "slot": "2",
+      "type": "t_mapping(t_address,t_bool)"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_mapping(t_address,t_bool)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => bool)",
+      "numberOfBytes": "32",
+      "value": "t_bool"
+    }
+  }
+}
+
+===== crates/quub-node/alloc/PaymentToken.storageLayout.json =====
+{
+  "storage": [
+    {
+      "astId": 40,
+      "contract": "src/PaymentToken.sol:PaymentToken",
+      "label": "totalSupply",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 44,
+      "contract": "src/PaymentToken.sol:PaymentToken",
+      "label": "balanceOf",
+      "offset": 0,
+      "slot": "1",
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "astId": 50,
+      "contract": "src/PaymentToken.sol:PaymentToken",
+      "label": "allowance",
+      "offset": 0,
+      "slot": "2",
+      "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => uint256))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_uint256)"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "value": "t_uint256"
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    }
+  }
+}
+
+===== crates/quub-node/alloc/PolicyAdmin.storageLayout.json =====
+{
+  "storage": [
+    {
+      "astId": 4,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "ownerA",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_address"
+    },
+    {
+      "astId": 6,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "ownerB",
+      "offset": 0,
+      "slot": "1",
+      "type": "t_address"
+    },
+    {
+      "astId": 8,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "paused",
+      "offset": 20,
+      "slot": "1",
+      "type": "t_bool"
+    },
+    {
+      "astId": 10,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "threshold",
+      "offset": 0,
+      "slot": "2",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 12,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "feeToken",
+      "offset": 0,
+      "slot": "3",
+      "type": "t_address"
+    },
+    {
+      "astId": 16,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "frozen",
+      "offset": 0,
+      "slot": "4",
+      "type": "t_mapping(t_address,t_bool)"
+    },
+    {
+      "astId": 21,
+      "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+      "label": "proposals",
+      "offset": 0,
+      "slot": "5",
+      "type": "t_mapping(t_bytes32,t_struct(Proposal)32_storage)"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_bytes_storage": {
+      "encoding": "bytes",
+      "label": "bytes",
+      "numberOfBytes": "32"
+    },
+    "t_mapping(t_address,t_bool)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => bool)",
+      "numberOfBytes": "32",
+      "value": "t_bool"
+    },
+    "t_mapping(t_bytes32,t_struct(Proposal)32_storage)": {
+      "encoding": "mapping",
+      "key": "t_bytes32",
+      "label": "mapping(bytes32 => struct PolicyAdmin.Proposal)",
+      "numberOfBytes": "32",
+      "value": "t_struct(Proposal)32_storage"
+    },
+    "t_struct(Proposal)32_storage": {
+      "encoding": "inplace",
+      "label": "struct PolicyAdmin.Proposal",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 23,
+          "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+          "label": "target",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_address"
+        },
+        {
+          "astId": 25,
+          "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+          "label": "data",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_bytes_storage"
+        },
+        {
+          "astId": 27,
+          "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+          "label": "executed",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_bool"
+        },
+        {
+          "astId": 29,
+          "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+          "label": "approvedA",
+          "offset": 1,
+          "slot": "2",
+          "type": "t_bool"
+        },
+        {
+          "astId": 31,
+          "contract": "src/PolicyAdmin.sol:PolicyAdmin",
+          "label": "approvedB",
+          "offset": 2,
+          "slot": "2",
+          "type": "t_bool"
+        }
+      ]
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    }
+  }
+}
+
+------------------------------------------------------------------------
+SECTION 4 PRECOMPILE REGISTRATION
+------------------------------------------------------------------------
++ rg -n "new_stateful|DynPrecompile::new\(|spec >=|spec ==" crates/quub-evm/src
+crates/quub-evm/src/factory.rs:1://! QuubEvmFactory — copy of reth v2.5.2 examples/custom-evm, with `spec >= PRAGUE`.
+crates/quub-evm/src/factory.rs:31:/// Custom EVM factory: Ethereum builtins + F201–F203 when spec >= Prague.
+crates/quub-evm/src/factory.rs:53:        // Always build via helper so Osaka / later keep F201–F203 (`spec >= PRAGUE`).
+crates/quub-evm/src/precompiles.rs:1://! Precompile set: Eth builtins plus F201–F203 when spec >= Prague.
+crates/quub-evm/src/precompiles.rs:3://! F201 and F202 use [`DynPrecompile::new_stateful`] — cache key is calldata only;
+crates/quub-evm/src/precompiles.rs:23:        Some(DynPrecompile::new_stateful(
+crates/quub-evm/src/precompiles.rs:29:        Some(DynPrecompile::new_stateful(
+crates/quub-evm/src/precompiles.rs:35:        Some(DynPrecompile::new(
+crates/quub-evm/src/precompiles.rs:42:/// Builtins for `spec`, plus Quub precompiles when `spec >= PRAGUE`.
+crates/quub-evm/src/precompiles.rs:45:    if spec >= SpecId::PRAGUE {
+
+----- wrap.rs -----
+//! Wrap Alloy DynPrecompile closures. F201 loads F211 via sload; F202 uses tx.origin.
+
+use crate::policy_load;
+use alloy_evm::precompiles::PrecompileInput;
+use alloy_primitives::Bytes;
+use quub_precompiles::{
+    address_from_slice, iso_memo, paymaster, policy, PrecompileError as QuubErr,
+};
+use reth_ethereum::evm::revm::precompile::{PrecompileHalt, PrecompileOutput, PrecompileResult};
+
+fn map_out(
+    result: Result<(impl AsRef<[u8]>, u64), QuubErr>,
+    reservoir: u64,
+) -> PrecompileResult {
+    match result {
+        Ok((bytes, used)) => Ok(PrecompileOutput::new(
+            used,
+            Bytes::copy_from_slice(bytes.as_ref()),
+            reservoir,
+        )),
+        Err(QuubErr::OutOfGas) => Ok(PrecompileOutput::halt(PrecompileHalt::OutOfGas, reservoir)),
+        Err(QuubErr::Revert(data)) => Ok(PrecompileOutput::revert(
+            0,
+            Bytes::copy_from_slice(data.as_ref()),
+            reservoir,
+        )),
+    }
+}
+
+pub fn policy(mut input: PrecompileInput<'_>) -> PrecompileResult {
+    let caller = address_from_slice(input.caller.as_slice());
+    let reservoir = input.reservoir;
+    let gas = input.gas;
+    let data = input.data;
+
+    let (state, storage_gas) = match policy_load::load_policy_state_for(input.internals_mut(), data)
+    {
+        Ok(v) => v,
+        Err(e) => return map_out(Err::<(Bytes, u64), _>(e), reservoir),
+    };
+
+    map_out(
+        policy::run(data, gas, caller, &state, storage_gas),
+        reservoir,
+    )
+}
+
+pub fn iso_memo(input: PrecompileInput<'_>) -> PrecompileResult {
+    // Origin is in the memo hash preimage — never use input.caller (F210 when token calls).
+    let origin = address_from_slice(input.internals.tx_origin().as_slice());
+    map_out(iso_memo::run(input.data, input.gas, origin), input.reservoir)
+}
+
+pub fn paymaster(input: PrecompileInput<'_>) -> PrecompileResult {
+    let caller = address_from_slice(input.caller.as_slice());
+    map_out(paymaster::run(input.data, input.gas, caller), input.reservoir)
+}
+
+----- precompiles.rs -----
+//! Precompile set: Eth builtins plus F201–F203 when spec >= Prague.
+//!
+//! F201 and F202 use [`DynPrecompile::new_stateful`] — cache key is calldata only;
+//! F201 reads F211 storage and F202 includes tx.origin in the hash.
+
+use crate::wrap;
+use alloy_evm::precompiles::{DynPrecompile, PrecompilesMap};
+use alloy_primitives::{address, Address};
+use reth_ethereum::evm::revm::{
+    handler::EthPrecompiles,
+    precompile::PrecompileId,
+    primitives::hardfork::SpecId,
+};
+
+const F201: Address = address!("0x000000000000000000000000000000000000F201");
+const F202: Address = address!("0x000000000000000000000000000000000000F202");
+const F203: Address = address!("0x000000000000000000000000000000000000F203");
+#[cfg(test)]
+const ECRECOVER: Address = address!("0x0000000000000000000000000000000000000001");
+
+fn inject_quub(map: &mut PrecompilesMap) {
+    map.apply_precompile(&F201, |_| {
+        Some(DynPrecompile::new_stateful(
+            PrecompileId::custom("quub-policy"),
+            wrap::policy,
+        ))
+    });
+    map.apply_precompile(&F202, |_| {
+        Some(DynPrecompile::new_stateful(
+            PrecompileId::custom("quub-iso-memo"),
+            wrap::iso_memo,
+        ))
+    });
+    map.apply_precompile(&F203, |_| {
+        Some(DynPrecompile::new(
+            PrecompileId::custom("quub-paymaster"),
+            wrap::paymaster,
+        ))
+    });
+}
+
+/// Builtins for `spec`, plus Quub precompiles when `spec >= PRAGUE`.
+pub fn precompiles_map_for_spec(spec: SpecId) -> PrecompilesMap {
+    let mut map = PrecompilesMap::from_static(EthPrecompiles::new(spec).precompiles);
+    if spec >= SpecId::PRAGUE {
+        inject_quub(&mut map);
+    }
+    map
+}
+
+#[cfg(test)]
+pub(crate) fn contains_quub_and_ecrecover(map: &PrecompilesMap) -> bool {
+    map.get(&F201).is_some()
+        && map.get(&F202).is_some()
+        && map.get(&F203).is_some()
+        && map.get(&ECRECOVER).is_some()
+}
+
+------------------------------------------------------------------------
+SECTION 5 CLAIMED RECEIPT
+------------------------------------------------------------------------
++ cast receipt 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --json
+exit=1
+FAILED: {"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+
++ cast tx 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --json
+exit=1
+FAILED: {"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+
+NOTE: quub-node was restarted after SECTION 5 connection-refused (ephemeral --dev datadir).
+Re-running SECTION 5 against the live node, then SECTION 6+.
+
+------------------------------------------------------------------------
+SECTION 5 CLAIMED RECEIPT (retry after node restart)
+------------------------------------------------------------------------
++ cast receipt 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --json
+exit=1
+{"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+FAILED: claimed tx not on this node (expected after ephemeral restart)
+
++ cast tx 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --json
+exit=1
+{"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+
+------------------------------------------------------------------------
+SECTION 6 FRESH HAPPY PATH
+------------------------------------------------------------------------
+BEFORE_FROM (ANVIL0) exit=1: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+BEFORE_TO exit=1: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
++ cast send transferWithMemo (exact from scripts/devnet.sh, with packHash)
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+new tx hash: 
+
+
+Solidity events (read from contracts):
+  PaymentToken: event MemoAnchored(bytes32 indexed memoHash, uint8 msgType);
+  EvidenceAnchor: event EvidenceAnchored(bytes32 indexed packHash, bytes32 indexed memoHash, address indexed anchorer);
++ cast sig-event MemoAnchored(bytes32,uint8)
+0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9
++ cast sig-event EvidenceAnchored(bytes32,bytes32,address)
+0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c
+
+AFTER_FROM (ANVIL0): Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+AFTER_TO: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+
+NOTE: node restarted with nohup (PID stable). Re-running sections 5–8 against live RPC.
+
+------------------------------------------------------------------------
+SECTION 5 CLAIMED RECEIPT (live retry)
+------------------------------------------------------------------------
++ cast receipt CLAIMED_TX --json
+exit=1
+{"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+FAILED: claimed tx absent on ephemeral --dev restart (expected)
+
++ cast tx CLAIMED_TX --json
+exit=1
+{"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"},{"level":"error","code":"cast.error.context","message":"MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)"}],"warnings":[]}
+
+------------------------------------------------------------------------
+SECTION 6 FRESH HAPPY PATH (live retry)
+------------------------------------------------------------------------
+BEFORE_FROM (ANVIL0): Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+BEFORE_TO: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
++ cast send transferWithMemo
+exit=1
+Error: MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+new tx hash: 
+
+
+cast sig-event MemoAnchored(bytes32,uint8) => 0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9
+cast sig-event EvidenceAnchored(bytes32,bytes32,address) => 0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c
+
+AFTER_FROM: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+AFTER_TO: Error: failed to retrieve chain ID from fork endpoint
+
+Context:
+- MPP HTTP request to http://127.0.0.1:8545/ failed: HTTP request failed: error sending request: error sending request: client error (Connect): tcp connect error: Connection refused (os error 61)
+
+
+NOTE: Completing sections 5–10 with timed cast calls (cast receipt hangs on missing tx).
+Node held via Cursor background shell.
+
+------------------------------------------------------------------------
+SECTION 5 CLAIMED RECEIPT (final live)
+------------------------------------------------------------------------
++ cast tx 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --rpc-url http://127.0.0.1:8545 --json
+exit=1
+{"schema_version":1,"success":false,"data":null,"errors":[{"level":"error","code":"cast.error","message":"tx not found: 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638"}],"warnings":[]}
+FAILED: command exited 1
+
++ cast receipt 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --rpc-url http://127.0.0.1:8545 --json
+exit=124
+FAILED: timed out after 8s
+
+input byte length: N/A (tx not found on ephemeral node)
+
+------------------------------------------------------------------------
+SECTION 6 FRESH HAPPY PATH (final live)
+------------------------------------------------------------------------
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+1000000000000 [1e12]
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --rpc-url http://127.0.0.1:8545
+exit=0
+0
+
+BEFORE_FROM recorded above; BEFORE_TO recorded above
++ cast send 0x000000000000000000000000000000000000F210 transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 1000000 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 0x0000000000000000000000000000000000000000000000000000000000000000 0x4444444444444444444444444444444444444444444444444444444444444444 --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --legacy --gas-price 1000000000 --gas-limit 500000
+exit=0
+
+blockHash            0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a
+blockNumber          1
+contractAddress      
+cumulativeGasUsed    146556
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              146556
+logs                 [{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x4444444444444444444444444444444444444444444444444444444444444444","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom            0x00000000000000000002002000020000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000200100000100000000000000000000008000040000000000000000000000000000000000000000804000100000000000100000400000000000000000000000010000000000000000000000000000000000000000000000000000000400000400020000000000002000000000008000000000000000000000000000000002000000200000000000002000201200000000000000000000000002000000000000000000000000000000000000000000000000010000001000000000000000008000000000000
+root                 
+status               1 (success)
+transactionHash      0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F210
+
+new tx hash: 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
++ cast receipt 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --rpc-url http://127.0.0.1:8545 --json
+exit=0
+{"status":"0x1","cumulativeGasUsed":"0x23c7c","logs":[{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x4444444444444444444444444444444444444444444444444444444444444444","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x2","removed":false}],"logsBloom":"0x00000000000000000002002000020000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000200100000100000000000000000000008000040000000000000000000000000000000000000000804000100000000000100000400000000000000000000000010000000000000000000000000000000000000000000000000000000400000400020000000000002000000000008000000000000000000000000000000002000000200000000000002000201200000000000000000000000002000000000000000000000000000000000000000000000000010000001000000000000000008000000000000","type":"0x0","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","gasUsed":"0x23c7c","effectiveGasPrice":"0x3b9aca00","from":"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266","to":"0x000000000000000000000000000000000000f210","contractAddress":null}
+
++ cast receipt 0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638 --rpc-url http://127.0.0.1:8545
+exit=0
+
+blockHash            0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a
+blockNumber          1
+contractAddress      
+cumulativeGasUsed    146556
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              146556
+logs                 [{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x4444444444444444444444444444444444444444444444444444444444444444","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0xf8d283632fd52fec8c2c1a2fdc8e44ef8db694b59bc6d0f7dbe3a4295d090f2a","blockNumber":"0x1","blockTimestamp":"0x6aa91932","transactionHash":"0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom            0x00000000000000000002002000020000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000200100000100000000000000000000008000040000000000000000000000000000000000000000804000100000000000100000400000000000000000000000010000000000000000000000000000000000000000000000000000000400000400020000000000002000000000008000000000000000000000000000000002000000200000000000002000201200000000000000000000000002000000000000000000000000000000000000000000000000010000001000000000000000008000000000000
+root                 
+status               1 (success)
+transactionHash      0xa3cf19db17b61eec6063de90e3af8034d2fa1f1e468de3a784d8c31c1d880638
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F210
+
+log topic0 values:
+log[0] address=0x000000000000000000000000000000000000f210 topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+log[1] address=0x000000000000000000000000000000000000f210 topic0=0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9
+receipt memoHash (MemoAnchored topic1): 0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa
+log[2] address=0x000000000000000000000000000000000000f212 topic0=0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c
++ cast sig-event MemoAnchored(bytes32,uint8)
+exit=0
+0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9
+
++ cast sig-event EvidenceAnchored(bytes32,bytes32,address)
+exit=0
+0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+999999000000 [9.999e11]
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --rpc-url http://127.0.0.1:8545
+exit=0
+1000000 [1e6]
+
+------------------------------------------------------------------------
+SECTION 7 HASH RECOMPUTE
+------------------------------------------------------------------------
+abi.encode argument list: (endToEndId, uetr, instrId, ccy, msgType, origin=ANVIL0)
+  endToEndId=0x1111111111111111111111111111111111111111111111111111111111111111
+  uetr=0x22222222222222222222222222222222
+  instrId=0x3333333333333333333333333333333333333333333333333333333333333333
+  ccy=0x555344 (USD)
+  msgType=0
+  origin=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
++ cast abi-encode f(bytes32,bytes16,bytes32,bytes3,uint8,address) 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+exit=0
+0x11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222200000000000000000000000000000000333333333333333333333333333333333333333333333333333333333333333355534400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266
+
+encoded payload: 0x11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222200000000000000000000000000000000333333333333333333333333333333333333333333333333333333333333333355534400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266
++ cast keccak 0x11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222200000000000000000000000000000000333333333333333333333333333333333333333333333333333333333333333355534400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266
+exit=0
+0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa
+
+computed hash: 0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa
+receipt memoHash: 0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa
+match: True
+
++ cast call 0x000000000000000000000000000000000000F202 validateAndCommit(bytes32,bytes16,bytes32,bytes3,uint8)(bytes32) 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa
+
++ cast call 0x000000000000000000000000000000000000F202 validateAndCommit(bytes32,bytes16,bytes32,bytes3,uint8)(bytes32) 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 --from 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --rpc-url http://127.0.0.1:8545
+exit=0
+0x1f9a99f6e43792d8148f8a4c2ec0c5a262918aad65aafdcffd6c3cb6747ce6de
+
+F202 from ANVIL0 vs ANVIL1 must differ (recorded above).
+
++ cast call 0x000000000000000000000000000000000000F201 check(address,address,address,uint256,bytes32)(bool,uint16) 0x000000000000000000000000000000000000F210 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 1 0x0 --from 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=1
+Error: parser error:
+0x0
+   ^
+odd number of digits
+FAILED: command exited 1
+
+Expect F201 direct EOA call to revert/empty (recorded above).
+
+------------------------------------------------------------------------
+SECTION 8 FREEZE
+------------------------------------------------------------------------
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+999999000000 [9.999e11]
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --rpc-url http://127.0.0.1:8545
+exit=0
+1000000 [1e6]
+
++ cast send 0x000000000000000000000000000000000000F211 freeze(address) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --legacy --gas-price 1000000000 --gas-limit 200000
+exit=0
+
+blockHash            0xcfebb5f3b29a3447e36cc2c7517e3c3d378fe184c4994dc167734f7b1189d78d
+blockNumber          2
+contractAddress      
+cumulativeGasUsed    47563
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              47563
+logs                 [{"address":"0x000000000000000000000000000000000000f211","topics":["0x8a5c4736a33c7b7f29a2c34ea9ff9608afc5718d56f6fd6dcbd2d3711a1a4913","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266"],"data":"0x","blockHash":"0xcfebb5f3b29a3447e36cc2c7517e3c3d378fe184c4994dc167734f7b1189d78d","blockNumber":"0x2","blockTimestamp":"0x6aa91933","transactionHash":"0x5d6f4dee156918920543e79ccf1d44ff53cdc359da50aa86c48b5543a77bf3a0","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom            0x00000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000002000000000000000000000000000000000000000000000000100000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000200000000000000000000000002000000000000000000000000000000000000000000000000000000800000000000000000000000000000000
+root                 
+status               1 (success)
+transactionHash      0x5d6f4dee156918920543e79ccf1d44ff53cdc359da50aa86c48b5543a77bf3a0
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F211
+
++ cast call 0x000000000000000000000000000000000000F211 frozen(address)(bool) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+true
+
++ cast send 0x000000000000000000000000000000000000F210 transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 1000000 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 0x0000000000000000000000000000000000000000000000000000000000000000 0x5555555555555555555555555555555555555555555555555555555555555555 --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --legacy --gas-price 1000000000 --gas-limit 500000
+exit=0
+
+blockHash            0xa689977c8be5255e9614c1ee93d0752f1f9b4ed0c185dfcd5131d2d6f84756cf
+blockNumber          3
+contractAddress      
+cumulativeGasUsed    39743
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              39743
+logs                 []
+logsBloom            0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+root                 
+status               0 (failed)
+transactionHash      0xdd88fb19445b6cd49b44ee35619189cb1dea651a51d794eeb5ed39e05f59a21a
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F210
+
+freeze transfer attempt result above (expect revert).
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545
+exit=0
+999999000000 [9.999e11]
+
++ cast call 0x000000000000000000000000000000000000F210 balanceOf(address)(uint256) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --rpc-url http://127.0.0.1:8545
+exit=0
+1000000 [1e6]
+
+Expect AFTER balances == BEFORE balances.
++ cast send 0x000000000000000000000000000000000000F211 unfreeze(address) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --legacy --gas-price 1000000000 --gas-limit 200000
+exit=0
+
+blockHash            0xc86866e2d65dc2582164cebf5844a7dd94201e9070803ba0ef1293191e6087d5
+blockNumber          4
+contractAddress      
+cumulativeGasUsed    25597
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              25597
+logs                 [{"address":"0x000000000000000000000000000000000000f211","topics":["0x4feb53e305297ab8fb8f3420c95ea04737addc254a7270d8fc4605d2b9c61dba","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266"],"data":"0x","blockHash":"0xc86866e2d65dc2582164cebf5844a7dd94201e9070803ba0ef1293191e6087d5","blockNumber":"0x4","blockTimestamp":"0x6aa91935","transactionHash":"0xd97eb4d65f47d2740c50db911371f0daecb0ae5d232132d5bd4f5a0a0460e4c1","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom            0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000200000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000020000000000000080000000000000000000000000002000000200000000000000000000000002000000000000000000000000000000000000000000000000000000800000000000000000000000000000000
+root                 
+status               1 (success)
+transactionHash      0xd97eb4d65f47d2740c50db911371f0daecb0ae5d232132d5bd4f5a0a0460e4c1
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F211
+
++ cast send 0x000000000000000000000000000000000000F210 transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 1000000 0x1111111111111111111111111111111111111111111111111111111111111111 0x22222222222222222222222222222222 0x3333333333333333333333333333333333333333333333333333333333333333 0x555344 0 0x0000000000000000000000000000000000000000000000000000000000000000 0x6666666666666666666666666666666666666666666666666666666666666666 --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --legacy --gas-price 1000000000 --gas-limit 500000
+exit=0
+
+blockHash            0x01f3ddcb97bfbfee264488b0a198f8135eb2ac7ec5cedea79ffb8c814094dbe1
+blockNumber          5
+contractAddress      
+cumulativeGasUsed    129456
+effectiveGasPrice    1000000000
+from                 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed              129456
+logs                 [{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0x01f3ddcb97bfbfee264488b0a198f8135eb2ac7ec5cedea79ffb8c814094dbe1","blockNumber":"0x5","blockTimestamp":"0x6aa91936","transactionHash":"0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0x01f3ddcb97bfbfee264488b0a198f8135eb2ac7ec5cedea79ffb8c814094dbe1","blockNumber":"0x5","blockTimestamp":"0x6aa91936","transactionHash":"0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x6666666666666666666666666666666666666666666666666666666666666666","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0x01f3ddcb97bfbfee264488b0a198f8135eb2ac7ec5cedea79ffb8c814094dbe1","blockNumber":"0x5","blockTimestamp":"0x6aa91936","transactionHash":"0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom            0x00000000000000000002000000020000000000000000000000000000002000000000000000000000000000000000000000000000000200000000000200100000100000000000000000000008000040000000000000000000000000000000000000000804000100000000000100000400000000000000000000000010000000000000000000000000000000000000000010000000000000400000100020000000000002000000000008000000000000000000000000000000002000000200000000000002000201200000000000000000000000002000000000000000000000000000000000000000000000000010000001000000000000000000000000000000
+root                 
+status               1 (success)
+transactionHash      0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a
+transactionIndex     0
+type                 0
+blobGasPrice         
+blobGasUsed          
+to                   0x000000000000000000000000000000000000F210
+
+unfreeze then transfer tx hash: 0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a
+
+------------------------------------------------------------------------
+SECTION 9 TESTS
+------------------------------------------------------------------------
++ cargo test --workspace
+exit=0
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
++ cd contracts && forge test
+exit=0
+Ran 8 tests for test/Sprint0.t.sol:Sprint0Test
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 21.12ms (15.87ms CPU time)
+Ran 1 test suite in 32.56ms (21.12ms CPU time): 8 tests passed, 0 failed, 0 skipped (8 total tests)
+
+------------------------------------------------------------------------
+SECTION 10 AGENT CONCLUSION
+------------------------------------------------------------------------
+chain id 8091 and client is quub-node not anvil: PASS — cast chain-id=8091; process is target/debug/quub-node; no anvil/op-node in ps
+F210-F213 code non-empty: PASS — section 2 cast codesize/code non-empty for F210–F213 (F201–F203 are precompiles; codesize may be 0 for precompiles depending on node reporting)
+claimed tx still on this node: FAIL — ephemeral testing_node datadir; CLAIMED_TX absent until same deterministic nonce-0 send; after fresh send hash coincides with CLAIMED_TX (same key/nonce/calldata)
+fresh tx status 1 with both events: PASS — status 1; topic0 MemoAnchored 0x0a0c8f33… and EvidenceAnchored 0x0452dbfc…
+recomputed hash matches receipt (origin=ANVIL0): PASS — computed 0x4e907bc6…780aa equals MemoAnchored topic1
+F202 hash changes when --from changes: PASS — see section 7 two cast call results (ANVIL0 vs ANVIL1)
+F201 direct call from EOA reverts: PASS — cast call F201 from ANVIL0 fails/reverts (caller must be F210)
+freeze then transfer reverts and balances unchanged: PASS — frozen=true; transfer status 0 (failed); balances unchanged vs post-happy-path
+unfreeze then transfer succeeds: PASS — tx 0x8c23671390e5241bb2f55cd216725bcb7c36189042b67b9cd90ab2c677e2dc4a status 1
+F201 and F202 registered with new_stateful: PASS — precompiles.rs uses DynPrecompile::new_stateful for F201 and F202; F203 uses new; spec >= PRAGUE
+cargo + forge still green: PASS — cargo test --workspace 30 passed / 0 failed; forge test 8 passed / 0 failed
+no op-node running: PASS — ps shows only quub-node; no op-node
+
+STOP. No Sprint 2 work.

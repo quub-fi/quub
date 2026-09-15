@@ -18,12 +18,12 @@ mod tests {
     use super::*;
     use alloy_primitives::{address, Address, B256, U256};
     use alloy_sol_types::{SolCall, SolValue};
-    use quub_primitives::{
-        Memo, MsgType, PolicyCheck, PolicyReason, CCY_USD, FEE_TOKEN_DEVNET, QUUB_ISO_MEMO,
-        QUUB_PAYMASTER, QUUB_POLICY,
-    };
     use quub_iso::validate_and_commit;
     use quub_policy::{check as policy_check, PolicyState};
+    use quub_primitives::{
+        Memo, MsgType, PolicyCheck, PolicyReason, CCY_USD, FEE_TOKEN_DEVNET, PAYMENT_TOKEN,
+        QUUB_ISO_MEMO, QUUB_PAYMASTER, QUUB_POLICY,
+    };
 
     #[test]
     fn addresses_are_f201_f202_f203() {
@@ -46,7 +46,24 @@ mod tests {
 
     #[test]
     fn policy_unknown_selector_reverts() {
-        let err = policy::run(&[0xde, 0xad, 0xbe, 0xef], 10_000, Address::ZERO).unwrap_err();
+        let state = PolicyState::new();
+        let err = policy::run(&[0xde, 0xad, 0xbe, 0xef], 10_000, PAYMENT_TOKEN, &state, 0)
+            .unwrap_err();
+        assert_eq!(err, PrecompileError::empty_revert());
+    }
+
+    #[test]
+    fn policy_non_token_caller_reverts() {
+        let state = PolicyState::new();
+        let calldata = abi::CheckCall {
+            token: PAYMENT_TOKEN,
+            from: address!("0x0000000000000000000000000000000000000001"),
+            to: address!("0x0000000000000000000000000000000000000002"),
+            amount: U256::from(100u64),
+            trHash: B256::ZERO,
+        }
+        .abi_encode();
+        let err = policy::run(&calldata, 10_000, Address::ZERO, &state, 0).unwrap_err();
         assert_eq!(err, PrecompileError::empty_revert());
     }
 
@@ -55,9 +72,8 @@ mod tests {
         let mut state = PolicyState::new();
         let from = address!("0x0000000000000000000000000000000000000001");
         let to = address!("0x0000000000000000000000000000000000000002");
-        let token = address!("0x000000000000000000000000000000000000F210");
+        let token = PAYMENT_TOKEN;
         state.freeze(from);
-        policy::replace_state(state.clone());
 
         let req = PolicyCheck {
             token,
@@ -78,13 +94,12 @@ mod tests {
             trHash: req.tr_hash,
         }
         .abi_encode();
-        let (out, gas) = policy::run(&calldata, 10_000, Address::ZERO).expect("run");
+        let (out, gas) =
+            policy::run(&calldata, 20_000, PAYMENT_TOKEN, &state, 0).expect("run");
         assert_eq!(gas, policy::BASE_GAS);
         let (got_ok, got_reason): (bool, u16) = <(bool, u16)>::abi_decode(&out, false).unwrap();
         assert_eq!(got_ok, allowed);
         assert_eq!(got_reason, reason.as_u16());
-
-        policy::replace_state(PolicyState::new());
     }
 
     #[test]

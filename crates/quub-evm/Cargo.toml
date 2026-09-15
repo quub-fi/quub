@@ -11,4 +11,9 @@ alloy-evm = { version = "0.38.0", default-features = false }
 alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
 eyre = "0.6"
 quub-precompiles = { workspace = true }
+quub-policy = { path = "../../services/quub-policy" }
+quub-primitives = { workspace = true }
 reth-ethereum = { workspace = true, features = ["evm", "node", "std"] }
+
+[dev-dependencies]
+alloy-sol-types = { workspace = true }

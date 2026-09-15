@@ -29,6 +29,10 @@ pub const FEE_TOKEN_DEVNET: Address = address!("0x000000000000000000000000000000
 /// Host allowed to call F203 `takeFee` in Sprint 1 (stateful debit waits for 1.5).
 pub const PAYMASTER_TEST_HOST: Address = PAYMASTER_ENTRY;
 
+/// Public anvil account 0 — `--dev` only. Not a production key.
+pub const DEVNET_ANVIL_ADDRESS: Address =
+    address!("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
+
 // --- PaymentToken.sol ABI calldata lengths (selector + padded words) ---
 // Measured from contracts/src/PaymentToken.sol. Each ABI word is 32 bytes.
 
@@ -36,16 +40,16 @@ pub const PAYMASTER_TEST_HOST: Address = PAYMASTER_ENTRY;
 pub const TRANSFER_CALLDATA_LEN: usize = 4 + 32 * 2;
 /// `transferFrom(address,address,uint256)` — 3 words.
 pub const TRANSFER_FROM_CALLDATA_LEN: usize = 4 + 32 * 3;
-/// `transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32)` — 8 words.
-pub const TRANSFER_WITH_MEMO_CALLDATA_LEN: usize = 4 + 32 * 8;
+/// `transferWithMemo(...,bytes32 packHash)` — 9 words.
+pub const TRANSFER_WITH_MEMO_CALLDATA_LEN: usize = 4 + 32 * 9;
 
 /// ERC-20 `transfer(address,uint256)` selector.
 pub const TRANSFER_SELECTOR: [u8; 4] = [0xa9, 0x05, 0x9c, 0xbb];
 /// ERC-20 `transferFrom(address,address,uint256)` selector.
 pub const TRANSFER_FROM_SELECTOR: [u8; 4] = [0x23, 0xb8, 0x72, 0xdd];
-/// `transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32)`.
-/// `cast sig` of that signature: `0xa3124283`.
-pub const TRANSFER_WITH_MEMO_SELECTOR: [u8; 4] = [0xa3, 0x12, 0x42, 0x83];
+/// `transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)`.
+/// `cast sig` of that signature.
+pub const TRANSFER_WITH_MEMO_SELECTOR: [u8; 4] = [0x84, 0x3e, 0x11, 0x1e];
 
 /// F201 policy `check` reason codes.
 #[repr(u16)]
@@ -185,9 +189,9 @@ mod tests {
     fn payment_token_abi_lengths_match_solidity() {
         assert_eq!(TRANSFER_CALLDATA_LEN, 68);
         assert_eq!(TRANSFER_FROM_CALLDATA_LEN, 100);
-        assert_eq!(TRANSFER_WITH_MEMO_CALLDATA_LEN, 260);
+        assert_eq!(TRANSFER_WITH_MEMO_CALLDATA_LEN, 4 + 32 * 9);
         let h = alloy_primitives::keccak256(
-            b"transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32)",
+            b"transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)",
         );
         assert_eq!(&TRANSFER_WITH_MEMO_SELECTOR, &h[..4]);
     }
