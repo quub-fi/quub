@@ -1,8 +1,14 @@
-//! QuubEvmFactory — copy of reth v2.5.2 examples/custom-evm, with spec >= PRAGUE.
+//! QuubEvmFactory — copy of reth v2.5.2 examples/custom-evm, with `spec >= PRAGUE`.
 
-use crate::precompiles::precompiles_for_spec;
-use alloy_evm::{eth::EthEvmContext, precompiles::PrecompilesMap, EvmFactory};
+use crate::precompiles::precompiles_map_for_spec;
+use alloy_evm::{
+    eth::EthEvmContext,
+    precompiles::PrecompilesMap,
+    revm::context::DBErrorMarker,
+    EvmFactory,
+};
 use reth_ethereum::{
+    chainspec::ChainSpec,
     evm::{
         primitives::{Database, EvmEnv},
         revm::{
@@ -31,7 +37,7 @@ impl EvmFactory for QuubEvmFactory {
     type Evm<DB: Database, I: Inspector<EthEvmContext<DB>, EthInterpreter>> =
         EthEvm<DB, I, Self::Precompiles>;
     type Tx = TxEnv;
-    type Error = EVMError<DB::Error>;
+    type Error<DBError: DBErrorMarker> = EVMError<DBError>;
     type HaltReason = HaltReason;
     type Context<DB: Database> = EthEvmContext<DB>;
     type Spec = SpecId;
@@ -41,16 +47,11 @@ impl EvmFactory for QuubEvmFactory {
     fn create_evm<DB: Database>(
         &self,
         db: DB,
-        input: EvmEnv<SpecId>,
+        input: EvmEnv,
     ) -> Self::Evm<DB, NoOpInspector> {
         let spec = input.cfg_env.spec;
-        let precompiles = if spec >= SpecId::PRAGUE {
-            PrecompilesMap::from_static(precompiles_for_spec(spec))
-        } else {
-            PrecompilesMap::from_static(
-                reth_ethereum::evm::revm::handler::EthPrecompiles::new(spec).precompiles,
-            )
-        };
+        // Always build via helper so Osaka / later keep F201–F203 (`spec >= PRAGUE`).
+        let precompiles = precompiles_map_for_spec(spec);
 
         let evm = Context::mainnet()
             .with_db(db)
@@ -62,10 +63,10 @@ impl EvmFactory for QuubEvmFactory {
         EthEvm::new(evm, false)
     }
 
-    fn create_evm_with_inspector<DB: Database, I: Inspector<EthEvmContext<DB>, EthInterpreter>>(
+    fn create_evm_with_inspector<DB: Database, I: Inspector<Self::Context<DB>, EthInterpreter>>(
         &self,
         db: DB,
-        input: EvmEnv<SpecId>,
+        input: EvmEnv,
         inspector: I,
     ) -> Self::Evm<DB, I> {
         EthEvm::new(
@@ -82,14 +83,9 @@ pub struct QuubExecutorBuilder;
 
 impl<Node> ExecutorBuilder<Node> for QuubExecutorBuilder
 where
-    Node: FullNodeTypes<
-        Types: NodeTypes<
-            ChainSpec = reth_ethereum::chainspec::ChainSpec,
-            Primitives = EthPrimitives,
-        >,
-    >,
+    Node: FullNodeTypes<Types: NodeTypes<ChainSpec = ChainSpec, Primitives = EthPrimitives>>,
 {
-    type EVM = EthEvmConfig<reth_ethereum::chainspec::ChainSpec, QuubEvmFactory>;
+    type EVM = EthEvmConfig<ChainSpec, QuubEvmFactory>;
 
     async fn build_evm(self, ctx: &BuilderContext<Node>) -> eyre::Result<Self::EVM> {
         Ok(EthEvmConfig::new_with_evm_factory(

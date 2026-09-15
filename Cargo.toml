@@ -34,3 +34,6 @@ quub-consensus-simplex = { path = "crates/quub-consensus-simplex" }
 thiserror = "2"
 # Do not override revm past this tag. No [patch].
 reth-ethereum = { git = "https://github.com/paradigmxyz/reth", tag = "v2.5.2", default-features = false }
+
+[profile.dev]
+debug = 0

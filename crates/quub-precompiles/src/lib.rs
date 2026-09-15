@@ -80,7 +80,7 @@ mod tests {
         .abi_encode();
         let (out, gas) = policy::run(&calldata, 10_000, Address::ZERO).expect("run");
         assert_eq!(gas, policy::BASE_GAS);
-        let (got_ok, got_reason): (bool, u16) = <(bool, u16)>::abi_decode(&out).unwrap();
+        let (got_ok, got_reason): (bool, u16) = <(bool, u16)>::abi_decode(&out, false).unwrap();
         assert_eq!(got_ok, allowed);
         assert_eq!(got_reason, reason.as_u16());
 
@@ -112,7 +112,7 @@ mod tests {
         .abi_encode();
         let (out, gas) = iso_memo::run(&calldata, 10_000, origin).expect("run");
         assert_eq!(gas, iso_memo::GAS);
-        let got = B256::abi_decode(&out).unwrap();
+        let got = B256::abi_decode(&out, false).unwrap();
         assert_eq!(got, expected);
     }
 
@@ -135,7 +135,7 @@ mod tests {
         }
         .abi_encode();
         let (out, _) = paymaster::run(&listed, 10_000, Address::ZERO).expect("listed quote");
-        let amount = U256::abi_decode(&out).unwrap();
+        let amount = U256::abi_decode(&out, false).unwrap();
         assert_eq!(amount, U256::from(21_000u64));
     }
 }

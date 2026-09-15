@@ -6,7 +6,9 @@ license.workspace = true
 description = "QuubEvmFactory + QuubExecutorBuilder. Only crate that talks to Reth EVM types."
 
 [dependencies]
+# Reth's Alloy line (1.6.x). Do not use workspace alloy-primitives 0.8 here.
 alloy-evm = { version = "0.38.0", default-features = false }
+alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
 eyre = "0.6"
 quub-precompiles = { workspace = true }
 reth-ethereum = { workspace = true, features = ["evm", "node", "std"] }

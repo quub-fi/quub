@@ -2,7 +2,7 @@
 
 use crate::abi::CheckCall;
 use crate::error::PrecompileError;
-use alloy_primitives::{Address, Bytes};
+use alloy_primitives::{Address, Bytes, B256};
 use alloy_sol_types::{SolCall, SolValue};
 use quub_primitives::{PolicyCheck, QUUB_POLICY};
 use std::sync::{Mutex, OnceLock};
@@ -30,8 +30,8 @@ pub fn run(input: &[u8], gas: u64, _caller: Address) -> Result<(Bytes, u64), Pre
         return Err(PrecompileError::empty_revert());
     }
 
-    let decoded = CheckCall::abi_decode(input).map_err(|_| PrecompileError::empty_revert())?;
-    let needed = if decoded.trHash != Default::default() {
+    let decoded = CheckCall::abi_decode(input, false).map_err(|_| PrecompileError::empty_revert())?;
+    let needed = if decoded.trHash != B256::ZERO {
         BASE_GAS + TR_HASH_GAS
     } else {
         BASE_GAS

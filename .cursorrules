@@ -1,29 +1,43 @@
 # Quub project rules for Cursor
-# Copy to the repo root as `.cursorrules` and keep AGENTS.md as the long form.
 
-You are building Quub, a regulated payments fabric. Not a memecoin L1.
+# Copy to the repo root as `.cursorrules`. Long form is AGENTS.md.
 
-Split:
-- Quub = ledger (crates/quub-*)
-- xZERO = off-chain orchestration (services/xzero-*)
-- fazeZERO = company (not in repo)
+You are building **Quub**, a payments blockchain. One product. One name.
 
-Locked:
+## Brand — locked
+
+- The network, the node, the services, and the client API are all **Quub**.
+- Never write: xZERO, XZERO, X Zero, X0, xzero, x-zero, x_zero.
+- Never write: Qubic, QUB, QUBE, QUBC, QUBIC (different chain / tickers).
+- fazeZERO is the legal entity only. Do not put it in architecture diagrams or crate names.
+- There is no second product. Gateway, ISO, Evidence, Policy Engine are Quub components, not a sister brand.
+- No native token.
+
+## Stack — locked
+
 - Rust node, EVM execution, Solidity contracts (Foundry)
 - Reth 2.5.x as a library. Do not fork Reth. Do not override revm.
 - Mode A (OP Stack) default. Mode B (Simplex) feature-flagged. Never both in one binary.
 - NO Substrate, FRAME, ink!, Cosmos, SVM, Move, custom VM, JAM
-- NO native token. NO tickers QUB / QUBE / QUBC / QUBIC. Never write "Qubic"
 - NO new EIP-2718 type, Fee AMM, Stylus, SP1 in sprint 0/1
-- JSON-RPC is eth_*. quub_ namespace off by default
-- No PII on-chain. ISO XML stays in xZERO evidence plane
+- JSON-RPC is eth*\*. quub* namespace off by default
+- No PII on-chain. Full ISO XML lives in Quub Evidence (off-block). On-chain = identity hash at F202 + pack hash at F212.
 
-Frozen addresses:
-- F201 policy, F202 ISO memo, F203 paymaster
-- F210 PaymentToken, F211 PolicyAdmin, F212 EvidenceAnchor, F213 PaymasterEntry
+## Frozen addresses
 
-Sprint 0 first: workspace + xZERO libs + Foundry tests. No Reth node until Sprint 1.
-xZERO must run against public Base/Solana stubs with no Quub node.
+- F201 Quub Policy, F202 Quub Memo, F203 Quub Paymaster
+- F210 Payment Token, F211 Policy Admin, F212 Evidence Anchor, F213 Fee Entry
+
+## Names in code
+
+- Crates: quub-node, quub-evm, quub-precompiles, quub-pool, quub-primitives
+- Services: quub-policy, quub-iso, quub-evidence, quub-gateway
+- If you still see services/xzero-\* on disk, rename them. Do not add new xzero files.
+
+## Domains
+
+- quub.network = protocol / docs / RPC later
+- quub.fi = Gateway and operator UI for the same chain
 
 If a request conflicts with a locked decision, refuse and quote the decision.
 Read AGENTS.md before writing code.

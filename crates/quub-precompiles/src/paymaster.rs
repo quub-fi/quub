@@ -31,7 +31,7 @@ pub fn run(input: &[u8], gas: u64, caller: Address) -> Result<(Bytes, u64), Prec
     }
 
     if input[..4] == QuoteCall::SELECTOR {
-        let decoded = QuoteCall::abi_decode(input).map_err(|_| PrecompileError::empty_revert())?;
+        let decoded = QuoteCall::abi_decode(input, false).map_err(|_| PrecompileError::empty_revert())?;
         let amount = quote_amount(decoded.feeToken, decoded.gasLimit, decoded.gasPrice)?;
         return Ok((Bytes::from(amount.abi_encode()), GAS));
     }
@@ -41,7 +41,7 @@ pub fn run(input: &[u8], gas: u64, caller: Address) -> Result<(Bytes, u64), Prec
             return Err(PrecompileError::empty_revert());
         }
         let decoded =
-            TakeFeeCall::abi_decode(input).map_err(|_| PrecompileError::empty_revert())?;
+            TakeFeeCall::abi_decode(input, false).map_err(|_| PrecompileError::empty_revert())?;
         if decoded.feeToken != FEE_TOKEN_DEVNET || decoded.tokenAmount.is_zero() {
             return Err(PrecompileError::empty_revert());
         }

@@ -22,7 +22,7 @@ pub fn run(input: &[u8], gas: u64, caller: Address) -> Result<(Bytes, u64), Prec
     }
 
     let decoded =
-        ValidateAndCommitCall::abi_decode(input).map_err(|_| PrecompileError::empty_revert())?;
+        ValidateAndCommitCall::abi_decode(input, false).map_err(|_| PrecompileError::empty_revert())?;
     let msg_type =
         MsgType::from_u8(decoded.msgType).ok_or_else(PrecompileError::empty_revert)?;
     let memo = Memo::new(

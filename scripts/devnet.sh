@@ -5,7 +5,6 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 RPC="http://127.0.0.1:8545"
-PORT=8545
 
 cleanup() {
   if [[ -n "${NODE_PID:-}" ]] && kill -0 "$NODE_PID" 2>/dev/null; then
@@ -15,15 +14,29 @@ cleanup() {
 }
 trap cleanup EXIT
 
+# Free HTTP / leftover auth so cast probes the node we start.
+if command -v lsof >/dev/null 2>&1; then
+  lsof -tiTCP:8545 -sTCP:LISTEN 2>/dev/null | xargs kill 2>/dev/null || true
+  lsof -tiTCP:8551 -sTCP:LISTEN 2>/dev/null | xargs kill 2>/dev/null || true
+fi
+pkill -f 'target/debug/quub-node' 2>/dev/null || true
+sleep 1
+
 cargo run -p quub-node &
 NODE_PID=$!
 
-for i in $(seq 1 60); do
+ready=0
+for i in $(seq 1 90); do
   if cast chain-id --rpc-url "$RPC" >/dev/null 2>&1; then
+    ready=1
     break
   fi
   sleep 2
 done
+if [[ "$ready" -ne 1 ]]; then
+  echo "RPC did not become ready on $RPC" >&2
+  exit 1
+fi
 
 CHAIN_ID="$(cast chain-id --rpc-url "$RPC")"
 echo "chain-id: $CHAIN_ID"

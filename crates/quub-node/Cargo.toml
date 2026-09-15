@@ -15,9 +15,11 @@ mode-a = ["dep:quub-consensus-op"]
 mode-b = ["dep:quub-consensus-simplex"]
 
 [dependencies]
+alloy-genesis = { version = "2.4.2", default-features = false }
 eyre = "0.6"
 quub-consensus-op = { workspace = true, optional = true }
 quub-consensus-simplex = { workspace = true, optional = true }
 quub-evm = { workspace = true }
-reth-ethereum = { workspace = true, features = ["node", "evm", "std"] }
+# test-utils enables NodeBuilder::testing_node (ephemeral datadir), matching custom-evm.
+reth-ethereum = { workspace = true, features = ["node", "evm", "std", "test-utils", "pool"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
