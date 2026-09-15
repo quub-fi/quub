@@ -1,172 +1,186 @@
 # Quub — Architecture views
 **Product:** Quub, a payments blockchain  
 **Date:** 15 September 2026  
-**Rule:** one product, no native token, no second brand
+**Rule:** one product, no native token, no second brand  
+**Chain id:** 8091 on every Quub execution path  
+**Pins:** `op-rs/reth` rev `aef8d3ef92117f91455e16969f0adf5bf7c6e9e1`, optimism `op-reth/v2.4.4`, `op-node` v1.19.7, rustc 1.96
 
 Four views. Same system. Different altitude.
 
 1. **Ecosystem** — where Quub sits among rails that already exist  
 2. **System** — the Quub parts and who talks to whom  
 3. **Implementation** — how those parts are built  
-4. **Deployment** — what runs where, in which phase  
+4. **Deployment** — what runs where  
+
+Later work (TLS, KMS, public batcher, Solana, CCIP, pacs.008 XML, Mode B) lives in `LATER.md`. It is not drawn as if it were live.
 
 ---
 
 ## View 1 — Ecosystem (where Quub plays)
 
-Quub does not replace SWIFT, Solana, Base, Tempo, Arc, or a bank core. It is a **payment settlement layer** that a licensed institution can contract, with a clean exit onto the rail the counterparty already uses.
+Quub does not replace SWIFT, Solana, Base, or a bank core. It is a **policy and identity ledger** a licensed institution can contract, with an exit onto the rail the counterparty already uses.
+
+Year-1 exit is **Circle CCTP → Base USDC**. Other public rails are later adapters on the same `RailRecord`.
 
 ```
                          VALUE MOVES HERE
-  USDC / USDT / CAD-stable / AED-stable
+  USDC (Circle) — year-1
+  other stables / other chains — later
            │
-           │  native issuance (Circle, Tether, local issuer)
+           │  native issuance (Circle, later other issuers)
            ▼
  ┌─────────┴──────────┬─────────────┬──────────────┐
  │ Public payment     │ Quub        │ Bank / RTGS  │
- │ rails              │ settlement  │ messaging    │
- │                    │ layer       │              │
- │ Solana  USDC       │ Policy      │ SWIFT CBPR+  │
- │ Base    USDC       │ Memo        │ RTR (CA)     │
- │ Tempo   TIP-20     │ Paymaster   │ Aani (UAE)   │
- │ Arc     USDC       │ Lane        │ Fedwire etc. │
- │ Tron    USDT       │ Token       │ Lynx / UAFTS │
+ │ rails              │ 8091        │ messaging    │
+ │                    │             │              │
+ │ Base     USDC      │ Policy F201 │ SWIFT CBPR+  │
+ │ Ethereum USDC      │ Memo   F202 │ core / ISO   │
+ │ (Solana later)     │ Fee    F213 │              │
+ │                    │ Lane   70%  │              │
+ │                    │ Evidence    │              │
  └─────────┬──────────┴──────┬──────┴──────┬───────┘
            │                 │             │
            └────────────┬────┴─────────────┘
                         ▼
-                 Quub Gateway
-           (the only door a client uses)
+              operator-api  :8080
+              quub-gateway  (rail)
                         ▲
                         │
-              PSP / bank / EMI / agent
+              PSP / bank / EMI / ops
 ```
 
 **What already exists and we do not rebuild**
 
 | Layer | Who owns it | Quub’s relationship |
 |---|---|---|
-| Dollar inventory | Circle USDC, Tether USDT, local issuers | Use native paper. Never wrap as the unit of record |
-| Public cheap rails | Solana, Base, Tempo, Arc, Tron | Counterparties live here. Gateway exits here via CCTP / official issuer paths |
-| Bank messaging | SWIFT, RTR, Aani | Gateway emits/ingests ISO 20022. Quub does not run a SWIFT switch |
-| Custody | Fireblocks, bank custody, Coinbase Prime | Standard `eth_*`. No custom adapter year-1 |
-| Travel Rule | Notabene / equivalent | Vendor writes a hash. Quub Policy checks the hash |
+| Dollar inventory | Circle USDC (year-1) | Native paper. Never wrap as the unit of record. F210 on `--dev` is QPT dummy, not USDC |
+| Public cheap rails | Base first; Ethereum CCTP source; Solana later | Gateway exits via CCTP. Quub 8091 is **not** a CCTP domain |
+| Bank messaging | SWIFT / core | API ingests a JSON subset of ISO fields. Full XML is later |
+| Custody | Fireblocks / bank custody later | Year-1 is `eth_*` + operator key. Standard JSON-RPC |
+| Travel rule | Vendor later | Field `trHash` already exists. Vendor writes the hash. Quub checks it |
 | Identity / KYC | the licensed client | Quub does not become a KYC vendor |
 
-**Where Quub is the system of record**
+**Where Quub is the system of record (year-1)**
 
-Only for the payment that needs *protocol* guarantees:
+For an **identified** payment:
 
-- freeze / allow / dual-control cannot be skipped by calling the token a different way  
-- ISO identity is committed on the receipt  
-- gas is a listed stable  
-- mempool junk cannot consume the payment lane  
-- evidence hash is on-chain; the file is in Quub Evidence  
+- freeze / allow cannot be skipped by calling the token a different way  
+- ISO identity is committed on the receipt (`memoHash` includes `tx.origin`)  
+- a listed-token fee is taken only on `transferWithMemo`  
+- mempool junk cannot consume the payment lane (70%)  
+- evidence hash is on-chain; the file is off-chain  
 
-If the payment does not need that, Gateway settles it on Base or Solana and Quub never holds the funds. That is still Quub. The chain is optional; the payment layer is not.
+Year-1 off-us path is **Quub memo first, then CCTP**. Policy reject ⇒ no burn. The chain is not optional for that path.
+
+A future “gateway-only, funds never touch 8091” topology needs its own ADR. It is not current behavior.
 
 **What we charge for**
 
-Orchestration and settlement service: Gateway fees, corridor FX, compliance pack, later sequencer fees in stables. Not a ticker.
+Orchestration and settlement service: API / gateway fees, later corridor FX, compliance pack. Sequencer fees in a listed stable if ever. Not a ticker.
 
 ---
 
 ## View 2 — System (components and contracts)
 
 ```
-                         Client systems
-              ERP · PSP core · treasury · agent
+                    Client systems
+             ERP · PSP core · treasury · ops
                          │
-                         │  pain.001 / REST / x402
+                         │  REST (pain.001 / pacs.008 XML later)
                          ▼
               ┌─────────────────────┐
-              │    Quub Gateway     │
-              │  API · route · CCTP │
+              │  operator-api :8080 │
+              │  Bearer · ISO check │
               └──────────┬──────────┘
+                         │ eth_*
            ┌─────────────┼──────────────┐
            ▼             ▼              ▼
-    Quub Policy    Quub ISO       Quub Evidence
-    Engine         mapper         file store
+      quub-iso     quub-policy     quub-gateway
+      field map    reason codes    CCTP rail
            │             │              │
            └─────────────┼──────────────┘
                          ▼
               ┌─────────────────────┐
-              │     Quub Node       │
-              │   quub-node binary  │
+              │     quub-node       │
+              │   --dev    :8545    │
+              │   --engine :9545    │
               │   eth_* JSON-RPC    │
               └──────────┬──────────┘
                          │
          ┌───────────────┼────────────────┐
          ▼               ▼                ▼
-   Execution         Consensus        Data
-   Reth + EVM        Mode A OP        Mode A: Ethereum blobs
-   F201 Policy       Mode B Simplex   Mode B: the chain itself
-   F202 Memo
-   F203 Paymaster
-   F210 Token
-   F211 Policy Admin
+   Execution         Consensus         Data
+   QuubEvmFactory    --dev miner       --dev: local
+   F201 Policy       Mode A:           Mode A: local geth L1
+   F202 Memo           op-node v1.19.7   (public L1 later)
+   F203 thin           Engine API
+   F210 Token        Mode B Simplex:
+   F211 PolicyAdmin    not year-1
    F212 Anchor
-   Payment lane
+   F213 Paymaster
+   Lane 70/30
 ```
 
 ### On-chain (consensus-critical)
 
-| Component | Address | Responsibility |
+| Component | Address | Responsibility | Status |
+|---|---|---|---|
+| Quub Policy | `F201` | Stateful `check`. Caller must be F210. Sloads F211 | Shipped |
+| Quub Memo | `F202` | Hash of ISO identity + `tx.origin`. No PII | Shipped |
+| Quub Paymaster precompile | `F203` | Thin. Does not move funds | Shipped stub |
+| Quub Token | `F210` | Payment asset on 8091. `--dev` = QPT dummy | Shipped |
+| Quub Policy Admin | `F211` | Freeze immediate (either owner). Unfreeze / params = other owner | Shipped. No 24h timelock |
+| Quub Anchor | `F212` | `packHash` + memoHash. Not the file | Shipped |
+| Quub Fee Entry | `F213` | `quote` + `takeFee` → `paymasterDebit`. Only F210 may call | Shipped |
+| Quub Lane | pool + payload | 70% block gas for exact `transferWithMemo` on F210 | Shipped |
+
+### Node-adjacent
+
+| Component | Responsibility | Status |
 |---|---|---|
-| Quub Policy | `F201` | Atomic allow / deny / hold. Fail closed |
-| Quub Memo | `F202` | Hash of ISO identity set. No PII |
-| Quub Paymaster | `F203` | Quote + debit gas in a listed stable |
-| Quub Token | `F210` | The payment asset (USDC representation or local stable) |
-| Quub Policy Admin | `F211` | Freezes, limits, fee-token list. Dual-control + timelock |
-| Quub Anchor | `F212` | `packHash` of the off-block evidence file |
-| Quub Fee Entry | `F213` | Solidity wrapper over F203 |
-| Quub Lane | mempool + payload | 70% of block gas reserved for real payments |
+| operator-api | HTTP door: pay, status, freeze. Bind `127.0.0.1:8080` | Shipped |
+| quub-gateway | CCTP adapter + `RailRecord` by `endToEndId` | Sprint 6 |
+| quub-iso | Empty id / UETR / ccy checks | Shipped stub |
+| quub-policy | Reason codes | Shipped |
+| Evidence file store | Object store for `packHash` | Later. F212 is hash only |
 
-### Node-adjacent (still Quub; cannot live in a public block)
+### External (year-1 vs later)
 
-| Component | Responsibility | Why off-block |
-|---|---|---|
-| Quub Gateway | Client API; route; CCTP / issuer exit | Talks to Circle, other RPCs, bank files |
-| Quub Policy Engine | Same `check()` as F201, for pre-check and for public-rail hops | Must run before a tx is signed |
-| Quub ISO | `pacs.008` / `pain.001` ↔ F202 fields | Full XML is PII |
-| Quub Evidence | Store the file; give Gateway a locator | Supervisors read files, not calldata |
+- Circle CCTP V2 — year-1 (mock valid; live ≤ 1 USDC when env set)  
+- Base Sepolia / Base — year-1 destination  
+- Ethereum Sepolia — year-1 CCTP **source** (not 8091)  
+- Solana, CCIP, Tempo, Arc, Tron — later rails  
+- Travel-rule vendor — later (`trHash` slot exists)  
+- HSM / Fireblocks — later  
 
-### External systems Quub talks to
-
-- Circle CCTP V2 (native USDC burn/mint)  
-- Public RPCs: Base, Solana, Tempo, Arc  
-- Travel Rule vendor  
-- Client IdP / dual-control keys (HSM / Fireblocks) — keys never in the Quub repo  
-
-### What a payment looks like (sequence)
+### What a year-1 payment looks like
 
 ```
-Client          Gateway        Policy/ISO/Evidence       Node (F201–F212)      Public rail
-  │                │                    │                      │                    │
-  │  pain.001      │                    │                      │                    │
-  │───────────────►│                    │                      │                    │
-  │                │  pre-check         │                      │                    │
-  │                │───────────────────►│                      │                    │
-  │                │  map ISO           │                      │                    │
-  │                │  store file        │                      │                    │
-  │                │  decide rail       │                      │                    │
-  │                │                    │                      │                    │
-  │                │──────── settle on Quub ──────────────────►│                    │
-  │                │                    │              F201 allow                    │
-  │                │                    │              F202 memo                     │
-  │                │                    │              F203 gas                      │
-  │                │                    │              F212 packHash                 │
-  │                │                    │                      │                    │
-  │                │──────── or exit USDC via CCTP ─────────────────────────────────►│
-  │                │                    │                      │           native USDC
-  │  pacs.008 / recon file              │                      │                    │
-  │◄───────────────│                    │                      │                    │
+Ops / core          operator-api         quub-node              quub-gateway         CCTP / Base
+  │                      │                    │                      │                    │
+  │  POST /v1/payments   │                    │                      │                    │
+  │─────────────────────►│                    │                      │                    │
+  │                      │  iso + idempotency │                      │                    │
+  │                      │  transferWithMemo  │                      │                    │
+  │                      │───────────────────►│                      │                    │
+  │                      │                    │ F201 allow           │                    │
+  │                      │                    │ F213 fee (memo only) │                    │
+  │                      │                    │ F210 principal       │                    │
+  │                      │                    │ F202 memoHash        │                    │
+  │                      │                    │ F212 packHash        │                    │
+  │                      │◄─ mined + memoHash─┤                      │                    │
+  │                      │                    │                      │                    │
+  │                      │  if rail = cctp    │                      │                    │
+  │                      │──────────────────────────────────────────►│                    │
+  │                      │                    │                      │  burn source USDC  │
+  │                      │                    │                      │───────────────────►│
+  │                      │                    │                      │  attest + mint     │
+  │                      │                    │                      │───────────────────►│
+  │  GET {endToEndId}    │                    │                      │                    │
+  │◄─ quubTx, memoHash, burn, mint ───────────┴──────────────────────┴────────────────────┘
 ```
 
-Two legal outcomes, one product:
-
-- **Settle on Quub** — Quub is the system of record for that payment.  
-- **Settle on a public rail** — Quub Gateway + Policy + ISO still ran; funds never touched Quub Chain.  
+If F201 rejects: no fee, no principal, no burn.
 
 ---
 
@@ -175,150 +189,156 @@ Two legal outcomes, one product:
 ### Repository
 
 ```
-quub/
+quub.network/
   crates/
-    quub-primitives      # addresses, reason codes, memo types
-    quub-precompiles     # F201/F202/F203 bodies — NO reth dependency
-    quub-evm             # QuubEvmFactory injects those precompiles into Reth
-    quub-pool            # is_payment classifier
-    quub-payload         # two-pass fill (later sprint)
-    quub-node            # binary, feature flags mode-a | mode-b
-    quub-consensus-op    # Mode A adapter (Sprint 2)
-    quub-consensus-simplex
-    quub-rpc             # eth_* only; quub_ off
+    quub-primitives      # addresses, reason codes, PAYMENT_LANE_BPS=7000
+    quub-precompiles     # F201/F202/F203 bodies
+    quub-evm             # QuubEvmFactory + wrap + slots
+    quub-pool            # is_payment: F210 + exact transferWithMemo
+    quub-payload         # fill_lanes 70/30
+    quub-node            # --dev and --engine
+    quub-consensus-op    # Mode A (Sprint 2). ADR-016 pin
+    quub-consensus-simplex   # stub. feature off
+    quub-rpc             # eth_* only
+  apps/
+    operator-api         # :8080
   services/
-    quub-gateway
-    quub-policy
     quub-iso
-    quub-evidence
-  contracts/             # Foundry: Token, PolicyAdmin, Anchor, Fee Entry
+    quub-policy
+    quub-gateway         # CCTP
+    quub-evidence        # hash helpers; file store later
+  contracts/             # Foundry: PaymentToken, PolicyAdmin, EvidenceAnchor, PaymasterEntry
   specs/
+  docs/adr/              # 016 pin, 017 lane, 019 fee+dual-control, 020 rail
 ```
 
 ### Build rules
 
 - Node language: Rust. Money contracts: Solidity + Foundry.  
-- Reth **v2.5.2** as a library. Do not fork. Do not override `revm`.  
-- Precompile crate has zero Reth deps so Mode A and Mode B share one execution crate.  
-- Policy Engine and F201 call the same `check()` function. One spec, two hosts.  
-- JSON-RPC is standard `eth_*` so Fireblocks / MetaMask / Alloy / Foundry work unchanged.  
-- No native token. `--dev` ETH is a miner convenience, not the product.  
-- No new transaction type in year 1. Classify existing txs for the payment lane.
+- **One** Reth remote: `op-rs/reth@aef8d3ef`. Do not add `paradigmxyz/reth`. Do not float main.  
+- OP crates from `ethereum-optimism/optimism` tag `op-reth/v2.4.4`.  
+- rustc **1.96.0** (1.95 failed `vergen` on this pin).  
+- Precompile inject when spec ≥ PRAGUE (or OP equivalent, same intent). F201/F202 `DynPrecompile::new_stateful`.  
+- Policy engine and F201 share reason codes. F201 is the enforcement.  
+- JSON-RPC is `eth_*`. No `quub_` namespace year-1.  
+- No native token. `--dev` ETH is miner fuel, not the product.  
+- No new EIP-2718 type. Classify existing txs for the lane.  
+- Mode A and Mode B never compile into the same binary under test.
 
 ### Stack by layer
 
 ```
- Application          Foundry contracts + Gateway API (HTTP / ISO file)
-                      Alloy / viem on the client side
+ Application     Foundry contracts
+                 operator-api (Axum) + Alloy against QUUB_RPC
+                 quub-iso / quub-gateway
 
- Execution            quub-evm  →  Reth 2.5  →  REVM
-                      PrecompilesMap + F201 F202 F203
+ Execution       quub-evm → op-rs/reth@aef8d3ef → REVM
+                 F201 F202 stateful, F203 thin
+                 F210–F213 genesis etch (never CREATE onto F210)
 
- Settlement asset     F210 token / native USDC on public rails
-                      F203 fee in listed stable
+ Fee             F213 takeFee in listed token (QPT on --dev)
+                 not 1559, not ETH gas, not a ticker
 
- Consensus            Mode A: op-node Engine API, Ethereum blobs
-                      Mode B: Commonware Simplex, named validators
-                      Feature flags. Never both in one binary.
+ Consensus       --dev: local miner
+                 Mode A: op-node v1.19.7 + Engine API :9551 + JWT
+                 Mode B: not year-1
 
- Interop              Quub Gateway
-                      CCTP V2 for USDC
-                      official issuer paths only
-                      ISO 20022 in/out
+ Interop         quub-gateway
+                 CCTP V2 for USDC
+                 source chain ≠ 8091
 
- Ops                  Evidence store + packHash on F212
-                      dual-control on F211
-                      Travel Rule hash into F201
+ Ops             F212 hash now; file store later
+                 F211 freeze instant; unfreeze two-key
+                 Travel-rule hash into F201 when a vendor exists
 ```
 
-### What “no token” means in the implementation
+### What “no token” means
 
 - Genesis does not mint a QUUB coin.  
-- Block rewards, if any under Mode B, are paid in the listed fee stable or are zero (permissioned set).  
-- F203 `quote` / `takeFee` take USDC (or CADD / AED-stable), not a protocol coin.  
-- README and Gateway copy: “Quub is a payments fabric. There is no native token.”
+- F213 takes listed F210 (dummy) or a listed stable later — not a protocol coin.  
+- README: “Quub is a payments fabric. There is no native token.”  
+- `rg` must not introduce a product ticker in contracts.
 
 ---
 
 ## View 4 — Deployment (what runs where)
 
-Three topologies. Same software. Different blast radius.
+Today the physical host is **one laptop**, loopback only. See `DEPLOYMENT.md` and `PHYSICAL.md`.
 
-### Topology A — Gateway only (now → first clients)
-
-No public Quub chain. Gateway + Policy + ISO + Evidence talk to **existing** RPCs.
+### Topology A — Engineer `--dev` (now)
 
 ```
-           [ client VPC / Quub VPC ]
- Quub Gateway ──► Base RPC
-              ──► Solana RPC
-              ──► Tempo RPC
-              ──► Circle CCTP API
-              ──► Notabene
-              ──► Quub Evidence (object store + DB)
- quub-node --dev                 # engineers only, not production money
+operator-api :8080  ──►  quub-node --dev :8545
+                         chain 8091
+                         OwnerA=anvil0  OwnerB=anvil1
+                         feeRecipient=0x…FEE0
 ```
 
-Use when: Phase 0–1, proving the book. Production money never sits on Quub Chain.
+Fake money. Anvil keys. Named datadir preferred (C035). Never production funds.
 
-### Topology B — Mode A rollup (first Quub zone)
-
-```
- Licensed client ──► Quub Gateway (active-active, two regions)
-
- Quub Gateway ──► quub-node (sequencer, HSM / Fireblocks key)
-              ──► quub-node (replica RPC)
-              ──► op-node   (derivation)
-              ──► Ethereum L1 + blob DA
-              ──► Circle CCTP (exit to Base / Solana / Ethereum)
-              ──► Quub Evidence
-              ──► Quub ISO (file in / file out to SWIFT service bureau)
-
- Sequencer is a licensed entity. Not an anonymous set.
-```
-
-Use when: two design partners asked for a dedicated zone. Economic security is Ethereum. Exit is CCTP via L1 or via a listed domain once Circle adds Quub.
-
-### Topology C — Mode B sovereign (only if named FIs fund it)
+### Topology B — Mode A local (now)
 
 ```
- Validator 1 (Bank A)  ─┐
- Validator 2 (EMI B)   ─┼─ Commonware Simplex ── quub-node (same evm crate)
- Validator 3 (PSP C)   ─┘
- Quub Gateway in front, same as B.
- No Ethereum DA. Finality ~0.5s. You own the security budget.
+operator-api :8080  ──►  quub-node --engine :9545
+                              ▲
+                              │ Engine API :9551 + JWT
+                         op-node v1.19.7
+                              │
+                         geth 1.16.x :8546
+                         full L1 genesis (not anvil)
+                         SystemConfig 0xe991…F990
+                         L2 genesis = OP alloc ∪ F210–F213
 ```
 
-Use when: a consortium will run 2f+1 validators and accept that risk. Same Gateway, same F201–F203. Different consensus feature flag.
+Kill `op-node` → L2 head must freeze. Mode A L2 **OwnerB** may still equal OwnerA until C034. Do not call that dual-control.
+
+### Topology C — Gateway + rail (Sprint 6)
+
+Same as A or B, plus:
+
+```
+quub-gateway  ──►  Ethereum Sepolia USDC   (burn, live)
+              ──►  Circle attestation
+              ──►  Base Sepolia USDC       (mint)
+              ──►  mock://  if env missing
+```
+
+Quub 8091 never sees `depositForBurn`.
+
+### Topology D — Public L1 (later)
+
+Sepolia then Ethereum. `op-batcher` + `op-proposer`. Verifier host without sequencer JWT. TLS on `api.quub.network` / `rpc.quub.network`. KMS. Not standing.
+
+### Topology E — Mode B sovereign (not year-1)
+
+Named validators, Simplex, no Ethereum DA. Same EVM crate. Separate binary. Do not draw this as current.
 
 ### Environments
 
-| Name | Chain id | Who uses it | Money |
+| Name | Chain id | Who | Money |
 |---|---|---|---|
-| `quub-local` | 8091 | engineers, `quub-node --dev` | fake |
-| `quub-sepolia` | TBD | design partners | test USDC |
-| `quub` mainnet | 8090 placeholder | production | real stables only after Phase 1 gate |
+| `--dev` / Mode A local | **8091** | engineers | fake QPT |
+| Sepolia L2 (later) | **8091** unless an ADR says otherwise | design partners | test USDC via CCTP |
+| Production | **8091** until an ADR changes it | licensed client | real USDC on Base; Quub still identity/policy |
 
-Confirm chain ids on chainid.network before freeze.
+Do not invent chain id 8090.
 
-### What must never be in the same image as `quub-node`
+### What must never sit in the `quub-node` image
 
-- Sequencer / validator private keys (HSM / MPC)  
-- Notabene / Circle / Fireblocks API secrets  
+- Sequencer / owner private keys (KMS later; anvil only on `--dev`)  
+- Circle / operator Bearer secrets  
 - Full ISO XML  
-- Production chain spec until counsel and ops sign off  
-
-Gateway, Evidence, and the node scale independently. The node is stateful. Gateway is stateless-enough to run 2+. Evidence is an object store + DB.
+- Engine JWT on a public NIC  
 
 ---
 
 ## How to explain it in one breath
 
-Quub is a payment layer that sits **beside** Solana, Base, Tempo, and SWIFT — not on top of them as a wrap, and not underneath them as a new settlement asset.
+Quub sits **beside** Base and SWIFT — not as a wrapped dollar, and not as a coin you buy to pay.
 
-- The **dollar** stays the issuer’s dollar.  
-- The **public rail** stays where the counterparty already is.  
-- The **bank file** stays ISO 20022.  
-- Quub is the place a licensed institution puts the *rules*, the *identity*, and optionally the *settlement* when public rails will not carry them.  
-- Quub Gateway is how that institution talks to all of the above without learning a second product name.  
+- The **dollar** stays Circle’s dollar (on `--dev`, F210 is a dummy).  
+- The **public rail** stays where the counterparty already is (Base first).  
+- The **bank file** stays ISO-shaped; XML ingest is later.  
+- Quub is where a licensed institution puts **rules, identity, evidence**, and year-1 **records the payment before the rail moves**.  
+- `operator-api` is how ops talks to that without Solidity.  
 - Nobody buys a Quub coin to use it.

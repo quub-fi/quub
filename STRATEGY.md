@@ -201,4 +201,4 @@ Park both on a host you control before sending either URL to a bank. Collisions 
 | Engineers (human + Cursor) | `AGENTS.md`, `.cursorrules`, `SPRINT.md`, NodeBuilder sketch |
 | Counsel | Name collisions + vendor pack in the NodeBuilder sketch |
 
-The next engineering move is `quub-node --dev` with F201–F203 live, and every first-party file saying Quub only.
+The next engineering move is `quub-node --dev` with F201–F203 live, and every first-party file saying Quub — never xZERO.
