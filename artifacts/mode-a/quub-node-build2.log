@@ -1,0 +1,118 @@
+   Compiling reth-optimism-evm v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/evm)
+   Compiling reth-optimism-txpool v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/txpool)
+   Compiling reth-optimism-post-exec-replay v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/post-exec-replay)
+   Compiling reth-optimism-payload-builder v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/payload)
+   Compiling reth-optimism-flashblocks v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/flashblocks)
+   Compiling reth-optimism-rpc v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/rpc)
+   Compiling reth-optimism-node v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/node)
+   Compiling quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+error[E0277]: the trait bound `OpEvmConfig<..., ..., ..., ...>: ConfigureEngineEvm<...>` is not satisfied
+  --> crates/quub-consensus-op/src/quub_op_node.rs:56:19
+   |
+56 |       type AddOns = OpAddOns<
+   |  ___________________^
+57 | |         NodeAdapter<N, <Self::ComponentsBuilder as NodeComponentsBuilder<N>>::Components>,
+58 | |         OpEthApiBuilder,
+59 | |         OpEngineValidatorBuilder,
+60 | |         OpEngineApiBuilder<OpEngineValidatorBuilder>,
+61 | |         BasicEngineValidatorBuilder<OpEngineValidatorBuilder>,
+62 | |     >;
+   | |_____^ the trait `ConfigureEngineEvm<OpExecData>` is not implemented for `OpEvmConfig<<... as NodeTypes>::ChainSpec, ..., ..., ...>`
+   |
+help: the trait `ConfigureEngineEvm<OpExecData>` is implemented for `OpEvmConfig<ChainSpec, N, R>`
+  --> /tmp/optimism-op-node/rust/op-reth/crates/payload/src/lib.rs:37:1
+   |
+37 | / impl<ChainSpec, N, R> reth_evm::ConfigureEngineEvm<OpExecData>
+38 | |     for reth_optimism_evm::OpEvmConfig<ChainSpec, N, R>
+39 | | where
+40 | |     N: NodePrimitives,
+41 | |     R: Send + Sync + Unpin + Clone + 'static,
+42 | |     ChainSpec: Send + Sync + Unpin + Clone + 'static,
+43 | |     Self: reth_evm::ConfigureEngineEvm<OpExecutionData>,
+   | |________________________________________________________^
+   = note: required for `BasicEngineValidatorBuilder<OpEngineValidatorBuilder>` to implement `EngineValidatorBuilder<NodeAdapter<N, ...>>`
+   = note: required for `OpAddOns<NodeAdapter<N, Components<N, ..., ..., ..., ...>>, ..., ...>` to implement `NodeAddOns<NodeAdapter<N, Components<N, ..., ..., ..., ...>>>`
+note: required by a bound in `reth_ethereum::node::reth_node_builder::Node::AddOns`
+  --> /tmp/quub-cargo-home-adr016/git/checkouts/reth-3e8230207b332edc/aef8d3e/crates/node/builder/src/node.rs:38:18
+   |
+38 |       type AddOns: NodeAddOns<
+   |  __________________^
+39 | |         NodeAdapter<N, <Self::ComponentsBuilder as NodeComponentsBuilder<N>>::Components>,
+40 | |     >;
+   | |_____^ required by this bound in `Node::AddOns`
+   = note: the full name for the type has been written to '/Users/nrahal/@code/quub/quub.network/target/debug/deps/quub_consensus_op-96f8cdcc47047a05.long-type-14119666259336988125.txt'
+   = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `OpEvmConfig<OpChainSpec, ..., ..., ...>: ConfigureEngineEvm<...>` is not satisfied
+   --> crates/quub-consensus-op/src/launch.rs:84:10
+    |
+ 84 |         .node(QuubOpNode::new(rollup_args))
+    |          ^^^^ the trait `ConfigureEngineEvm<OpExecData>` is not implemented for `OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, ...>`
+    |
+help: the trait `ConfigureEngineEvm<OpExecData>` is implemented for `OpEvmConfig<ChainSpec, N, R>`
+   --> /tmp/optimism-op-node/rust/op-reth/crates/payload/src/lib.rs:37:1
+    |
+ 37 | / impl<ChainSpec, N, R> reth_evm::ConfigureEngineEvm<OpExecData>
+ 38 | |     for reth_optimism_evm::OpEvmConfig<ChainSpec, N, R>
+ 39 | | where
+ 40 | |     N: NodePrimitives,
+ 41 | |     R: Send + Sync + Unpin + Clone + 'static,
+ 42 | |     ChainSpec: Send + Sync + Unpin + Clone + 'static,
+ 43 | |     Self: reth_evm::ConfigureEngineEvm<OpExecutionData>,
+    | |________________________________________________________^
+    = note: required for `BasicEngineValidatorBuilder<OpEngineValidatorBuilder>` to implement `EngineValidatorBuilder<NodeAdapter<..., ...>>`
+    = note: required for `OpAddOns<NodeAdapter<..., ...>, ..., ...>` to implement `NodeAddOns<NodeAdapter<FullNodeTypesAdapter<..., ..., ...>, ...>>`
+note: required by a bound in `NodeBuilderWithComponents`
+   --> /tmp/quub-cargo-home-adr016/git/checkouts/reth-3e8230207b332edc/aef8d3e/crates/node/builder/src/builder/states.rs:152:9
+    |
+149 | pub struct NodeBuilderWithComponents<
+    |            ------------------------- required by a bound in this struct
+...
+152 |     AO: NodeAddOns<NodeAdapter<T, CB::Components>>,
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `NodeBuilderWithComponents`
+    = note: the full name for the type has been written to '/Users/nrahal/@code/quub/quub.network/target/debug/deps/quub_consensus_op-96f8cdcc47047a05.long-type-7621170353306007200.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0599]: the method `launch` exists for struct `WithLaunchContext<NodeBuilderWithComponents<..., ..., ...>>`, but its trait bounds were not satisfied
+   --> crates/quub-consensus-op/src/launch.rs:85:10
+    |
+ 82 |       } = NodeBuilder::new(node_config)
+    |  _________-
+ 83 | |         .testing_node(runtime)
+ 84 | |         .node(QuubOpNode::new(rollup_args))
+ 85 | |         .launch()
+    | |         -^^^^^^ method cannot be called due to unsatisfied trait bounds
+    | |_________|
+    |
+    |
+   ::: /tmp/optimism-op-node/rust/op-reth/crates/node/src/node.rs:430:1
+    |
+430 | / pub struct OpAddOns<
+431 | |     N: FullNodeComponents,
+432 | |     EthB: EthApiBuilder<N>,
+433 | |     PVB,
+...   |
+436 | |     RpcMiddleware = Identity,
+437 | | > {
+    | |_- doesn't satisfy `_: RethRpcAddOns<NodeAdapter<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, Components<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, NetworkHandle<BasicNetworkPrimitives<OpPrimitives, OpPooledTransaction, NewBlock<Block<OpTxEnvelope>>>>, OpPool<Pool<TransactionValidationTaskExecutor<OpTransactionValidator<BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>, OpPooledTransaction, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>>>, CoinbaseTipOrdering<OpPooledTransaction>, DiskFileBlobStore>>, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>, Arc<OpBeaconConsensus<OpChainSpec>>>>>`
+    |
+   ::: /tmp/optimism-op-node/rust/op-reth/crates/evm/src/lib.rs:84:1
+    |
+ 84 | / pub struct OpEvmConfig<
+ 85 | |     ChainSpec = OpChainSpec,
+ 86 | |     N: NodePrimitives = OpPrimitives,
+ 87 | |     R = OpRethReceiptBuilder,
+ 88 | |     EvmFactory = OpEvmFactory<OpTx>,
+ 89 | | > {
+    | |_- doesn't satisfy `_: ConfigureEngineEvm<OpExecData>`
+    |
+    = note: the following trait bounds were not satisfied:
+            `OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>: ConfigureEngineEvm<OpExecData>`
+            which is required by `OpAddOns<NodeAdapter<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, reth_ethereum::node::reth_node_builder::components::Components<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, NetworkHandle<BasicNetworkPrimitives<OpPrimitives, op_alloy_consensus::transaction::pooled::OpPooledTransaction, reth_ethereum::network::reth_eth_wire::NewBlock<alloy_consensus::block::Block<OpTxEnvelope>>>>, OpPool<reth_ethereum::reth_transaction_pool::Pool<TransactionValidationTaskExecutor<OpTransactionValidator<BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>, OpPooledTransaction, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>>>, CoinbaseTipOrdering<OpPooledTransaction>, DiskFileBlobStore>>, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>, Arc<reth_optimism_consensus::OpBeaconConsensus<OpChainSpec>>>>, OpEthApiBuilder, OpEngineValidatorBuilder>: RethRpcAddOns<NodeAdapter<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, reth_ethereum::node::reth_node_builder::components::Components<FullNodeTypesAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>, BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>>, NetworkHandle<BasicNetworkPrimitives<OpPrimitives, op_alloy_consensus::transaction::pooled::OpPooledTransaction, reth_ethereum::network::reth_eth_wire::NewBlock<alloy_consensus::block::Block<OpTxEnvelope>>>>, OpPool<reth_ethereum::reth_transaction_pool::Pool<TransactionValidationTaskExecutor<OpTransactionValidator<BlockchainProvider<NodeTypesWithDBAdapter<QuubOpNode, Arc<TempDatabase<DatabaseEnv>>>>, OpPooledTransaction, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>>>, CoinbaseTipOrdering<OpPooledTransaction>, DiskFileBlobStore>>, OpEvmConfig<OpChainSpec, OpPrimitives, OpRethReceiptBuilder, PostExecEvmFactoryAdapter<QuubOpEvmFactory>>, Arc<reth_optimism_consensus::OpBeaconConsensus<OpChainSpec>>>>>`
+    = note: the full name for the type has been written to '/Users/nrahal/@code/quub/quub.network/target/debug/deps/quub_consensus_op-96f8cdcc47047a05.long-type-14879518194783196348.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+Some errors have detailed explanations: E0277, E0599.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `quub-consensus-op` (lib) due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...

@@ -1,0 +1,20 @@
+=== Mode A (ADR-016) ===
+op-node: op-node version v1.19.7-7e167ae2-1788973605
+geth: Geth
+L1 RPC http://127.0.0.1:8546 | L2 HTTP http://127.0.0.1:9545 | authrpc http://127.0.0.1:9551 | chain 8091
+SystemConfig: 0xe991d1A48616a1F28d26476F53F103731fEFC990
+L1 genesis hash: 0x6bea591dd1e26a7e6bf1aec6c2628f82b4b761f2e51349c0e964950a715cdf6e stateRoot: 0x705156a9174129e5f9680428ed9744700abdcb5822061986bf7c52409f445e05
+SystemConfig codesize: 2059
+mode-a: WARN L1 hash sealed=0x889dfb215cae775760f718eef8a502ca0c7acf34f0113d9617c24379327388aa live=0x6bea591dd1e26a7e6bf1aec6c2628f82b4b761f2e51349c0e964950a715cdf6e — patching rollup.runtime.json
+wrote /Users/nrahal/@code/quub/quub.network/artifacts/mode-a/rollup.runtime.json
+L2 chain-id: 8091
+F213 codesize: 1274
+L2 genesis hash: 0x921e4b91e0d46d3cedd1d174bcccdf13252ae7aa0f13a577e9f2609863b81cf1
+updated rollup.runtime.json L2 genesis hash
+L2 block-number: 135
+L2 transferWithMemo: [{"address":"0x000000000000000000000000000000000000f210","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266","0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"],"data":"0x00000000000000000000000000000000000000000000000000000000000f4240","blockHash":"0xa673e51be90f334616cb486ea2e66d79393bd1d52aa4e2ee56663753953f68ea","blockNumber":"0x8d","blockTimestamp":"0x6aa9433b","transactionHash":"0x240c05a702c88b50ea608f2ef48d5dcf4cf10dba986240c3a57c0af43f9539d4","transactionIndex":"0x1","logIndex":"0x0","removed":false},{"address":"0x000000000000000000000000000000000000f210","topics":["0x0a0c8f33db7c30c7e65a63000c059ab3e9692ffc773bc2085912d507875c93a9","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xa673e51be90f334616cb486ea2e66d79393bd1d52aa4e2ee56663753953f68ea","blockNumber":"0x8d","blockTimestamp":"0x6aa9433b","transactionHash":"0x240c05a702c88b50ea608f2ef48d5dcf4cf10dba986240c3a57c0af43f9539d4","transactionIndex":"0x1","logIndex":"0x1","removed":false},{"address":"0x000000000000000000000000000000000000f212","topics":["0x0452dbfc1921f94fd9e8275f67926322880663befdb4ab2a55f104e4655a815c","0x4444444444444444444444444444444444444444444444444444444444444444","0x4e907bc6549aa732ebfd607dd5fa67ab7e765f3ee06e9a425d9e931a23e780aa","0x000000000000000000000000000000000000000000000000000000000000f210"],"data":"0x","blockHash":"0xa673e51be90f334616cb486ea2e66d79393bd1d52aa4e2ee56663753953f68ea","blockNumber":"0x8d","blockTimestamp":"0x6aa9433b","transactionHash":"0x240c05a702c88b50ea608f2ef48d5dcf4cf10dba986240c3a57c0af43f9539d4","transactionIndex":"0x1","logIndex":"0x2","removed":false}]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json,sys; d=json.load(sys.stdin); d=d.get("data",d); print(d["status"])
+                                                                      ~^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable

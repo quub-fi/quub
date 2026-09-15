@@ -1,0 +1,26 @@
+=== Mode A (ADR-016) ===
+op-node: op-node version v1.19.7-7e167ae2-1788973605
+geth: Geth
+L1 RPC http://127.0.0.1:8546 | L2 HTTP http://127.0.0.1:9545 | authrpc http://127.0.0.1:9551 | chain 8091
+SystemConfig: 0xe991d1A48616a1F28d26476F53F103731fEFC990
+L1 genesis hash: 0x6bea591dd1e26a7e6bf1aec6c2628f82b4b761f2e51349c0e964950a715cdf6e stateRoot: 0x705156a9174129e5f9680428ed9744700abdcb5822061986bf7c52409f445e05
+SystemConfig codesize: 2059
+mode-a: WARN L1 hash sealed=0x889dfb215cae775760f718eef8a502ca0c7acf34f0113d9617c24379327388aa live=0x6bea591dd1e26a7e6bf1aec6c2628f82b4b761f2e51349c0e964950a715cdf6e — patching rollup.runtime.json
+wrote /Users/nrahal/@code/quub/quub.network/artifacts/mode-a/rollup.runtime.json
+L2 chain-id: 8091
+F213 codesize: 1274
+L2 genesis hash: 0x921e4b91e0d46d3cedd1d174bcccdf13252ae7aa0f13a577e9f2609863b81cf1
+updated rollup.runtime.json L2 genesis hash
+L2 block-number: 124
+L2 transferWithMemo: 0x38ee96f159f098c9455428bcdf51b9c88e0588efd833deee5aeafb33bcee2472
+receipt status: 0x1
+freeze: second send reverted (ok)
+kill-test: block 216 -> 216 (expect unchanged)
+=== Mode A OK ===
+deployer: see artifacts/mode-a/DEPLOYER.txt
+L1 client: geth (/Users/nrahal/@code/quub/quub.network/artifacts/mode-a/bin/geth)
+SystemConfig: 0xe991d1A48616a1F28d26476F53F103731fEFC990
+op-node: op-node version v1.19.7-7e167ae2-1788973605
+9545 chain-id: 8091
+L2 payment: 0x38ee96f159f098c9455428bcdf51b9c88e0588efd833deee5aeafb33bcee2472
+freeze: reverted (ok)

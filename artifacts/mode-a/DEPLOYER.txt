@@ -1,0 +1,42 @@
+# Exact op-deployer commands used for Mode A artifacts (ADR-016 / Sprint 2 D).
+# Binary: op-deployer 0.8.0-rc.2 (pairs with current OP Stack tooling; v0.7.1
+# release assets were unavailable — 0.8.0-rc.2 is the installed artifact).
+
+export PATH="$(pwd)/artifacts/mode-a/bin:$PATH"
+
+# 1) init
+op-deployer init \
+  --l1-chain-id 1 \
+  --l2-chain-ids 8091 \
+  --workdir artifacts/mode-a/deployer \
+  --intent-type custom
+
+# 2) patch intent.toml: fundDevAccounts=true; fill role addresses with
+#    0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; remove customGasToken;
+#    set eip1559DenominatorCanyon=250, eip1559Denominator=50, eip1559Elasticity=6
+
+# 3) apply (emits L1 system contracts into state.json + sealed L1 genesis)
+op-deployer apply \
+  --workdir artifacts/mode-a/deployer \
+  --deployment-target genesis
+
+# 4) inspect
+op-deployer inspect genesis --workdir artifacts/mode-a/deployer 8091 \
+  > artifacts/mode-a/deployer/l2-genesis.json
+op-deployer inspect rollup --workdir artifacts/mode-a/deployer 8091 \
+  > artifacts/mode-a/deployer/rollup.json
+op-deployer inspect l1 --workdir artifacts/mode-a/deployer 8091 \
+  > artifacts/mode-a/deployer/l1-addresses.json
+
+# 5) L1 full genesis: decode state.json l1StateDump → l1-genesis.json,
+#    wrap as l1-genesis-full.json (chainId 1, timestamp from seal).
+#    For geth ≥1.16 also set config.blobSchedule {cancun,prague} +
+#    excessBlobGas/blobGasUsed/parentBeaconBlockRoot = 0.
+
+# 6) Quub F210–F213: op-deployer has no etch for custom system contracts.
+#    Merged post-inspect into l2-genesis-quub.json from crates/quub-node/alloc/*.runtime.hex
+#    (PaymentToken, PolicyAdmin, EvidenceAnchor, PaymasterEntry) + anvil0 balance.
+#    SystemConfig was NOT hand-written — it comes from op-deployer apply.
+
+SystemConfigProxy: 0xe991d1A48616a1F28d26476F53F103731fEFC990
+L2 chain id: 8091

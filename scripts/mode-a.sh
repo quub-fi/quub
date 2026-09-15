@@ -18,6 +18,8 @@ GENESIS_L2="$DEPLOYER/l2-genesis-quub.json"
 ROLLUP="$DEPLOYER/rollup.json"
 L1_GENESIS="$DEPLOYER/l1-genesis-full.json"
 L1_DATADIR="${L1_DATADIR:-$ART/l1-geth}"
+# Default reth platform path for chain 8091 (quub-node --engine has no --datadir yet)
+RETH_DATADIR="${RETH_DATADIR:-$HOME/Library/Application Support/reth/8091}"
 
 DEV_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 DEV_ADDR="0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -64,12 +66,14 @@ if [[ ! -f "$JWT" ]]; then
   openssl rand -hex 32 >"$JWT"
 fi
 
-# Free ports
+# Free ports + wipe L2 datadir so genesis overlay is fresh
 for port in 8546 9545 9551 30303 30304; do
   lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null | xargs kill 2>/dev/null || true
 done
 pkill -f 'quub-node --engine' 2>/dev/null || true
 pkill -f 'geth.*mode-a/l1-geth' 2>/dev/null || true
+pkill -f 'artifacts/mode-a/bin/op-node' 2>/dev/null || true
+rm -rf "$RETH_DATADIR"
 sleep 1
 
 echo "=== Mode A (ADR-016) ==="
@@ -123,7 +127,6 @@ SC_CODE="$(cast codesize "$SYSCONF" --rpc-url "$L1_RPC")"
 [[ "$SC_CODE" != "0" ]] || die "SystemConfig $SYSCONF codesize 0 on L1"
 echo "SystemConfig codesize: $SC_CODE"
 
-# Use sealed deployer L1 hash from rollup.json when it matches; else patch runtime only.
 python3 - <<PY
 import json
 from pathlib import Path
@@ -135,7 +138,7 @@ if sealed.lower() != live.lower():
     r["genesis"]["l1"]["hash"] = live
     r["genesis"]["l1"]["number"] = 0
 else:
-    print(f"mode-a: L1 genesis hash matches sealed rollup.json")
+    print("mode-a: L1 genesis hash matches sealed rollup.json")
 Path("$ART/rollup.runtime.json").write_text(json.dumps(r, indent=2) + "\n")
 print("wrote $ART/rollup.runtime.json")
 PY
@@ -174,6 +177,8 @@ echo "L2 chain-id: $L2_ID"
 CS="$(cast codesize "$F213" --rpc-url "$L2_RPC")"
 [[ "$CS" != "0" ]] || die "F213 codesize 0 — Quub alloc missing from L2 genesis"
 echo "F213 codesize: $CS"
+SENDER_CS="$(cast codesize "$DEV_ADDR" --rpc-url "$L2_RPC")"
+[[ "$SENDER_CS" == "0" ]] || die "dev sender codesize=$SENDER_CS (expected EOA)"
 
 L2_HASH="$(cast block 0 --rpc-url "$L2_RPC" --json | python3 -c 'import json,sys; d=json.load(sys.stdin); d=d.get("data",d); print(d["hash"])')"
 echo "L2 genesis hash: $L2_HASH"
@@ -206,7 +211,6 @@ PY
 OP_PID=$!
 PIDS+=("$OP_PID")
 
-# Wait for L2 block >= 1
 bn=0
 for i in $(seq 1 180); do
   bn="$(cast block-number --rpc-url "$L2_RPC" 2>/dev/null || echo 0)"
@@ -227,39 +231,61 @@ echo "L2 block-number: $bn"
   die "L2 did not advance (op-node / Engine API)"
 }
 
-# 4) transferWithMemo on 9545
-TX="$(cast send "$F210" \
+# 4) transferWithMemo on 9545 (EIP-1559; avoid legacy --gas-price on OP)
+set +e
+PAY_OUT="$(cast send "$F210" \
   "transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)" \
   "$TO" 1000000 "$E2E" "$UETR" "$INSTR" "$CCY" 0 "$TR_HASH" "$PACK_HASH" \
   --rpc-url "$L2_RPC" \
   --private-key "$DEV_KEY" \
-  --legacy --gas-price 1000000000 --gas-limit 500000 \
-  --json | python3 -c 'import json,sys; d=json.load(sys.stdin); d=d.get("data",d); print(d.get("transactionHash") or d.get("hash") or "")')"
+  --gas-limit 500000 2>/tmp/quub-mode-a-pay.err)"
+PAY_EC=$?
+set -e
+[[ "$PAY_EC" -eq 0 ]] || {
+  cat /tmp/quub-mode-a-pay.err >&2
+  die "transferWithMemo cast send failed"
+}
+# Prefer table line; fall back to last 32-byte hash in output (receipt tx hash).
+TX="$(printf '%s\n' "$PAY_OUT" | awk '/^transactionHash[[:space:]]+/{print $2; exit}')"
+if [[ -z "$TX" ]]; then
+  TX="$(printf '%s\n' "$PAY_OUT" | python3 -c 'import re,sys; m=re.findall(r"0x[a-fA-F0-9]{64}", sys.stdin.read()); print(m[-1] if m else "")')"
+fi
 echo "L2 transferWithMemo: $TX"
-[[ -n "$TX" ]] || die "empty tx hash"
+[[ -n "$TX" && "$TX" =~ ^0x[a-fA-F0-9]{64}$ ]] || die "bad tx hash — cast output: $PAY_OUT"
 
-STATUS="$(cast receipt "$TX" --rpc-url "$L2_RPC" --json | python3 -c 'import json,sys; d=json.load(sys.stdin); d=d.get("data",d); print(d["status"])')"
+STATUS="$(cast receipt "$TX" --rpc-url "$L2_RPC" --json | python3 -c 'import json,sys; d=json.load(sys.stdin); d=d.get("data",d) if isinstance(d,dict) else d; print(d["status"] if isinstance(d,dict) else d)')"
 echo "receipt status: $STATUS"
 [[ "$STATUS" == "0x1" || "$STATUS" == "1" ]] || die "payment failed"
 
-# 5) freeze story
+# 5) freeze story — cast send exits 0 even when the mined tx reverts (status 0x0)
 cast send "$F211" "freeze(address)" "$DEV_ADDR" \
-  --rpc-url "$L2_RPC" --private-key "$DEV_KEY" --legacy --gas-price 1000000000 >/dev/null
-if cast send "$F210" \
+  --rpc-url "$L2_RPC" --private-key "$DEV_KEY" --gas-limit 200000 >/dev/null
+set +e
+FREEZE_OUT="$(cast send "$F210" \
   "transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)" \
   "$TO" 1 "$E2E" "$UETR" "$INSTR" "$CCY" 0 "$TR_HASH" "$PACK_HASH" \
   --rpc-url "$L2_RPC" --private-key "$DEV_KEY" \
-  --legacy --gas-price 1000000000 --gas-limit 500000 2>/tmp/quub-mode-a-freeze.err; then
-  die "expected freeze to revert"
+  --gas-limit 500000 2>/tmp/quub-mode-a-freeze.err)"
+FREEZE_EC=$?
+set -e
+FREEZE_TX="$(printf '%s\n' "$FREEZE_OUT" | awk '/^transactionHash[[:space:]]+/{print $2; exit}')"
+if [[ -z "$FREEZE_TX" ]]; then
+  FREEZE_TX="$(printf '%s\n' "$FREEZE_OUT" | python3 -c 'import re,sys; m=re.findall(r"0x[a-fA-F0-9]{64}", sys.stdin.read()); print(m[-1] if m else "")')"
+fi
+if [[ -n "$FREEZE_TX" ]]; then
+  FZ_STATUS="$(cast receipt "$FREEZE_TX" --rpc-url "$L2_RPC" --json | python3 -c 'import json,sys; d=json.load(sys.stdin); d=d.get("data",d) if isinstance(d,dict) else d; print(d["status"] if isinstance(d,dict) else d)')"
+  [[ "$FZ_STATUS" == "0x0" || "$FZ_STATUS" == "0" ]] || die "expected freeze transfer to revert, status=$FZ_STATUS"
+else
+  # RPC-level rejection also counts as freeze working
+  [[ "$FREEZE_EC" -ne 0 ]] || die "expected freeze to revert (no tx hash, cast ok)"
 fi
 echo "freeze: second send reverted (ok)"
 cast send "$F211" "unfreeze(address)" "$DEV_ADDR" \
-  --rpc-url "$L2_RPC" --private-key "$DEV_KEY" --legacy --gas-price 1000000000 >/dev/null
+  --rpc-url "$L2_RPC" --private-key "$DEV_KEY" --gas-limit 200000 >/dev/null
 
 # Kill-test: stop op-node, L2 must not keep mining
 kill "$OP_PID" 2>/dev/null || true
 wait "$OP_PID" 2>/dev/null || true
-# drop OP_PID from cleanup list
 PIDS=("${PIDS[@]/$OP_PID}")
 BN1="$(cast block-number --rpc-url "$L2_RPC")"
 sleep 6

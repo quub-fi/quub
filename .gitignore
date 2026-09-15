@@ -22,6 +22,4 @@ artifacts/mode-a/l1-geth/
 artifacts/mode-a/l1-geth-test/
 artifacts/mode-a/l2-reth/
 artifacts/mode-a/bin/
-artifacts/mode-a/*.log
 artifacts/mode-a/jwt.txt
-artifacts/mode-a/DEPLOYER.txt

@@ -1,0 +1,10 @@
+   Compiling reth-optimism-evm v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/evm)
+   Compiling reth-optimism-txpool v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/txpool)
+   Compiling reth-optimism-post-exec-replay v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/post-exec-replay)
+   Compiling reth-optimism-payload-builder v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/payload)
+   Compiling reth-optimism-flashblocks v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/flashblocks)
+   Compiling reth-optimism-rpc v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/rpc)
+   Compiling reth-optimism-node v1.11.3 (/tmp/optimism-op-node/rust/op-reth/crates/node)
+   Compiling quub-consensus-op v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-consensus-op)
+   Compiling quub-node v0.1.0 (/Users/nrahal/@code/quub/quub.network/crates/quub-node)
+    Finished `dev` profile [unoptimized] target(s) in 36.61s
