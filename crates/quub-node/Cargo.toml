@@ -3,7 +3,7 @@ name = "quub-node"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "quub-node binary. Sprint 1.5: EthereumNode + QuubExecutorBuilder + F210–F213 genesis. No op-node."
+description = "quub-node binary. --dev + --engine with Quub EVM and payment-lane payload (ADR-017)."
 
 [[bin]]
 name = "quub-node"
@@ -17,10 +17,18 @@ mode-b = ["dep:quub-consensus-simplex"]
 [dependencies]
 alloy-genesis = { version = "2.4.2", default-features = false }
 alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
+alloy-consensus = { version = "2.1.1", default-features = false }
 eyre = "0.6"
 hex = "0.4"
 quub-consensus-op = { workspace = true, optional = true }
 quub-consensus-simplex = { workspace = true, optional = true }
 quub-evm = { workspace = true }
+quub-payload = { workspace = true }
+quub-pool = { workspace = true }
+quub-primitives = { workspace = true }
+reth-basic-payload-builder = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
 reth-ethereum = { workspace = true, features = ["node", "evm", "std", "test-utils", "pool"] }
+reth-ethereum-engine-primitives = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
+reth-ethereum-payload-builder = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
+reth-payload-builder-primitives = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

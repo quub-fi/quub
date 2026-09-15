@@ -3,7 +3,7 @@ name = "quub-pool"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Payment-lane classifier (selector + exact ABI length). No Reth pool swap in Sprint 1."
+description = "Payment-lane classifier: F210 + transferWithMemo + exact ABI length (ADR-017)."
 
 [dependencies]
 alloy-primitives = { workspace = true }

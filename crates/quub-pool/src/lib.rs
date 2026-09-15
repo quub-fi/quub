@@ -1,79 +1,77 @@
-//! Payment-lane classifier. Prefix-only matching is forbidden.
+//! Payment-lane classifier (Sprint 3 / ADR-017).
 //!
-//! Lengths come from `quub-primitives`, measured against PaymentToken.sol.
+//! Payment iff `to == F210` and calldata is exactly `transferWithMemo` (selector + length).
+//! Plain `transfer` / `transferFrom` on F210 are **general**. Prefix-only matching is forbidden.
 
 use alloy_primitives::Address;
 use quub_primitives::{
-    TRANSFER_CALLDATA_LEN, TRANSFER_FROM_CALLDATA_LEN, TRANSFER_FROM_SELECTOR, TRANSFER_SELECTOR,
-    TRANSFER_WITH_MEMO_CALLDATA_LEN, TRANSFER_WITH_MEMO_SELECTOR,
+    PAYMENT_TOKEN, TRANSFER_WITH_MEMO_CALLDATA_LEN, TRANSFER_WITH_MEMO_SELECTOR,
 };
-use std::collections::HashSet;
 
-pub fn is_payment(to: Address, input: &[u8], registered: &HashSet<Address>) -> bool {
-    if !registered.contains(&to) {
+/// Returns true when `to` is F210 and `input` is exact-length `transferWithMemo`.
+pub fn is_payment(to: Address, input: &[u8]) -> bool {
+    is_payment_bytes(to.as_slice(), input)
+}
+
+/// Version-agnostic classifier for Reth (alloy 1.x) and services (alloy 0.8).
+pub fn is_payment_bytes(to: &[u8], input: &[u8]) -> bool {
+    if to != PAYMENT_TOKEN.as_slice() {
         return false;
     }
-    if input.len() < 4 {
+    if input.len() != TRANSFER_WITH_MEMO_CALLDATA_LEN {
         return false;
     }
-    let sel: [u8; 4] = input[..4].try_into().expect("len >= 4");
-    let len = input.len();
-    match sel {
-        TRANSFER_SELECTOR => len == TRANSFER_CALLDATA_LEN,
-        TRANSFER_FROM_SELECTOR => len == TRANSFER_FROM_CALLDATA_LEN,
-        TRANSFER_WITH_MEMO_SELECTOR => len == TRANSFER_WITH_MEMO_CALLDATA_LEN,
-        _ => false,
-    }
+    input[..4] == TRANSFER_WITH_MEMO_SELECTOR
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use alloy_primitives::address;
-    use quub_primitives::PAYMENT_TOKEN;
+    use quub_primitives::{TRANSFER_CALLDATA_LEN, TRANSFER_SELECTOR};
 
-    fn registered() -> HashSet<Address> {
-        let mut s = HashSet::new();
-        s.insert(PAYMENT_TOKEN);
-        s
-    }
-
-    fn calldata(sel: [u8; 4], extra: usize) -> Vec<u8> {
+    fn calldata(sel: [u8; 4], total_len: usize) -> Vec<u8> {
         let mut v = sel.to_vec();
-        v.extend(std::iter::repeat(0u8).take(extra));
+        v.resize(total_len, 0);
         v
     }
 
     #[test]
-    fn transfer_exact_len_is_payment() {
-        let input = calldata(TRANSFER_SELECTOR, TRANSFER_CALLDATA_LEN - 4);
-        assert_eq!(input.len(), TRANSFER_CALLDATA_LEN);
-        assert!(is_payment(PAYMENT_TOKEN, &input, &registered()));
+    fn memo_exact_on_f210_is_payment() {
+        let input = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN);
+        assert!(is_payment(PAYMENT_TOKEN, &input));
     }
 
     #[test]
-    fn transfer_prefix_plus_junk_is_not() {
-        let input = calldata(TRANSFER_SELECTOR, TRANSFER_CALLDATA_LEN - 4 + 1);
-        assert!(!is_payment(PAYMENT_TOKEN, &input, &registered()));
+    fn memo_plus_junk_is_not() {
+        let input = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN + 1);
+        assert!(!is_payment(PAYMENT_TOKEN, &input));
     }
 
     #[test]
-    fn unregistered_token_is_not() {
-        let input = calldata(TRANSFER_SELECTOR, TRANSFER_CALLDATA_LEN - 4);
+    fn plain_transfer_on_f210_is_general() {
+        let input = calldata(TRANSFER_SELECTOR, TRANSFER_CALLDATA_LEN);
+        assert!(!is_payment(PAYMENT_TOKEN, &input));
+    }
+
+    #[test]
+    fn wrong_to_is_not() {
+        let input = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN);
         let other = address!("0x00000000000000000000000000000000000000aa");
-        assert!(!is_payment(other, &input, &registered()));
+        assert!(!is_payment(other, &input));
     }
 
     #[test]
-    fn transfer_with_memo_len_matches_solidity() {
+    fn bad_selector_is_not() {
+        let input = calldata([0xde, 0xad, 0xbe, 0xef], TRANSFER_WITH_MEMO_CALLDATA_LEN);
+        assert!(!is_payment(PAYMENT_TOKEN, &input));
+    }
+
+    #[test]
+    fn transfer_with_memo_selector_matches_solidity() {
         let sig = b"transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)";
         let h = alloy_primitives::keccak256(sig);
         assert_eq!(&TRANSFER_WITH_MEMO_SELECTOR, &h[..4]);
-        // selector + 9 ABI words
         assert_eq!(TRANSFER_WITH_MEMO_CALLDATA_LEN, 4 + 32 * 9);
-        let input = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN - 4);
-        assert!(is_payment(PAYMENT_TOKEN, &input, &registered()));
-        let junk = calldata(TRANSFER_WITH_MEMO_SELECTOR, TRANSFER_WITH_MEMO_CALLDATA_LEN - 4 + 1);
-        assert!(!is_payment(PAYMENT_TOKEN, &junk, &registered()));
     }
 }

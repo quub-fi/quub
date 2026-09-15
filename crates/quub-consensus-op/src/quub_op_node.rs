@@ -1,5 +1,6 @@
-//! Quub OP node: stock OpNode components with Quub executor.
+//! Quub OP node: Quub executor + lane-ordered payload txs (ADR-017).
 
+use crate::lane_txs::QuubLaneTxs;
 use crate::quub_op_executor::QuubOpExecutorBuilder;
 use reth_ethereum::node::{
     api::FullNodeTypes,
@@ -19,7 +20,7 @@ use reth_optimism_node::{
     OpEngineApiBuilder,
 };
 
-/// [`OpNode`] with Quub precompiles on the executor.
+/// [`OpNode`] with Quub precompiles and payment-lane tx ordering.
 #[derive(Debug, Clone)]
 pub struct QuubOpNode {
     inner: OpNode,
@@ -47,7 +48,7 @@ where
     type ComponentsBuilder = ComponentsBuilder<
         N,
         OpPoolBuilder,
-        BasicPayloadServiceBuilder<OpPayloadBuilder>,
+        BasicPayloadServiceBuilder<OpPayloadBuilder<QuubLaneTxs>>,
         OpNetworkBuilder,
         QuubOpExecutorBuilder,
         OpConsensusBuilder,
@@ -62,7 +63,11 @@ where
     >;
 
     fn components_builder(&self) -> Self::ComponentsBuilder {
-        OpNode::components::<N>(&self.inner).executor(QuubOpExecutorBuilder)
+        OpNode::components::<N>(&self.inner)
+            .executor(QuubOpExecutorBuilder)
+            .payload(BasicPayloadServiceBuilder::new(
+                self.inner.payload_builder().with_transactions(QuubLaneTxs::new()),
+            ))
     }
 
     fn add_ons(&self) -> Self::AddOns {

@@ -6137,12 +6137,19 @@ dependencies = [
  "alloy-primitives 1.7.3",
  "eyre",
  "quub-evm",
+ "quub-payload",
+ "quub-pool",
+ "quub-primitives",
  "reth-ethereum",
  "reth-optimism-chainspec",
  "reth-optimism-evm",
  "reth-optimism-forks",
  "reth-optimism-node",
+ "reth-optimism-payload-builder",
  "reth-optimism-primitives",
+ "reth-optimism-txpool",
+ "reth-payload-util",
+ "reth-transaction-pool",
  "serde_json",
  "tokio",
 ]
@@ -6195,6 +6202,7 @@ dependencies = [
 name = "quub-node"
 version = "0.1.0"
 dependencies = [
+ "alloy-consensus",
  "alloy-genesis",
  "alloy-primitives 1.7.3",
  "eyre",
@@ -6202,8 +6210,24 @@ dependencies = [
  "quub-consensus-op",
  "quub-consensus-simplex",
  "quub-evm",
+ "quub-payload",
+ "quub-pool",
+ "quub-primitives",
+ "reth-basic-payload-builder",
  "reth-ethereum",
+ "reth-ethereum-engine-primitives",
+ "reth-ethereum-payload-builder",
+ "reth-payload-builder-primitives",
  "tokio",
+]
+
+[[package]]
+name = "quub-payload"
+version = "0.1.0"
+dependencies = [
+ "alloy-primitives 0.8.26",
+ "quub-pool",
+ "quub-primitives",
 ]
 
 [[package]]

@@ -4,11 +4,14 @@
 //! (`launch_with_debug_capabilities` for `--dev` mining).
 
 use crate::alloc_genesis::quub_genesis;
+use crate::eth_payload_builder::QuubEthPayloadServiceBuilder;
 use quub_evm::QuubExecutorBuilder;
 use reth_ethereum::{
     chainspec::{Chain, ChainSpec},
     node::{
-        builder::{NodeBuilder, NodeHandle},
+        builder::{
+            components::BasicPayloadServiceBuilder, NodeBuilder, NodeHandle,
+        },
         core::{args::RpcServerArgs, node_config::NodeConfig},
         node::EthereumAddOns,
         EthereumNode,
@@ -44,6 +47,11 @@ pub async fn launch() -> eyre::Result<()> {
         .with_chain(chain_spec())
         .dev()
         .with_rpc(rpc);
+    // Pack many txs per block for payment-lane flood (ADR-017). Prefer max-tx Instant over
+    // tip-raced single-tx Instant; interval alone still races the pool on this pin.
+    node_config.dev.block_time = None;
+    node_config.dev.block_max_transactions = Some(20);
+    node_config.dev.payload_wait_time = Some(std::time::Duration::from_millis(800));
     node_config.rpc.http = true;
     node_config.rpc.http_addr = Ipv4Addr::LOCALHOST.into();
     node_config.rpc.http_port = 8545;
@@ -51,8 +59,11 @@ pub async fn launch() -> eyre::Result<()> {
     node_config.rpc.ws_port = 0;
 
     eprintln!(
-        "quub-node: http={}:{} chain=8091 mode=--dev",
-        node_config.rpc.http_addr, node_config.rpc.http_port
+        "quub-node: http={}:{} chain=8091 mode=--dev mining=max_txs={:?} payload_wait={:?}",
+        node_config.rpc.http_addr,
+        node_config.rpc.http_port,
+        node_config.dev.block_max_transactions,
+        node_config.dev.payload_wait_time
     );
     // `NodeConfig::test()` uses an ephemeral datadir; receipts do not survive restart.
     eprintln!(
@@ -66,7 +77,11 @@ pub async fn launch() -> eyre::Result<()> {
     } = NodeBuilder::new(node_config)
         .testing_node(runtime)
         .with_types::<EthereumNode>()
-        .with_components(EthereumNode::components().executor(QuubExecutorBuilder::default()))
+        .with_components(
+            EthereumNode::components()
+                .executor(QuubExecutorBuilder::default())
+                .payload(BasicPayloadServiceBuilder::new(QuubEthPayloadServiceBuilder)),
+        )
         .with_add_ons(EthereumAddOns::default())
         .launch_with_debug_capabilities()
         .await?;

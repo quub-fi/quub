@@ -1,0 +1,13 @@
+[package]
+name = "quub-payload"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Payment-lane fill_lanes (70/30 + spill). Consensus-free (ADR-017)."
+
+[dependencies]
+quub-primitives = { workspace = true }
+quub-pool = { workspace = true }
+
+[dev-dependencies]
+alloy-primitives = { workspace = true }

@@ -49,8 +49,10 @@ It does:
 | **ADR-14** | Quub is a settlement *option*, not the only venue | Counterparties already live on Base / Solana / Tempo | Forcing every creditor onto Quub |
 | **ADR-15** | Spell Q-U-U-B. Never Qubic | Live L1 collision | Tickers QUB, QUBE, QUBC, QUBIC |
 | **ADR-16** | Execution pin: `op-rs/reth` @ `aef8d3ef…` + optimism `op-reth/v2.4.4` + op-node **v1.19.7**; one Reth remote | Matches what op-reth/v2.4.4 ships; unlocks Mode A | `paradigmxyz/reth` v2.5.2 (no optimism crates); two Reth remotes; inventing portal / hand-rolled rollup.json |
+| **ADR-17** | Payment lane: F210 + `transferWithMemo` only; `fill_lanes` 70/30 + spill; lane beats tip; same fill on `--dev` and `--engine` | Reserve payment blockspace without a new EIP-2718 type | Tip-only packing; PolicyAdmin 70/30; plain `transfer` as payment; Reth bump for custom envelopes |
 
-Full text: [`docs/adr/ADR-016-execution-pin.md`](docs/adr/ADR-016-execution-pin.md).
+Full text: [`docs/adr/ADR-016-execution-pin.md`](docs/adr/ADR-016-execution-pin.md).  
+Full text: [`docs/adr/ADR-017-payment-lane.md`](docs/adr/ADR-017-payment-lane.md).
 
 ---
 

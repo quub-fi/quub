@@ -1,6 +1,8 @@
 //! quub-node — `--dev` HTTP on 8545 (chain 8091); `--engine` Mode A on 9545/9551.
 
 mod alloc_genesis;
+mod eth_payload;
+mod eth_payload_builder;
 mod launch;
 
 fn main() -> eyre::Result<()> {

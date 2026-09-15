@@ -5,6 +5,7 @@ members = [
     "crates/quub-precompiles",
     "crates/quub-evm",
     "crates/quub-pool",
+    "crates/quub-payload",
     "crates/quub-node",
     "crates/quub-consensus-op",
     "crates/quub-consensus-simplex",
@@ -29,6 +30,7 @@ quub-primitives = { path = "crates/quub-primitives" }
 quub-precompiles = { path = "crates/quub-precompiles" }
 quub-evm = { path = "crates/quub-evm" }
 quub-pool = { path = "crates/quub-pool" }
+quub-payload = { path = "crates/quub-payload" }
 quub-consensus-op = { path = "crates/quub-consensus-op" }
 quub-consensus-simplex = { path = "crates/quub-consensus-simplex" }
 thiserror = "2"

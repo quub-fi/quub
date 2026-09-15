@@ -12,11 +12,18 @@ alloy-op-evm = { path = "/tmp/optimism-op-node/rust/alloy-op-evm", default-featu
 alloy-primitives = { version = "1.6.1", default-features = false, features = ["std"] }
 eyre = "0.6"
 quub-evm = { workspace = true }
+quub-payload = { workspace = true }
+quub-pool = { workspace = true }
+quub-primitives = { workspace = true }
 reth-ethereum = { workspace = true, features = ["node", "evm", "std", "test-utils"] }
 reth-optimism-chainspec = { workspace = true }
 reth-optimism-evm = { workspace = true }
 reth-optimism-forks = { workspace = true }
 reth-optimism-node = { workspace = true }
+reth-optimism-payload-builder = { path = "/tmp/optimism-op-node/rust/op-reth/crates/payload" }
 reth-optimism-primitives = { workspace = true }
+reth-optimism-txpool = { path = "/tmp/optimism-op-node/rust/op-reth/crates/txpool" }
+reth-payload-util = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
+reth-transaction-pool = { git = "https://github.com/op-rs/reth", rev = "aef8d3ef92117f91455e16969f0adf5bf7c6e9e1", default-features = false }
 serde_json = "1"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

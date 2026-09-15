@@ -51,6 +51,19 @@ pub const TRANSFER_FROM_SELECTOR: [u8; 4] = [0x23, 0xb8, 0x72, 0xdd];
 /// `cast sig` of that signature.
 pub const TRANSFER_WITH_MEMO_SELECTOR: [u8; 4] = [0x84, 0x3e, 0x11, 0x1e];
 
+/// Payment-lane share of block gas in basis points (ADR-017). 7000 = 70%.
+pub const PAYMENT_LANE_BPS: u16 = 7000;
+
+/// Gas reserved for the payment lane in a block of `block_gas` limit.
+pub const fn payment_gas_budget(block_gas: u64) -> u64 {
+    (block_gas as u128 * PAYMENT_LANE_BPS as u128 / 10_000) as u64
+}
+
+/// Gas reserved for the general lane (remainder after payment budget).
+pub const fn general_gas_budget(block_gas: u64) -> u64 {
+    block_gas.saturating_sub(payment_gas_budget(block_gas))
+}
+
 /// F201 policy `check` reason codes.
 #[repr(u16)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -194,5 +207,12 @@ mod tests {
             b"transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,bytes32,bytes32)",
         );
         assert_eq!(&TRANSFER_WITH_MEMO_SELECTOR, &h[..4]);
+    }
+
+    #[test]
+    fn payment_lane_bps_is_7000() {
+        assert_eq!(PAYMENT_LANE_BPS, 7000);
+        assert_eq!(payment_gas_budget(10_000_000), 7_000_000);
+        assert_eq!(general_gas_budget(10_000_000), 3_000_000);
     }
 }

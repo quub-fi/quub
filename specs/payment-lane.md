@@ -1,13 +1,22 @@
-# Payment lane
+# Payment lane (ADR-017 / Sprint 3)
 
-Classify existing transactions; do **not** invent a new EIP-2718 type (locked decision §7).
+Classify existing transactions; do **not** invent a new EIP-2718 type.
 
 Prefix-only classifiers are forbidden. A payment tx must:
 
-1. Target a registered payment token address
-2. Match a known selector **and** exact calldata length for
-   `transfer` / `transferFrom` / `transferWithMemo` / `transferFromWithMemo`
+1. Target **F210** (`PAYMENT_TOKEN`)
+2. Match `transferWithMemo` selector **and** exact calldata length (`4 + 32 * 9`)
 
-Block split (Sprint 1+): 70% payment lane, 30% general. Fill payment first. General cannot steal reserved gas. Payment lane is FIFO among fee-prepaid txs.
+Plain `transfer` / `transferFrom` on F210 are **general**.
 
-Implementation crate: `crates/quub-pool` (deferred to Sprint 1).
+Block fill (`PAYMENT_LANE_BPS = 7000`):
+
+1. Payments first, up to 70% of block gas (FIFO among fee-prepaid)
+2. General next, up to 30% (tip order)
+3. Leftover: payments, then general
+
+Empty payment lane may fill 100% general (no hollow 70%). Lane beats tip: a higher-tip general must not steal reserved payment gas while payments wait.
+
+Deposits (Mode A) stay engine-injected; they are not pool-lane traffic. Do not put 70/30 in PolicyAdmin.
+
+Crates: `quub-pool` (classifier), `quub-payload` (`fill_lanes`).
