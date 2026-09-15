@@ -36,6 +36,7 @@ contract IsoMemoPrecompileShim {
     }
 }
 
+/// @dev Mock fee token with paymasterDebit (Sprint 5 debit path).
 contract MockFeeToken {
     string public constant name = "Mock Fee";
     string public constant symbol = "FEE";
@@ -61,6 +62,12 @@ contract MockFeeToken {
         balanceOf[to] += amount;
         return true;
     }
+
+    function paymasterDebit(address from, address to, uint256 amount) external {
+        require(balanceOf[from] >= amount, "bal");
+        balanceOf[from] -= amount;
+        balanceOf[to] += amount;
+    }
 }
 
 contract Sprint0Test is Test {
@@ -71,12 +78,13 @@ contract Sprint0Test is Test {
     address constant F210 = address(uint160(0xF210));
     address constant F211 = address(uint160(0xF211));
     address constant F212 = address(uint160(0xF212));
+    address constant F213 = address(uint160(0xF213));
 
     address ownerA = address(0xA11CE);
     address ownerB = address(0xB0B);
     address alice = address(0xA71CE);
     address bob = address(0xB0B1);
-    address treasury = address(0x7Ea5);
+    address feeRecipient = address(0x7Ea5);
 
     PolicyAdmin policy;
     PaymentToken token;
@@ -94,15 +102,18 @@ contract Sprint0Test is Test {
         deployCodeTo("EvidenceAnchor.sol:EvidenceAnchor", F212);
         evidence = EvidenceAnchor(F212);
 
-        // Etch F201/F202 shims (runtime of empty constructors).
+        deployCodeTo("PaymasterEntry.sol:PaymasterEntry", abi.encode(ownerA, feeRecipient), F213);
+        paymaster = PaymasterEntry(F213);
+
         PolicyPrecompileShim pshim = new PolicyPrecompileShim();
         IsoMemoPrecompileShim ishim = new IsoMemoPrecompileShim();
         vm.etch(F201, address(pshim).code);
         vm.etch(F202, address(ishim).code);
 
-        paymaster = new PaymasterEntry(ownerA, treasury);
-        feeToken = new MockFeeToken();
+        vm.prank(ownerA);
+        paymaster.setFeeTokenAllowlisted(F210, true);
 
+        feeToken = new MockFeeToken();
         vm.prank(ownerA);
         paymaster.setFeeTokenAllowlisted(address(feeToken), true);
     }
@@ -127,9 +138,11 @@ contract Sprint0Test is Test {
         bytes16 uetr = bytes16(keccak256("UETR-001"));
         bytes32 instr = keccak256("INSTR-001");
         bytes3 ccy = bytes3("USD");
-        uint8 msgType = 0; // pacs.008
+        uint8 msgType = 0;
 
         bytes32 expected = keccak256(abi.encode(e2e, uetr, instr, ccy, msgType, alice));
+        uint256 fee = paymaster.quote(F210, token.FEE_GAS_LIMIT(), token.FEE_GAS_PRICE());
+        uint256 aliceBefore = token.balanceOf(alice);
 
         vm.prank(alice, alice);
         vm.expectEmit(true, false, false, true);
@@ -137,6 +150,8 @@ contract Sprint0Test is Test {
         token.transferWithMemo(bob, 100e6, e2e, uetr, instr, ccy, msgType, bytes32(0), bytes32(0));
 
         assertEq(token.balanceOf(bob), 100e6);
+        assertEq(token.balanceOf(feeRecipient), fee);
+        assertEq(token.balanceOf(alice), aliceBefore - 100e6 - fee);
     }
 
     function test_packHash_emitsEvidenceAnchored() public {
@@ -178,14 +193,12 @@ contract Sprint0Test is Test {
 
     function test_unlistedFeeToken_paymasterReverts() public {
         MockFeeToken unlisted = new MockFeeToken();
-        unlisted.mint(alice, 1_000e6);
-        vm.prank(alice);
-        unlisted.approve(address(paymaster), 1_000e6);
 
         vm.expectRevert(PaymasterEntry.UnlistedFeeToken.selector);
         paymaster.quote(address(unlisted), 21_000, 1 gwei);
 
-        vm.expectRevert(PaymasterEntry.UnlistedFeeToken.selector);
+        // EOA cannot call takeFee (F210-only).
+        vm.expectRevert(PaymasterEntry.NotPaymentToken.selector);
         paymaster.takeFee(alice, address(unlisted), 100);
     }
 
@@ -202,30 +215,25 @@ contract Sprint0Test is Test {
 
     function test_listedFeeToken_quoteAndTakeFee() public {
         feeToken.mint(alice, 1_000e6);
-        vm.prank(alice);
-        feeToken.approve(address(paymaster), type(uint256).max);
 
         uint256 quoted = paymaster.quote(address(feeToken), 21_000, 1);
         assertEq(quoted, 21_000);
 
-        vm.prank(alice);
+        // Only F210 may call takeFee.
+        vm.prank(F210);
         paymaster.takeFee(alice, address(feeToken), quoted);
-        assertEq(feeToken.balanceOf(treasury), quoted);
+        assertEq(feeToken.balanceOf(feeRecipient), quoted);
     }
 
     /// @notice Frozen mapping base slot is 4 (compiler layout). Cross-check Rust key formula.
     function test_frozenSlotKey_matchesLayout() public {
         address who = alice;
         bytes32 expected = keccak256(abi.encode(who, uint256(4)));
-        // stdstore finds the same slot via the public getter
         uint256 found = stdstore.target(F211).sig("frozen(address)").with_key(who).find();
         assertEq(found, uint256(expected));
     }
 
     /// @notice Production F201 empty-reverts when msg.sender != F210.
-    /// Foundry etches a PolicyAdmin shim at F201 (no caller gate). The Rust
-    /// unit test `policy_non_token_caller_reverts` owns the gate with a full
-    /// bytes32 zero trHash (`0x0000…0000`, not `0x0`).
     function test_f201_eoa_gate_documented_in_rust() public pure {
         bytes32 zero =
             0x0000000000000000000000000000000000000000000000000000000000000000;

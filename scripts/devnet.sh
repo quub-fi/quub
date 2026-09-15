@@ -130,3 +130,4 @@ echo "note: usd_pacs008_stable_hash uses origin 0x…00AA and will NOT equal thi
 
 echo "=== Sprint 1.5 pay OK ==="
 echo "tx hash: $TX_HASH"
+echo "note: freeze/unfreeze dual-control lives in scripts/sprint5-dev.sh (OwnerB=anvil1; no single-key unfreeze)"

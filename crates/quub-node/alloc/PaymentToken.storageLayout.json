@@ -1,7 +1,7 @@
 {
   "storage": [
     {
-      "astId": 40,
+      "astId": 56,
       "contract": "src/PaymentToken.sol:PaymentToken",
       "label": "totalSupply",
       "offset": 0,
@@ -9,7 +9,7 @@
       "type": "t_uint256"
     },
     {
-      "astId": 44,
+      "astId": 60,
       "contract": "src/PaymentToken.sol:PaymentToken",
       "label": "balanceOf",
       "offset": 0,
@@ -17,7 +17,7 @@
       "type": "t_mapping(t_address,t_uint256)"
     },
     {
-      "astId": 50,
+      "astId": 66,
       "contract": "src/PaymentToken.sol:PaymentToken",
       "label": "allowance",
       "offset": 0,

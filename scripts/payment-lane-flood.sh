@@ -31,7 +31,7 @@ MEMO_SIG="transferWithMemo(address,uint256,bytes32,bytes16,bytes32,bytes3,uint8,
 # Exact calldata length for transferWithMemo: 4 + 9*32 = 292 bytes → 584 hex + 0x
 MEMO_CALLDATA_HEX_LEN=586
 
-# Must match quub-node --dev block_max_transactions (launch.rs).
+# Must land in one interval-mined block (quub-node --dev uses 2s block_time + payload_wait).
 N_PAY=15
 N_GEN=5
 N_TOTAL=$((N_PAY + N_GEN))
@@ -112,7 +112,7 @@ for _ in $(seq 1 "$N_GEN"); do
   NONCE=$((NONCE + 1))
 done
 
-echo "waiting for a multi-tx block (dev mines at max_txs=${N_TOTAL})…"
+echo "waiting for a multi-tx block (interval mining; submit burst then wait)…"
 TARGET=""
 for _ in $(seq 1 90); do
   bn="$(cast block-number --rpc-url "$RPC")"

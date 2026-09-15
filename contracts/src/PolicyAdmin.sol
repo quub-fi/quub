@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 pragma solidity ^0.8.24;
 
-/// @title PolicyAdmin — F211 facade (year-1 dual-control stub)
-/// @notice freeze / unfreeze / pause / thresholds / fee token + propose/execute.
+/// @title PolicyAdmin — F211 facade (maker-checker stub, ADR-019)
+/// @notice freeze is immediate from either owner. unfreeze / setFeeToken / setThreshold / pause
+///         require propose + confirm from the *other* owner. Same key twice does not count.
 contract PolicyAdmin {
     address public ownerA;
     address public ownerB;
@@ -11,30 +12,34 @@ contract PolicyAdmin {
     address public feeToken;
 
     mapping(address => bool) public frozen;
-    mapping(bytes32 => Proposal) public proposals;
 
-    struct Proposal {
-        address target;
-        bytes data;
-        bool executed;
-        bool approvedA;
-        bool approvedB;
-    }
+    /// @dev account => proposer (zero = no pending unfreeze)
+    mapping(address => address) public pendingUnfreeze;
+    address public pendingFeeToken;
+    address public pendingFeeTokenProposer;
+    uint256 public pendingThreshold;
+    address public pendingThresholdProposer;
+    bool public pendingPauseValue;
+    address public pendingPauseProposer;
+    bool public pendingPauseActive;
 
     event Frozen(address indexed account);
     event Unfrozen(address indexed account);
     event Paused(bool paused);
     event ThresholdSet(uint256 threshold);
     event FeeTokenSet(address indexed feeToken);
-    event Proposed(bytes32 indexed id, address indexed target);
-    event Executed(bytes32 indexed id);
+    event UnfreezeProposed(address indexed account, address indexed proposer);
+    event FeeTokenProposed(address indexed feeToken, address indexed proposer);
+    event ThresholdProposed(uint256 threshold, address indexed proposer);
+    event PauseProposed(bool paused, address indexed proposer);
 
     error NotOwner();
     error AlreadyFrozen();
     error NotFrozen();
-    error BadProposal();
-    error DualControlIncomplete();
     error ZeroAddress();
+    error NotProposed();
+    error SameOwnerConfirm();
+    error NotOtherOwner();
 
     modifier onlyOwner() {
         if (msg.sender != ownerA && msg.sender != ownerB) revert NotOwner();
@@ -54,60 +59,72 @@ contract PolicyAdmin {
         emit Frozen(account);
     }
 
-    function unfreeze(address account) external onlyOwner {
+    function proposeUnfreeze(address account) external onlyOwner {
         if (!frozen[account]) revert NotFrozen();
+        pendingUnfreeze[account] = msg.sender;
+        emit UnfreezeProposed(account, msg.sender);
+    }
+
+    function confirmUnfreeze(address account) external onlyOwner {
+        address proposer = pendingUnfreeze[account];
+        if (proposer == address(0)) revert NotProposed();
+        _requireOtherOwner(proposer);
+        delete pendingUnfreeze[account];
         frozen[account] = false;
         emit Unfrozen(account);
     }
 
-    function pause() external onlyOwner {
-        paused = true;
-        emit Paused(true);
+    function proposePause(bool paused_) external onlyOwner {
+        pendingPauseValue = paused_;
+        pendingPauseProposer = msg.sender;
+        pendingPauseActive = true;
+        emit PauseProposed(paused_, msg.sender);
     }
 
-    function unpause() external onlyOwner {
-        paused = false;
-        emit Paused(false);
+    function confirmPause() external onlyOwner {
+        if (!pendingPauseActive) revert NotProposed();
+        _requireOtherOwner(pendingPauseProposer);
+        paused = pendingPauseValue;
+        pendingPauseActive = false;
+        pendingPauseProposer = address(0);
+        emit Paused(paused);
     }
 
-    function setThreshold(uint256 threshold_) external onlyOwner {
-        threshold = threshold_;
-        emit ThresholdSet(threshold_);
+    function proposeSetThreshold(uint256 threshold_) external onlyOwner {
+        pendingThreshold = threshold_;
+        pendingThresholdProposer = msg.sender;
+        emit ThresholdProposed(threshold_, msg.sender);
     }
 
-    function setFeeToken(address feeToken_) external onlyOwner {
+    function confirmSetThreshold() external onlyOwner {
+        if (pendingThresholdProposer == address(0)) revert NotProposed();
+        _requireOtherOwner(pendingThresholdProposer);
+        threshold = pendingThreshold;
+        pendingThresholdProposer = address(0);
+        emit ThresholdSet(threshold);
+    }
+
+    function proposeSetFeeToken(address feeToken_) external onlyOwner {
         if (feeToken_ == address(0)) revert ZeroAddress();
-        feeToken = feeToken_;
-        emit FeeTokenSet(feeToken_);
+        pendingFeeToken = feeToken_;
+        pendingFeeTokenProposer = msg.sender;
+        emit FeeTokenProposed(feeToken_, msg.sender);
     }
 
-    /// @notice Dual-control stub: either owner proposes; both must approve before execute.
-    function propose(bytes32 id, address target, bytes calldata data) external onlyOwner {
-        if (target == address(0) || id == bytes32(0)) revert BadProposal();
-        Proposal storage p = proposals[id];
-        if (p.target != address(0)) revert BadProposal();
-        p.target = target;
-        p.data = data;
-        if (msg.sender == ownerA) p.approvedA = true;
-        if (msg.sender == ownerB) p.approvedB = true;
-        emit Proposed(id, target);
+    function confirmSetFeeToken() external onlyOwner {
+        if (pendingFeeTokenProposer == address(0)) revert NotProposed();
+        _requireOtherOwner(pendingFeeTokenProposer);
+        feeToken = pendingFeeToken;
+        pendingFeeTokenProposer = address(0);
+        emit FeeTokenSet(feeToken);
     }
 
-    function approve(bytes32 id) external onlyOwner {
-        Proposal storage p = proposals[id];
-        if (p.target == address(0) || p.executed) revert BadProposal();
-        if (msg.sender == ownerA) p.approvedA = true;
-        if (msg.sender == ownerB) p.approvedB = true;
-    }
-
-    function execute(bytes32 id) external onlyOwner {
-        Proposal storage p = proposals[id];
-        if (p.target == address(0) || p.executed) revert BadProposal();
-        if (!p.approvedA || !p.approvedB) revert DualControlIncomplete();
-        p.executed = true;
-        (bool ok,) = p.target.call(p.data);
-        require(ok, "exec failed");
-        emit Executed(id);
+    function _requireOtherOwner(address proposer) internal view {
+        if (msg.sender == proposer) revert SameOwnerConfirm();
+        // Confirm must be the other owner key (OwnerA propose → OwnerB confirm, or reverse).
+        if (proposer == ownerA && msg.sender != ownerB) revert NotOtherOwner();
+        if (proposer == ownerB && msg.sender != ownerA) revert NotOtherOwner();
+        if (proposer != ownerA && proposer != ownerB) revert NotOtherOwner();
     }
 
     /// @notice View used by PaymentToken / F201 path. Fail closed.

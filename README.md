@@ -51,7 +51,8 @@ Or use `cargo run -p quub-node` / `bash scripts/devnet.sh` without installing.
 
 - Address: `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266`
 - Private key: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`
-- PolicyAdmin OwnerA = OwnerB = this key is a **`--dev` bypass**. Production dual-control + 24h timelock is later.
+- PolicyAdmin OwnerA = anvil0 (`0xf39F…`), OwnerB = anvil1 (`0x7099…`) on `--dev` (ADR-019). Mode A L2 genesis may still share owners — see `STATUS.md`.
+- Memo fee: QPT at F210 to F213 `feeRecipient` (`0x…FEE0` on `--dev`). Not a product ticker. Plain `transfer` is fee-free.
 
 ### Frozen addresses
 

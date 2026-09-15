@@ -46,7 +46,6 @@ fn unauthorized(msg: &str) -> Response {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use axum::http::HeaderValue;
 
     #[test]

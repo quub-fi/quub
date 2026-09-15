@@ -1,18 +1,12 @@
-//! eth_* client: chain id, transferWithMemo, freeze/unfreeze, receipts.
+//! eth_* JSON-RPC client + legacy tx signing (Alloy primitives 0.8 line).
 
-use alloy::consensus::{SignableTransaction, TxLegacy};
-use alloy::network::TxSignerSync;
-use alloy::providers::{Provider, ProviderBuilder, RootProvider};
-use alloy::signers::local::PrivateKeySigner;
-use alloy::transports::http::{Client, Http};
-use alloy_primitives::{Address, Bytes, B256, U256};
-use alloy_sol_types::{sol, SolCall, SolError, SolEvent};
-use quub_primitives::{
-    CHAIN_ID_TESTNET, PAYMENT_TOKEN, POLICY_ADMIN,
-};
+use alloy_primitives::{keccak256, Address, Bytes, B256, U256};
+use alloy_sol_types::{sol, SolCall, SolError};
+use k256::ecdsa::{signature::hazmat::PrehashSigner, RecoveryId, Signature, SigningKey, VerifyingKey};
+use quub_primitives::{CHAIN_ID_TESTNET, PAYMENT_TOKEN, POLICY_ADMIN};
+use serde_json::{json, Value};
 
 use crate::config::Config;
-use crate::reason::reason_name;
 
 sol! {
     #[derive(Debug)]
@@ -41,12 +35,12 @@ sol! {
     event MemoAnchored(bytes32 indexed memoHash, uint8 msgType);
 }
 
-type HttpProvider = RootProvider<Http<Client>>;
-
 #[derive(Clone)]
 pub struct EthClient {
-    provider: HttpProvider,
-    signer: PrivateKeySigner,
+    http: reqwest::Client,
+    rpc_url: String,
+    signing_key: SigningKey,
+    operator_address: Address,
     chain_id: u64,
 }
 
@@ -56,33 +50,29 @@ pub enum EthError {
     Rpc(String),
     #[error("policy rejected reason={reason}")]
     PolicyRejected { reason: u16 },
+    #[allow(dead_code)]
     #[error("tx failed: {0}")]
     TxFailed(String),
 }
 
 impl EthClient {
     pub async fn connect(config: &Config) -> Result<Self, String> {
-        let url = config
-            .rpc_url
-            .parse()
-            .map_err(|e| format!("bad QUUB_RPC url: {e}"))?;
-        let provider = ProviderBuilder::new().on_http(url);
         Ok(Self {
-            provider,
-            signer: config.signer.clone(),
+            http: reqwest::Client::new(),
+            rpc_url: config.rpc_url.clone(),
+            signing_key: config.signing_key.clone(),
+            operator_address: config.operator_address,
             chain_id: config.chain_id,
         })
     }
 
     pub fn operator_address(&self) -> Address {
-        self.signer.address()
+        self.operator_address
     }
 
     pub async fn chain_id(&self) -> Result<u64, EthError> {
-        self.provider
-            .get_chain_id()
-            .await
-            .map_err(|e| EthError::Rpc(e.to_string()))
+        let hex: String = self.rpc("eth_chainId", json!([])).await?;
+        parse_u64_hex(&hex).map_err(EthError::Rpc)
     }
 
     /// Fail-closed health probe: ok only when RPC up and chain is 8091.
@@ -120,8 +110,6 @@ impl EthClient {
             packHash: pack_hash,
         };
         let data = Bytes::from(call.abi_encode());
-
-        // Simulate first to surface PolicyRejected without broadcasting.
         self.simulate_call(PAYMENT_TOKEN, data.clone()).await?;
         self.send_legacy(PAYMENT_TOKEN, data).await
     }
@@ -137,83 +125,293 @@ impl EthClient {
     }
 
     async fn simulate_call(&self, to: Address, data: Bytes) -> Result<(), EthError> {
-        use alloy::rpc::types::TransactionRequest;
-        let from = self.signer.address();
-        let req = TransactionRequest::default()
-            .from(from)
-            .to(to)
-            .input(data.into());
-        match self.provider.call(&req).await {
+        let params = json!([{
+            "from": format!("{:?}", self.operator_address),
+            "to": format!("{to:?}"),
+            "data": format!("0x{}", hex::encode(&data)),
+        }, "latest"]);
+        match self.rpc::<Value>("eth_call", params).await {
             Ok(_) => Ok(()),
-            Err(e) => Err(classify_rpc_error(&e.to_string())),
+            Err(EthError::Rpc(msg)) => Err(classify_rpc_error(&msg)),
+            Err(e) => Err(e),
         }
     }
 
     async fn send_legacy(&self, to: Address, data: Bytes) -> Result<B256, EthError> {
-        let from = self.signer.address();
-        let nonce = self
-            .provider
-            .get_transaction_count(from)
-            .await
-            .map_err(|e| EthError::Rpc(e.to_string()))?;
+        let nonce_hex: String = self
+            .rpc(
+                "eth_getTransactionCount",
+                json!([format!("{:?}", self.operator_address), "pending"]),
+            )
+            .await?;
+        let nonce = parse_u64_hex(&nonce_hex).map_err(EthError::Rpc)?;
 
-        let mut tx = TxLegacy {
-            chain_id: Some(self.chain_id),
+        let signed = sign_legacy_tx(
+            &self.signing_key,
+            self.chain_id,
             nonce,
-            gas_price: 1_000_000_000u128,
-            gas_limit: 500_000,
-            to: to.into(),
-            value: U256::ZERO,
-            input: data,
-        };
-        let sig = self
-            .signer
-            .sign_transaction_sync(&mut tx)
-            .map_err(|e| EthError::Rpc(e.to_string()))?;
-        let signed = tx.into_signed(sig);
-        let envelope: alloy::consensus::TxEnvelope = signed.into();
-        let encoded = alloy::consensus::transaction::TxEnvelope::eip2718_encode(&envelope);
+            1_000_000_000u128,
+            500_000,
+            to,
+            U256::ZERO,
+            &data,
+        )
+        .map_err(EthError::Rpc)?;
 
-        let pending = self
-            .provider
-            .send_raw_transaction(&encoded)
+        let raw = format!("0x{}", hex::encode(&signed));
+        let tx_hash: String = self
+            .rpc("eth_sendRawTransaction", json!([raw]))
             .await
-            .map_err(|e| classify_rpc_error(&e.to_string()))?;
-        Ok(*pending.tx_hash())
+            .map_err(|e| match e {
+                EthError::Rpc(msg) => classify_rpc_error(&msg),
+                other => other,
+            })?;
+        tx_hash
+            .parse::<B256>()
+            .map_err(|e| EthError::Rpc(format!("bad tx hash: {e}")))
     }
 
     pub async fn receipt_status_and_memo(
         &self,
         tx_hash: B256,
     ) -> Result<Option<(bool, Option<B256>)>, EthError> {
-        let receipt = self
-            .provider
-            .get_transaction_receipt(tx_hash)
-            .await
-            .map_err(|e| EthError::Rpc(e.to_string()))?;
+        let receipt: Option<Value> = self
+            .rpc(
+                "eth_getTransactionReceipt",
+                json!([format!("{tx_hash:?}")]),
+            )
+            .await?;
         let Some(receipt) = receipt else {
             return Ok(None);
         };
-        let ok = receipt.status();
+        let status_hex = receipt
+            .get("status")
+            .and_then(|v| v.as_str())
+            .unwrap_or("0x0");
+        let ok = parse_u64_hex(status_hex).unwrap_or(0) == 1;
         let mut memo = None;
-        for log in receipt.inner.logs() {
-            if let Ok(decoded) = MemoAnchored::decode_log(log.as_ref(), true) {
-                memo = Some(decoded.memoHash);
-                break;
-            }
-        }
-        // Fallback: topic0 match if decode_log shape differs
-        if memo.is_none() {
-            let topic0 = MemoAnchored::SIGNATURE_HASH;
-            for log in receipt.inner.logs() {
-                if log.topics().first() == Some(&topic0) && log.topics().len() >= 2 {
-                    memo = Some(log.topics()[1]);
-                    break;
+        let topic0 = format!(
+            "{:?}",
+            alloy_primitives::keccak256(b"MemoAnchored(bytes32,uint8)")
+        )
+        .to_lowercase();
+        if let Some(logs) = receipt.get("logs").and_then(|v| v.as_array()) {
+            for log in logs {
+                let topics = log
+                    .get("topics")
+                    .and_then(|t| t.as_array())
+                    .cloned()
+                    .unwrap_or_default();
+                let first = topics
+                    .first()
+                    .and_then(|t| t.as_str())
+                    .unwrap_or("")
+                    .to_lowercase();
+                if first == topic0 {
+                    if let Some(h) = topics.get(1).and_then(|t| t.as_str()) {
+                        if let Ok(m) = h.parse::<B256>() {
+                            memo = Some(m);
+                            break;
+                        }
+                    }
                 }
             }
         }
         Ok(Some((ok, memo)))
     }
+
+    async fn rpc<T: serde::de::DeserializeOwned>(
+        &self,
+        method: &str,
+        params: Value,
+    ) -> Result<T, EthError> {
+        let body = json!({
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": method,
+            "params": params,
+        });
+        let resp = self
+            .http
+            .post(&self.rpc_url)
+            .json(&body)
+            .send()
+            .await
+            .map_err(|e| EthError::Rpc(e.to_string()))?;
+        let v: Value = resp
+            .json()
+            .await
+            .map_err(|e| EthError::Rpc(e.to_string()))?;
+        if let Some(err) = v.get("error") {
+            return Err(EthError::Rpc(err.to_string()));
+        }
+        let result = v
+            .get("result")
+            .cloned()
+            .ok_or_else(|| EthError::Rpc("missing result".into()))?;
+        serde_json::from_value(result).map_err(|e| EthError::Rpc(e.to_string()))
+    }
+}
+
+fn parse_u64_hex(s: &str) -> Result<u64, String> {
+    let s = s.trim().trim_start_matches("0x");
+    u64::from_str_radix(if s.is_empty() { "0" } else { s }, 16)
+        .map_err(|e| format!("bad hex u64: {e}"))
+}
+
+fn encode_legacy_list(fields: &[RlpItem<'_>]) -> Vec<u8> {
+    let mut payload = Vec::new();
+    for f in fields {
+        f.encode(&mut payload);
+    }
+    let mut out = Vec::new();
+    if payload.len() <= 55 {
+        out.push(0xc0 + payload.len() as u8);
+        out.extend_from_slice(&payload);
+    } else {
+        let len_be = payload.len().to_be_bytes();
+        let len_bytes = trim_be(&len_be);
+        out.push(0xf7 + len_bytes.len() as u8);
+        out.extend_from_slice(len_bytes);
+        out.extend_from_slice(&payload);
+    }
+    out
+}
+
+enum RlpItem<'a> {
+    U64(u64),
+    U128(u128),
+    U256(U256),
+    Addr(Address),
+    Bytes(&'a [u8]),
+}
+
+impl RlpItem<'_> {
+    fn encode(&self, out: &mut Vec<u8>) {
+        match self {
+            RlpItem::U64(v) => encode_u64(*v, out),
+            RlpItem::U128(v) => encode_u128(*v, out),
+            RlpItem::U256(v) => {
+                let be = v.to_be_bytes::<32>();
+                encode_bytes(trim_be(&be), out);
+            }
+            RlpItem::Addr(a) => encode_bytes(a.as_slice(), out),
+            RlpItem::Bytes(b) => encode_bytes(b, out),
+        }
+    }
+}
+
+fn encode_u64(v: u64, out: &mut Vec<u8>) {
+    if v == 0 {
+        out.push(0x80);
+        return;
+    }
+    let be = v.to_be_bytes();
+    encode_bytes(trim_be(&be), out);
+}
+
+fn encode_u128(v: u128, out: &mut Vec<u8>) {
+    if v == 0 {
+        out.push(0x80);
+        return;
+    }
+    let be = v.to_be_bytes();
+    encode_bytes(trim_be(&be), out);
+}
+
+fn encode_bytes(b: &[u8], out: &mut Vec<u8>) {
+    if b.len() == 1 && b[0] < 0x80 {
+        out.push(b[0]);
+        return;
+    }
+    if b.len() <= 55 {
+        out.push(0x80 + b.len() as u8);
+        out.extend_from_slice(b);
+    } else {
+        let len_be = b.len().to_be_bytes();
+        let len_bytes = trim_be(&len_be);
+        out.push(0xb7 + len_bytes.len() as u8);
+        out.extend_from_slice(len_bytes);
+        out.extend_from_slice(b);
+    }
+}
+
+fn trim_be(be: &[u8]) -> &[u8] {
+    let mut i = 0;
+    while i < be.len() && be[i] == 0 {
+        i += 1;
+    }
+    if i == be.len() {
+        &be[be.len()..be.len()]
+    } else {
+        &be[i..]
+    }
+}
+
+/// EIP-155 legacy signed tx bytes.
+fn sign_legacy_tx(
+    key: &SigningKey,
+    chain_id: u64,
+    nonce: u64,
+    gas_price: u128,
+    gas_limit: u64,
+    to: Address,
+    value: U256,
+    data: &[u8],
+) -> Result<Vec<u8>, String> {
+    let unsigned = encode_legacy_list(&[
+        RlpItem::U64(nonce),
+        RlpItem::U128(gas_price),
+        RlpItem::U64(gas_limit),
+        RlpItem::Addr(to),
+        RlpItem::U256(value),
+        RlpItem::Bytes(data),
+        RlpItem::U64(chain_id),
+        RlpItem::U64(0),
+        RlpItem::U64(0),
+    ]);
+    let hash = keccak256(&unsigned);
+
+    let sig: Signature = key
+        .sign_prehash(hash.as_slice())
+        .map_err(|e| format!("sign: {e}"))?;
+    let (recovery_id, sig_bytes) = recover_v_rs(key, &hash, &sig)?;
+
+    let v = (chain_id * 2 + 35) + u64::from(recovery_id);
+    let r = U256::from_be_slice(&sig_bytes[..32]);
+    let s = U256::from_be_slice(&sig_bytes[32..64]);
+
+    Ok(encode_legacy_list(&[
+        RlpItem::U64(nonce),
+        RlpItem::U128(gas_price),
+        RlpItem::U64(gas_limit),
+        RlpItem::Addr(to),
+        RlpItem::U256(value),
+        RlpItem::Bytes(data),
+        RlpItem::U64(v),
+        RlpItem::U256(r),
+        RlpItem::U256(s),
+    ]))
+}
+
+fn recover_v_rs(
+    key: &SigningKey,
+    hash: &B256,
+    sig: &Signature,
+) -> Result<(u8, [u8; 64]), String> {
+    let sig_bytes = sig.to_bytes();
+    let mut out = [0u8; 64];
+    out.copy_from_slice(&sig_bytes);
+
+    for recid in [0u8, 1u8] {
+        let rid = RecoveryId::from_byte(recid).ok_or("bad recovery id")?;
+        if let Ok(recovered) = VerifyingKey::recover_from_prehash(hash.as_slice(), sig, rid) {
+            if recovered == *key.verifying_key() {
+                return Ok((recid, out));
+            }
+        }
+    }
+    Err("could not determine recovery id".into())
 }
 
 pub fn classify_rpc_error(msg: &str) -> EthError {
@@ -225,12 +423,10 @@ pub fn classify_rpc_error(msg: &str) -> EthError {
 
 /// Decode `PolicyRejected(uint16)` from a hex revert blob or error string.
 pub fn decode_policy_rejected_hex(msg: &str) -> Option<u16> {
-    // Look for selector + abi-encoded uint16 in the message.
     let selector = hex::encode(PolicyRejected::SELECTOR);
     let lower = msg.to_lowercase();
     if let Some(idx) = lower.find(&selector) {
-        let start = idx;
-        let hex_chars: String = lower[start..]
+        let hex_chars: String = lower[idx..]
             .chars()
             .filter(|c| c.is_ascii_hexdigit())
             .take(8 + 64)
@@ -240,7 +436,6 @@ pub fn decode_policy_rejected_hex(msg: &str) -> Option<u16> {
             return decode_policy_rejected_bytes(&data);
         }
     }
-    // Try raw 0x… blob
     if let Some(pos) = lower.find("0x") {
         let hex_chars: String = lower[pos + 2..]
             .chars()
@@ -251,7 +446,6 @@ pub fn decode_policy_rejected_hex(msg: &str) -> Option<u16> {
             return decode_policy_rejected_bytes(&data);
         }
     }
-    let _ = reason_name; // keep module linked for callers
     None
 }
 
@@ -262,7 +456,7 @@ pub fn decode_policy_rejected_bytes(data: &[u8]) -> Option<u16> {
     if data[..4] != PolicyRejected::SELECTOR {
         return None;
     }
-    let err = PolicyRejected::abi_decode(&data[4..], true).ok()?;
+    let err = PolicyRejected::abi_decode(data, true).ok()?;
     Some(err.reason)
 }
 
@@ -273,7 +467,6 @@ mod tests {
     #[test]
     fn decode_policy_rejected_reason_one() {
         let mut data = PolicyRejected::SELECTOR.to_vec();
-        // abi encode uint16(1) as 32-byte word
         let mut word = [0u8; 32];
         word[31] = 1;
         data.extend_from_slice(&word);

@@ -2,7 +2,6 @@
 
 use std::sync::Arc;
 
-use alloy_primitives::B256;
 use axum::extract::{Path, State};
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
@@ -234,8 +233,7 @@ fn iso_error(e: IsoError) -> Response {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::state::AppState;
-    use alloy_primitives::{address, fixed_bytes, B256};
+    use alloy_primitives::{fixed_bytes, B256};
     use std::collections::HashMap;
     use std::sync::Mutex;
 
@@ -245,9 +243,7 @@ mod tests {
         let map: Mutex<HashMap<B256, PaymentRecord>> = Mutex::new(HashMap::new());
         let id = fixed_bytes!("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         assert!(map.lock().unwrap().get(&id).is_none());
-        // Simulate failed policy: no insert.
         assert!(map.lock().unwrap().is_empty());
-        // Successful broadcast:
         map.lock().unwrap().insert(
             id,
             PaymentRecord {
@@ -257,8 +253,6 @@ mod tests {
             },
         );
         assert!(map.lock().unwrap().contains_key(&id));
-        let _ = address!("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
-        let _ = AppState::new;
     }
 
     #[test]
@@ -269,12 +263,22 @@ mod tests {
     }
 
     #[test]
-    fn no_forbidden_brand_literals_in_this_module() {
-        // Compile-time presence check: source of this crate must not contain the retired sister brand.
-        // Validated also via `rg` in artifacts/sprint4-validate.txt.
-        let src = include_str!("routes.rs");
-        assert!(!src.to_lowercase().contains("xz") || !src.to_lowercase().contains("zero"));
-        // Stronger: the substring must not appear as a contiguous brand token.
-        assert!(!src.to_ascii_lowercase().contains("xzero"));
+    fn source_has_no_retired_sister_brand() {
+        let forbidden = format!("{}{}", "x", "zero");
+        for src in [
+            include_str!("routes.rs"),
+            include_str!("main.rs"),
+            include_str!("types.rs"),
+            include_str!("eth.rs"),
+            include_str!("auth.rs"),
+            include_str!("config.rs"),
+            include_str!("state.rs"),
+            include_str!("reason.rs"),
+        ] {
+            assert!(
+                !src.to_ascii_lowercase().contains(&forbidden),
+                "retired sister brand must not appear in operator-api sources"
+            );
+        }
     }
 }

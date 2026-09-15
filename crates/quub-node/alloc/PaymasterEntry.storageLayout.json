@@ -9,15 +9,15 @@
       "type": "t_address"
     },
     {
-      "astId": 30,
+      "astId": 31,
       "contract": "src/PaymasterEntry.sol:PaymasterEntry",
-      "label": "treasury",
+      "label": "feeRecipient",
       "offset": 0,
       "slot": "1",
       "type": "t_address"
     },
     {
-      "astId": 34,
+      "astId": 35,
       "contract": "src/PaymasterEntry.sol:PaymasterEntry",
       "label": "feeTokenAllowlisted",
       "offset": 0,

@@ -47,10 +47,10 @@ pub async fn launch() -> eyre::Result<()> {
         .with_chain(chain_spec())
         .dev()
         .with_rpc(rpc);
-    // Pack many txs per block for payment-lane flood (ADR-017). Prefer max-tx Instant over
-    // tip-raced single-tx Instant; interval alone still races the pool on this pin.
-    node_config.dev.block_time = None;
-    node_config.dev.block_max_transactions = Some(20);
+    // Interval mining: single-tx scripts (sprint5-dev) and multi-tx flood both work.
+    // Instant max_txs=20 starves single sends until 20 notifications arrive.
+    node_config.dev.block_time = Some(std::time::Duration::from_secs(2));
+    node_config.dev.block_max_transactions = None;
     node_config.dev.payload_wait_time = Some(std::time::Duration::from_millis(800));
     node_config.rpc.http = true;
     node_config.rpc.http_addr = Ipv4Addr::LOCALHOST.into();
@@ -59,10 +59,10 @@ pub async fn launch() -> eyre::Result<()> {
     node_config.rpc.ws_port = 0;
 
     eprintln!(
-        "quub-node: http={}:{} chain=8091 mode=--dev mining=max_txs={:?} payload_wait={:?}",
+        "quub-node: http={}:{} chain=8091 mode=--dev mining=interval={:?} payload_wait={:?}",
         node_config.rpc.http_addr,
         node_config.rpc.http_port,
-        node_config.dev.block_max_transactions,
+        node_config.dev.block_time,
         node_config.dev.payload_wait_time
     );
     // `NodeConfig::test()` uses an ephemeral datadir; receipts do not survive restart.

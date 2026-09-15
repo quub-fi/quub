@@ -1,0 +1,77 @@
+------------------------------------------------------------------------
+SECTION 0 META
+------------------------------------------------------------------------
+date UTC: 2026-09-15T17:12:10Z
+
+$ git rev-parse HEAD
+exit=0
+bf8a2ef98b886fd9e46264a72efcbb1fd0415dbf
+
+Sprint 4: apps/operator-api HTTP gateway on 127.0.0.1:8080 → eth_* on quub-node --dev :8545.
+Do not touch quub-pool / quub-payload / launch.rs / Reth pin (this track).
+
+------------------------------------------------------------------------
+SECTION 1 HEALTH
+------------------------------------------------------------------------
+$ curl -sS http://127.0.0.1:8080/health
+{"ok":true,"service":"quub-operator-api","rpc":"http://127.0.0.1:8545","chainId":8091}
+
+------------------------------------------------------------------------
+SECTION 2 GATEWAY-DEV (scripts/gateway-dev.sh)
+------------------------------------------------------------------------
+chain-id: 8091
+
+=== health ===
+{"ok":true,"service":"quub-operator-api","rpc":"http://127.0.0.1:8545","chainId":8091}
+
+=== POST /v1/payments ===
+http=202 body={"id":"0xba0e33acde415b85a66db127d6d6914daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","txHash":"0x78ccee5840a5bdb1d29146ad94bfc05a7862daf7e7fdcb5906e3cc5959eb3a21","status":"submitted"}
+payment tx hash: 0x78ccee5840a5bdb1d29146ad94bfc05a7862daf7e7fdcb5906e3cc5959eb3a21
+
+=== GET /v1/payments until mined ===
+status: mined
+memoHash: 0xe08bf97893918194124027618da4c9745adbdf34145b741701b09fab21e9f149
+
+=== POST /v1/freeze (operator) ===
+{"txHash":"0xac42a2245cfff5abba428a719884eba7042b72e6cb4c9ff36712cce94b10cde1","address":"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266","status":"submitted"}
+freeze tx: 0xac42a2245cfff5abba428a719884eba7042b72e6cb4c9ff36712cce94b10cde1
+
+=== POST /v1/payments (expect 422 reason 1) ===
+http=422 body={"error":"policy_rejected","reason":1,"reasonName":"frozen_from"}
+second payment rejected: 422 / reason 1
+
+=== POST /v1/unfreeze (freeze is not admin-lock) ===
+http=200 body={"txHash":"0x9bbfcc14e95d57fa88fd45a94511ed3ee33850b5c13426d029d8d9c27c81741b","address":"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266","status":"submitted"}
+
+=== Sprint 4 gateway-dev OK ===
+
+------------------------------------------------------------------------
+SECTION 3 RG XZERO
+------------------------------------------------------------------------
+$ rg -i xzero apps/operator-api
+(no matches)
+exit=1
+
+------------------------------------------------------------------------
+SECTION 4 CARGO TEST --WORKSPACE
+------------------------------------------------------------------------
+unit suites: 14
+unit_passed=47
+unit_failed=0
+(includes quub-operator-api: 8 passed)
+
+$ cargo test --workspace
+exit=0
+
+------------------------------------------------------------------------
+SECTION 5 AGENT CONCLUSION
+------------------------------------------------------------------------
+Sprint 4 grade criteria met:
+- /health JSON with chainId 8091
+- payment tx hash + memoHash
+- freeze tx
+- second payment 422 / reason 1
+- rg xzero apps/operator-api empty
+- cargo tests green (47 passed, 0 failed)
+
+Stop.

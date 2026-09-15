@@ -7,8 +7,13 @@ use alloy_genesis::{Genesis, GenesisAccount};
 use alloy_primitives::{address, keccak256, Address, Bytes, B256, U256};
 use std::collections::BTreeMap;
 
-/// Public anvil account 0 — `--dev` only. Not production.
+/// Public anvil account 0 — `--dev` only. Not production. OwnerA.
 pub const DEVNET_ANVIL: Address = address!("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
+/// Public anvil account 1 — `--dev` OwnerB (ADR-019 dual-control).
+pub const DEVNET_ANVIL_B: Address = address!("0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
+/// F213 feeRecipient on `--dev` (ADR-019). Not a product ticker.
+pub const DEVNET_FEE_RECIPIENT: Address =
+    address!("0x000000000000000000000000000000000000FEE0");
 
 const F210: Address = address!("0x000000000000000000000000000000000000F210");
 const F211: Address = address!("0x000000000000000000000000000000000000F211");
@@ -61,12 +66,16 @@ pub fn quub_genesis() -> Genesis {
         DEVNET_ANVIL,
         GenesisAccount::default().with_balance(U256::from(10u64).pow(U256::from(21u64))),
     );
+    genesis.alloc.insert(
+        DEVNET_ANVIL_B,
+        GenesisAccount::default().with_balance(U256::from(10u64).pow(U256::from(21u64))),
+    );
 
     let mut f211_storage = BTreeMap::new();
     f211_storage.insert(word_u256(U256::from(0u64)), word_addr(DEVNET_ANVIL));
     f211_storage.insert(
         word_u256(U256::from(1u64)),
-        owner_b_paused_word(DEVNET_ANVIL, false),
+        owner_b_paused_word(DEVNET_ANVIL_B, false),
     );
     f211_storage.insert(word_u256(U256::from(2u64)), B256::ZERO);
     f211_storage.insert(word_u256(U256::from(3u64)), word_addr(F210));
@@ -109,8 +118,9 @@ pub fn quub_genesis() -> Genesis {
     );
 
     let mut f213_storage = BTreeMap::new();
+    // slot 0 owner = anvil0; slot 1 feeRecipient (formerly treasury) = 0x…FEE0
     f213_storage.insert(word_u256(U256::from(0u64)), word_addr(DEVNET_ANVIL));
-    f213_storage.insert(word_u256(U256::from(1u64)), word_addr(DEVNET_ANVIL));
+    f213_storage.insert(word_u256(U256::from(1u64)), word_addr(DEVNET_FEE_RECIPIENT));
     f213_storage.insert(map_slot(F210, 2), word_u256(U256::from(1u64)));
     genesis.alloc.insert(
         F213,

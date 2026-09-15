@@ -2,12 +2,18 @@
 pragma solidity ^0.8.24;
 
 /// @title PaymentToken — F210 ERC-20 with transferWithMemo
-/// @notice Calls F201 then F202 (and F212 if packHash != 0). No native / gas token.
+/// @notice Calls F201 then F213 takeFee (memo only) then F202 (and F212 if packHash != 0).
 /// @dev Runtime has no immutables so genesis etch at 0x…F210 is legal.
+///      Plain transfer / transferFrom stay fee-free (general lane).
 contract PaymentToken {
     address constant QUUB_POLICY = address(uint160(0xF201));
     address constant QUUB_ISO_MEMO = address(uint160(0xF202));
+    address constant QUUB_PAYMASTER = address(uint160(0xF213));
     address constant EVIDENCE_ANCHOR = address(uint160(0xF212));
+
+    /// @dev Flat year-1 fee inputs (ADR-019). Do not use tx.gasprice.
+    uint256 public constant FEE_GAS_LIMIT = 21_000;
+    uint256 public constant FEE_GAS_PRICE = 1;
 
     string public constant name = "Quub Payment Token";
     string public constant symbol = "QPT";
@@ -29,6 +35,8 @@ contract PaymentToken {
     error BadCurrency();
     error PolicyCallFailed();
     error MemoCallFailed();
+    error FeeCallFailed();
+    error NotPaymaster();
 
     constructor(address mintTo, uint256 supply) {
         balanceOf[mintTo] = supply;
@@ -61,6 +69,7 @@ contract PaymentToken {
 
     /// @notice Transfer with ISO memo identity set (no PII / no timestamp in hash).
     /// @param packHash If non-zero, anchors (packHash, memoHash) at F212.
+    /// @dev Fee taken before principal _move (reentrancy-safe order).
     function transferWithMemo(
         address to,
         uint256 amount,
@@ -74,6 +83,7 @@ contract PaymentToken {
     ) external returns (bytes32 memoHash) {
         _requireMemoFields(endToEndId, uetr, ccy, msgType);
         _policy(msg.sender, to, amount, trHash);
+        _takeFee(msg.sender);
         _move(msg.sender, to, amount);
         memoHash = _commitMemo(endToEndId, uetr, instrId, ccy, msgType);
         emit MemoAnchored(memoHash, msgType);
@@ -83,6 +93,28 @@ contract PaymentToken {
             );
             require(ok, "anchor failed");
         }
+    }
+
+    /// @notice F213-only debit path. _move only — no policy, no memo, no nested takeFee.
+    function paymasterDebit(address from, address to, uint256 amount) external {
+        if (msg.sender != QUUB_PAYMASTER) revert NotPaymaster();
+        _move(from, to, amount);
+    }
+
+    function _takeFee(address payer) internal {
+        (bool qok, bytes memory qret) = QUUB_PAYMASTER.staticcall(
+            abi.encodeWithSignature(
+                "quote(address,uint256,uint256)", address(this), FEE_GAS_LIMIT, FEE_GAS_PRICE
+            )
+        );
+        if (!qok || qret.length < 32) revert FeeCallFailed();
+        uint256 fee = abi.decode(qret, (uint256));
+        (bool tok,) = QUUB_PAYMASTER.call(
+            abi.encodeWithSignature(
+                "takeFee(address,address,uint256)", payer, address(this), fee
+            )
+        );
+        if (!tok) revert FeeCallFailed();
     }
 
     function _policy(address from, address to, uint256 amount, bytes32 trHash) internal view {

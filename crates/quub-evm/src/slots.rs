@@ -6,7 +6,12 @@
 //! - 2: threshold
 //! - 3: feeToken
 //! - 4: frozen mapping base
-//! - 5: proposals mapping base
+//! - 5+: pending dual-control fields (unfreeze / feeToken / threshold / pause)
+//!
+//! PaymasterEntry (F213):
+//! - 0: owner
+//! - 1: feeRecipient (formerly labeled treasury — same slot)
+//! - 2: feeTokenAllowlisted mapping base
 
 #![allow(dead_code)] // layout constants kept next to forge inspect JSON
 
